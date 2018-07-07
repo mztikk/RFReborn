@@ -45,11 +45,11 @@ namespace RFReborn
 			}
 
 			var rtn = new T[newSize];
-			var last = 0;
+			var lastIndex = 0;
 			foreach (var list in enumList)
 			{
-				list.CopyTo(rtn, last);
-				last += list.Count;
+				list.CopyTo(rtn, lastIndex);
+				lastIndex += list.Count;
 			}
 
 			return rtn;
