@@ -6,7 +6,7 @@ namespace RFReborn
 	/// <summary>
 	/// Provides functionality to manipulate and operate on <see cref="string"/>
 	/// </summary>
-	public static class StringR
+	public unsafe static class StringR
 	{
 		private static readonly HashSet<char> _WhitespaceChars = new HashSet<char>
 		{
@@ -50,7 +50,7 @@ namespace RFReborn
 		/// <param name="input">String where the chars should be removed from</param>
 		/// <param name="chars">The chars to remove</param>
 		/// <returns>A new string, without the chars</returns>
-		public unsafe static string RemoveChars(string input, ICollection<char> chars)
+		public static string RemoveChars(string input, ICollection<char> chars)
 		{
 			var len = input.Length;
 			var rtn = stackalloc char[len];
@@ -67,6 +67,53 @@ namespace RFReborn
 			}
 
 			return new string(rtn, 0, dstIdx);
+		}
+
+		// https://stackoverflow.com/a/24343727
+		private static readonly uint[] _Lookup32Unsafe = CreateLookup32Unsafe();
+
+		private static uint[] CreateLookup32Unsafe()
+		{
+			var result = new uint[256];
+			for (var i = 0; i < 256; i++)
+			{
+				var s = i.ToString("X2");
+				if (BitConverter.IsLittleEndian)
+				{
+					result[i] = s[0] + ((uint)s[1] << 16);
+				}
+				else
+				{
+					result[i] = s[1] + ((uint)s[0] << 16);
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// Converts a byte array to its hex string representation.
+		/// </summary>
+		/// <param name="input">Bytes to convert</param>
+		/// <returns>Hex string</returns>
+		public static string ByteArrayToHexString(byte[] input)
+		{
+			var result = new char[input.Length * 2];
+			fixed (char* resultP = result)
+			{
+				var resultP2 = (uint*)resultP;
+				fixed (uint* lookupP = _Lookup32Unsafe)
+				{
+					fixed (byte* bytesP = input)
+					{
+						for (var i = 0; i < input.Length; i++)
+						{
+							resultP2[i] = lookupP[bytesP[i]];
+						}
+					}
+				}
+			}
+
+			return new string(result);
 		}
 	}
 }

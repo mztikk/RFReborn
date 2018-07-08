@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -69,7 +68,8 @@ namespace RFReborn
 			using (var hashAlgorithm = (HashAlgorithm)CryptoConfig.CreateFromName(hashName))
 			{
 				var hashedBytes = hashAlgorithm.ComputeHash(input);
-				return Stringify(hashedBytes);
+				return StringR.ByteArrayToHexString(hashedBytes);
+				//return Stringify(hashedBytes);
 			}
 		}
 
@@ -89,19 +89,20 @@ namespace RFReborn
 			using (var hashAlgorithm = (HashAlgorithm)CryptoConfig.CreateFromName(hashName))
 			{
 				var hashedBytes = hashAlgorithm.ComputeHash(input);
-				return Stringify(hashedBytes);
+				return StringR.ByteArrayToHexString(hashedBytes);
+				//return Stringify(hashedBytes);
 			}
 		}
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		private static string Stringify(byte[] hexBytes)
-		{
-			var rtn = new StringBuilder();
-			for (var i = 0; i < hexBytes.Length; i++)
-			{
-				rtn.Append(hexBytes[i].ToString("X2"));
-			}
-			return rtn.ToString();
-		}
+		//[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		//private static string Stringify(byte[] hexBytes)
+		//{
+		//	var rtn = new StringBuilder();
+		//	for (var i = 0; i < hexBytes.Length; i++)
+		//	{
+		//		rtn.Append(hexBytes[i].ToString("X2"));
+		//	}
+		//	return rtn.ToString();
+		//}
 	}
 }
