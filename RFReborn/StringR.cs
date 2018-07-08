@@ -50,10 +50,10 @@ namespace RFReborn
 		/// <param name="input">String where the chars should be removed from</param>
 		/// <param name="chars">The chars to remove</param>
 		/// <returns>A new string, without the chars</returns>
-		public static string RemoveChars(string input, ICollection<char> chars)
+		public unsafe static string RemoveChars(string input, ICollection<char> chars)
 		{
 			var len = input.Length;
-			var rtn = new char[len];
+			var rtn = stackalloc char[len];
 			var dstIdx = 0;
 			for (var i = 0; i < len; i++)
 			{
