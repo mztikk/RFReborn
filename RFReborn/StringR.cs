@@ -57,7 +57,7 @@ namespace RFReborn
 			var dstIdx = 0;
 			for (var i = 0; i < len; i++)
 			{
-				var ch = rtn[i];
+				var ch = input[i];
 				if (chars.Contains(ch))
 				{
 					continue;
