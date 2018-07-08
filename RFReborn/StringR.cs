@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace RFReborn
 {
@@ -54,20 +53,20 @@ namespace RFReborn
 		public static string RemoveChars(string input, ICollection<char> chars)
 		{
 			var len = input.Length;
-			var src = input.ToCharArray();
+			var rtn = new char[len];
 			var dstIdx = 0;
 			for (var i = 0; i < len; i++)
 			{
-				var ch = src[i];
+				var ch = rtn[i];
 				if (chars.Contains(ch))
 				{
 					continue;
 				}
 
-				src[dstIdx++] = ch;
+				rtn[dstIdx++] = ch;
 			}
 
-			return new string(src, 0, dstIdx);
+			return new string(rtn, 0, dstIdx);
 		}
 	}
 }
