@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace RFReborn
 {
@@ -132,5 +133,23 @@ namespace RFReborn
 
 			return i - 2;
 		}
+
+		/// <summary>
+		/// Rotates bits to the left
+		/// </summary>
+		/// <param name="x">Value to be rotated</param>
+		/// <param name="r">Number of bits to shift</param>
+		/// <returns>The rotated value. There is no error return</returns>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static ulong RotateLeft(ulong x, int r) => (x << r) | (x >> (64 - r));
+
+		/// <summary>
+		/// Rotates bits to the left
+		/// </summary>
+		/// <param name="x">Value to be rotated</param>
+		/// <param name="r">Number of bits to shift</param>
+		/// <returns>The rotated value. There is no error return</returns>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static uint RotateLeft(uint x, int r) => (x << r) | (x >> (32 - r));
 	}
 }

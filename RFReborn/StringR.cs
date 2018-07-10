@@ -87,6 +87,7 @@ namespace RFReborn
 					result[i] = s[1] + ((uint)s[0] << 16);
 				}
 			}
+
 			return result;
 		}
 

@@ -5,12 +5,12 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace RFReborn
+namespace RFReborn.Hashing
 {
 	/// <summary>
 	/// Provides various hashing functionalities.
 	/// </summary>
-	public static class Hashing
+	public static class HashFactory
 	{
 		/// <summary>
 		/// List of all valid hash names
