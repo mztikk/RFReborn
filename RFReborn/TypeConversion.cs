@@ -7,11 +7,13 @@ namespace RFReborn
 {
 	internal unsafe static class TypeConversion<T> where T : unmanaged
 	{
+#pragma warning disable S2743 // Static fields should not be used in generic types
 		public static Type Type { get; }
 
 		public static TypeCode TypeCode { get; }
 
 		public static int Size { get; }
+#pragma warning restore S2743 // Static fields should not be used in generic types
 
 		static TypeConversion()
 		{

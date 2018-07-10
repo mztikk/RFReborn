@@ -15,7 +15,7 @@ namespace RFReborn.Hashing
 		/// <summary>
 		/// List of all valid hash names
 		/// </summary>
-		public static ReadOnlyCollection<string> ValidHashes = new ReadOnlyCollection<string>(new List<string>() { "MD5", "SHA1", "SHA256", "SHA384", "SHA512" });
+		public static readonly ReadOnlyCollection<string> ValidHashes = new ReadOnlyCollection<string>(new List<string>() { "MD5", "SHA1", "SHA256", "SHA384", "SHA512" });
 
 		/// <summary>
 		/// Gets the name of the hash as represented in <see cref="ValidHashes"/>. Turns "md5" into "MD5" for example.
@@ -62,14 +62,13 @@ namespace RFReborn.Hashing
 		{
 			if (!ValidHashes.Contains(hashName))
 			{
-				throw new ArgumentException(nameof(hashName), "Hash does not exist");
+				throw new ArgumentException("Hash does not exist", nameof(hashName));
 			}
 
 			using (var hashAlgorithm = (HashAlgorithm)CryptoConfig.CreateFromName(hashName))
 			{
 				var hashedBytes = hashAlgorithm.ComputeHash(input);
 				return StringR.ByteArrayToHexString(hashedBytes);
-				//return Stringify(hashedBytes);
 			}
 		}
 
@@ -83,26 +82,14 @@ namespace RFReborn.Hashing
 		{
 			if (!ValidHashes.Contains(hashName))
 			{
-				throw new ArgumentException(nameof(hashName), "Hash does not exist");
+				throw new ArgumentException("Hash does not exist", nameof(hashName));
 			}
 
 			using (var hashAlgorithm = (HashAlgorithm)CryptoConfig.CreateFromName(hashName))
 			{
 				var hashedBytes = hashAlgorithm.ComputeHash(input);
 				return StringR.ByteArrayToHexString(hashedBytes);
-				//return Stringify(hashedBytes);
 			}
 		}
-
-		//[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		//private static string Stringify(byte[] hexBytes)
-		//{
-		//	var rtn = new StringBuilder();
-		//	for (var i = 0; i < hexBytes.Length; i++)
-		//	{
-		//		rtn.Append(hexBytes[i].ToString("X2"));
-		//	}
-		//	return rtn.ToString();
-		//}
 	}
 }

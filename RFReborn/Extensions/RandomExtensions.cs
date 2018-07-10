@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace RFReborn.Extensions
 {
@@ -25,30 +26,6 @@ namespace RFReborn.Extensions
 		}
 
 		/// <summary>
-		/// Chooses a random item inside of the provided <see cref="ICollection{T}"/> and returns it.
-		/// </summary>
-		/// <typeparam name="T">Type</typeparam>
-		/// <param name="random">Random instance</param>
-		/// <param name="collection">Collection to choose random item from</param>
-		/// <returns>Random item inside of collection, default in case of a failure.></returns>
-		public static T Choice<T>(this System.Random random, ICollection<T> collection)
-		{
-			var rng = random.Next(0, collection.Count);
-			var i = 0;
-			foreach (var item in collection)
-			{
-				if (i == rng)
-				{
-					return item;
-				}
-
-				i++;
-			}
-
-			return default;
-		}
-
-		/// <summary>
 		/// Chooses a random item inside of the provided <see cref="IEnumerable{T}"/> and returns it.
 		/// </summary>
 		/// <typeparam name="T">Type</typeparam>
@@ -57,21 +34,22 @@ namespace RFReborn.Extensions
 		/// <returns>Random item inside of Enumerable, default in case of a failure.></returns>
 		public static T Choice<T>(this System.Random random, IEnumerable<T> enumerable)
 		{
-			var size = 0;
+			// Linq Count() tries to cast to ICollection so I merged the ICollection overload with this one
+			var size = enumerable.Count();
 			var i = 0;
-			foreach (var item in enumerable)
-			{
-				size++;
-			}
-			var rng = random.Next(0, size);
-			foreach (var item in enumerable)
-			{
-				if (i == size)
-				{
-					return item;
-				}
 
-				i++;
+			var rng = random.Next(0, size);
+			using (var enumerator = enumerable.GetEnumerator())
+			{
+				while (enumerator.MoveNext())
+				{
+					if (i == rng)
+					{
+						return enumerator.Current;
+					}
+
+					i++;
+				}
 			}
 
 			return default;
