@@ -2,6 +2,10 @@
 
 namespace RFReborn.Hashing
 {
+	// http://cyan4973.github.io/xxHash/
+	/// <summary>
+	/// xxHash is an extremely fast non-cryptographic hash algorithm, working at speeds close to RAM limits. It is proposed in two flavors, 32 and 64 bits. 
+	/// </summary>
 	public unsafe class xxHash
 	{
 		private const uint _PRIME32_1 = 2654435761U;
@@ -34,9 +38,9 @@ namespace RFReborn.Hashing
 
 		public static uint Hash(void* input, int len, uint seed = 0)
 		{
-			uint h32;
 			var p = (byte*)input;
 			var bEnd = p + len;
+			uint h32;
 
 			if (len >= 16)
 			{
@@ -49,14 +53,27 @@ namespace RFReborn.Hashing
 
 				do
 				{
-					v1 = Round(v1, Get32Bits(p));
+					// inlined Round and Get32Bits per hand since it didn't seem to do that even with AggressiveInlining and it has to be inlined for better performance
+					v1 += *((uint*)p) * _PRIME32_2;
+					v1 = MathR.RotateLeft(v1, 13);
+					v1 *= _PRIME32_1;
 					p += 4;
-					v2 = Round(v2, Get32Bits(p));
+
+					v2 += *((uint*)p) * _PRIME32_2;
+					v2 = MathR.RotateLeft(v2, 13);
+					v2 *= _PRIME32_1;
 					p += 4;
-					v3 = Round(v3, Get32Bits(p));
+
+					v3 += *((uint*)p) * _PRIME32_2;
+					v3 = MathR.RotateLeft(v3, 13);
+					v3 *= _PRIME32_1;
 					p += 4;
-					v4 = Round(v4, Get32Bits(p));
+
+					v4 += *((uint*)p) * _PRIME32_2;
+					v4 = MathR.RotateLeft(v4, 13);
+					v4 *= _PRIME32_1;
 					p += 4;
+
 				} while (p < limit);
 
 				h32 = MathR.RotateLeft(v1, 1) + MathR.RotateLeft(v2, 7) + MathR.RotateLeft(v3, 12) + MathR.RotateLeft(v4, 18);
@@ -106,79 +123,5 @@ namespace RFReborn.Hashing
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private static uint Get32Bits(void* ptr) => *(uint*)ptr;
-
-		private static uint Finalize(uint h32, void* ptr, int len)
-		{
-			var p = (byte*)ptr;
-			void Process1()
-			{
-				h32 += (*p) * _PRIME32_5;
-				p++;
-				h32 = MathR.RotateLeft(h32, 11) * _PRIME32_1;
-			}
-
-			void Process4()
-			{
-				h32 += Get32Bits(p) * _PRIME32_3;
-				p += 4;
-				h32 = MathR.RotateLeft(h32, 17) * _PRIME32_4;
-			}
-
-			switch (len & 15)
-			{
-				case 12:
-					Process4();
-					goto case 8;
-				case 8:
-					Process4();
-					goto case 4;
-				case 4:
-					Process4();
-					return Avalanche(h32);
-				case 13:
-					Process4();
-					goto case 9;
-				case 9:
-					Process4();
-					goto case 5;
-				case 5:
-					Process4();
-					Process1();
-					return Avalanche(h32);
-				case 14:
-					Process4();
-					goto case 10;
-				case 10:
-					Process4();
-					goto case 6;
-				case 6:
-					Process4();
-					Process1();
-					Process1();
-					return Avalanche(h32);
-				case 15:
-					Process4();
-					goto case 11;
-				case 11:
-					Process4();
-					goto case 7;
-				case 7:
-					Process4();
-					goto case 3;
-				case 3:
-					Process1();
-					goto case 2;
-				case 2:
-					Process1();
-					goto case 1;
-				case 1:
-					Process1();
-					goto case 0;
-				case 0:
-					return Avalanche(h32);
-			}
-
-			return h32;
-		}
 	}
 }
