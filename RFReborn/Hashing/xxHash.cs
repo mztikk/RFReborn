@@ -3,10 +3,14 @@
 namespace RFReborn.Hashing
 {
 	// http://cyan4973.github.io/xxHash/
+#pragma warning disable IDE1006 // Naming Styles
+#pragma warning disable S101 // Types should be named in camel case
 	/// <summary>
 	/// xxHash is an extremely fast non-cryptographic hash algorithm, working at speeds close to RAM limits. It is proposed in two flavors, 32 and 64 bits. 
 	/// </summary>
-	public unsafe class xxHash
+	public static unsafe class xxHash
+#pragma warning restore S101 // Types should be named in camel case
+#pragma warning restore IDE1006 // Naming Styles
 	{
 		private const uint _PRIME32_1 = 2654435761U;
 		private const uint _PRIME32_2 = 2246822519U;
@@ -14,6 +18,12 @@ namespace RFReborn.Hashing
 		private const uint _PRIME32_4 = 668265263U;
 		private const uint _PRIME32_5 = 374761393U;
 
+		/// <summary>
+		/// Computes the hash for the specified byte array.
+		/// </summary>
+		/// <param name="input">Byte array to be hashed</param>
+		/// <param name="seed">Each accumulator gets an initial value based on optional seed input. Since the seed is optional, it can be 0.</param>
+		/// <returns>The computed hash code</returns>
 		public static uint Hash(byte[] input, uint seed = 0)
 		{
 			fixed (byte* inputP = input)
@@ -22,12 +32,25 @@ namespace RFReborn.Hashing
 			}
 		}
 
+		/// <summary>
+		/// Computes the hash value for the specified value.
+		/// </summary>
+		/// <typeparam name="T">Type</typeparam>
+		/// <param name="input">Value to be hashed</param>
+		/// <param name="seed">Each accumulator gets an initial value based on optional seed input. Since the seed is optional, it can be 0.</param>
+		/// <returns>The computed hash code</returns>
 		public static uint Hash<T>(T input, uint seed = 0) where T : unmanaged
 		{
 			var p = (void*)&input;
 			return Hash(p, sizeof(T), seed);
 		}
 
+		/// <summary>
+		/// Computes the hash value for the specified string.
+		/// </summary>
+		/// <param name="input">String to be hashed</param>
+		/// <param name="seed">Each accumulator gets an initial value based on optional seed input. Since the seed is optional, it can be 0.</param>
+		/// <returns>The computed hash code</returns>
 		public static uint Hash(string input, uint seed = 0)
 		{
 			fixed (char* p = input)
@@ -36,6 +59,13 @@ namespace RFReborn.Hashing
 			}
 		}
 
+		/// <summary>
+		/// Computes the hash value for the specified region of memory.
+		/// </summary>
+		/// <param name="input">Pointer to start of data to be hashed</param>
+		/// <param name="len">Length of data to be hashed in bytes</param>
+		/// <param name="seed">Each accumulator gets an initial value based on optional seed input. Since the seed is optional, it can be 0.</param>
+		/// <returns>The computed hash code</returns>
 		public static uint Hash(void* input, int len, uint seed = 0)
 		{
 			var p = (byte*)input;
