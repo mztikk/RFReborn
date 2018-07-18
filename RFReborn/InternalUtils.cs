@@ -4,11 +4,11 @@ namespace RFReborn
 {
     internal static class InternalUtils
     {
-        internal static readonly CryptoRandom s_rng;
+        internal static readonly CryptoRandom Rng;
 
         static InternalUtils()
         {
-            s_rng = new CryptoRandom();
+            Rng = new CryptoRandom();
         }
     }
 }

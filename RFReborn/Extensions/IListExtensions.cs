@@ -19,7 +19,7 @@ namespace RFReborn.Extensions
             for (var i = 0; i < list.Count; i++)
             {
                 T tmp = list[i];
-                var r = InternalUtils.s_rng.Next(i, list.Count);
+                var r = InternalUtils.Rng.Next(i, list.Count);
                 list[i] = list[r];
                 list[r] = tmp;
             }

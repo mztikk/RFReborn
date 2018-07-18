@@ -8,7 +8,7 @@ namespace RFReborn
     /// </summary>
     public static unsafe class StringR
     {
-        private static readonly HashSet<char> s_whitespaceChars = new HashSet<char>
+        private static readonly HashSet<char> WhitespaceChars = new HashSet<char>
         {
             '\u0020',
             '\u00A0',
@@ -42,7 +42,7 @@ namespace RFReborn
         /// </summary>
         /// <param name="input">String to remove whitespace from.</param>
         /// <returns>A new string without whitespace.</returns>
-        public static string RemoveWhitespace(string input) => RemoveChars(input, s_whitespaceChars);
+        public static string RemoveWhitespace(string input) => RemoveChars(input, WhitespaceChars);
 
         /// <summary>
         /// Removes the specified chars from the string and returns it.
@@ -70,7 +70,7 @@ namespace RFReborn
         }
 
         // https://stackoverflow.com/a/24343727
-        private static readonly uint[] s_lookup32Unsafe = CreateLookup32Unsafe();
+        private static readonly uint[] Lookup32Unsafe = CreateLookup32Unsafe();
 
         private static uint[] CreateLookup32Unsafe()
         {
@@ -102,7 +102,7 @@ namespace RFReborn
             fixed (char* resultP = result)
             {
                 var resultP2 = (uint*)resultP;
-                fixed (uint* lookupP = s_lookup32Unsafe)
+                fixed (uint* lookupP = Lookup32Unsafe)
                 {
                     fixed (byte* bytesP = input)
                     {
