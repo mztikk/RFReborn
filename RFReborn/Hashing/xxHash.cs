@@ -21,9 +21,9 @@ namespace RFReborn.Hashing
         /// <summary>
         /// Computes the hash for the specified byte array.
         /// </summary>
-        /// <param name="input">Byte array to be hashed</param>
+        /// <param name="input">Byte array to be hashed.</param>
         /// <param name="seed">Each accumulator gets an initial value based on optional seed input. Since the seed is optional, it can be 0.</param>
-        /// <returns>The computed hash code</returns>
+        /// <returns>The computed hash code.</returns>
         public static uint Hash(byte[] input, uint seed = 0)
         {
             fixed (byte* inputP = input)
@@ -35,10 +35,10 @@ namespace RFReborn.Hashing
         /// <summary>
         /// Computes the hash value for the specified value.
         /// </summary>
-        /// <typeparam name="T">Type</typeparam>
-        /// <param name="input">Value to be hashed</param>
+        /// <typeparam name="T">Type.</typeparam>
+        /// <param name="input">Value to be hashed.</param>
         /// <param name="seed">Each accumulator gets an initial value based on optional seed input. Since the seed is optional, it can be 0.</param>
-        /// <returns>The computed hash code</returns>
+        /// <returns>The computed hash code.</returns>
         public static uint Hash<T>(T input, uint seed = 0) where T : unmanaged
         {
             var p = (void*)&input;
@@ -48,9 +48,9 @@ namespace RFReborn.Hashing
         /// <summary>
         /// Computes the hash value for the specified string.
         /// </summary>
-        /// <param name="input">String to be hashed</param>
+        /// <param name="input">String to be hashed.</param>
         /// <param name="seed">Each accumulator gets an initial value based on optional seed input. Since the seed is optional, it can be 0.</param>
-        /// <returns>The computed hash code</returns>
+        /// <returns>The computed hash code.</returns>
         public static uint Hash(string input, uint seed = 0)
         {
             fixed (char* p = input)
@@ -62,10 +62,10 @@ namespace RFReborn.Hashing
         /// <summary>
         /// Computes the hash value for the specified region of memory.
         /// </summary>
-        /// <param name="input">Pointer to start of data to be hashed</param>
-        /// <param name="len">Length of data to be hashed in bytes</param>
+        /// <param name="input">Pointer to start of data to be hashed.</param>
+        /// <param name="len">Length of data to be hashed in bytes.</param>
         /// <param name="seed">Each accumulator gets an initial value based on optional seed input. Since the seed is optional, it can be 0.</param>
-        /// <returns>The computed hash code</returns>
+        /// <returns>The computed hash code.</returns>
         public static uint Hash(void* input, int len, uint seed = 0)
         {
             var p = (byte*)input;

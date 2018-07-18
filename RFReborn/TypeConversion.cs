@@ -7,6 +7,13 @@ namespace RFReborn
 {
     internal static unsafe class TypeConversion<T> where T : unmanaged
     {
+        static TypeConversion()
+        {
+            Type = typeof(T);
+            TypeCode = Type.GetTypeCode(Type);
+            Size = TypeCode == TypeCode.Boolean ? 1 : sizeof(T);
+        }
+
 #pragma warning disable S2743 // Static fields should not be used in generic types
         public static Type Type { get; }
 
@@ -14,13 +21,6 @@ namespace RFReborn
 
         public static int Size { get; }
 #pragma warning restore S2743 // Static fields should not be used in generic types
-
-        static TypeConversion()
-        {
-            Type = typeof(T);
-            TypeCode = Type.GetTypeCode(Type);
-            Size = TypeCode == TypeCode.Boolean ? 1 : sizeof(T);
-        }
 
         public static byte[] ToByteArray(T obj)
         {

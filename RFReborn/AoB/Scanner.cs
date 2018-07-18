@@ -3,96 +3,96 @@
 namespace RFReborn.AoB
 {
     /// <summary>
-    /// Searches for <see cref="Signature"/> in various regions
+    /// Searches for <see cref="Signature"/> in various regions.
     /// </summary>
     public static class Scanner
     {
         /// <summary>
-        /// Size of buffer to be used when reading from files
+        /// Size of buffer to be used when reading from files.
         /// </summary>
         private const int _BufferSize = 4048;
 
         #region FindSig
         #region Overloads
         /// <summary>
-        /// Searches for the byte pattern + mask inside of a file
+        /// Searches for the byte pattern + mask inside of a file.
         /// </summary>
-        /// <param name="searchRegion">The file to be searched</param>
-        /// <param name="pattern">The byte pattern to search for</param>
-        /// <param name="mask">The mask for the pattern</param>
+        /// <param name="searchRegion">The file to be searched.</param>
+        /// <param name="pattern">The byte pattern to search for.</param>
+        /// <param name="mask">The mask for the pattern.</param>
         /// <returns>The zero-based index position of <paramref name="pattern"/> and <paramref name="mask"/> if that <see cref="Signature"/> is found, or -1 if it is not.</returns>
         public static long FindSignature(FileStream searchRegion, byte[] pattern, string mask) => FindSignature(searchRegion, new Signature(pattern, mask));
 
         /// <summary>
-        /// Searches for the byte pattern + mask with an offset inside of a file
+        /// Searches for the byte pattern + mask with an offset inside of a file.
         /// </summary>
-        /// <param name="searchRegion">The file to be searched</param>
-        /// <param name="pattern">The byte pattern to search for</param>
-        /// <param name="mask">The mask for the pattern</param>
-        /// <param name="offset">Offset to rebase the position</param>
+        /// <param name="searchRegion">The file to be searched.</param>
+        /// <param name="pattern">The byte pattern to search for.</param>
+        /// <param name="mask">The mask for the pattern.</param>
+        /// <param name="offset">Offset to rebase the position.</param>
         /// <returns>The zero-based index position of <paramref name="pattern"/> and <paramref name="mask"/> if that <see cref="Signature"/> is found, or -1 if it is not.</returns>
         public static long FindSignature(FileStream searchRegion, byte[] pattern, string mask, long offset) => FindSignature(searchRegion, new Signature(pattern, mask, offset));
 
         /// <summary>
-        /// Searches for a PEiD style string signature inside of a file
+        /// Searches for a PEiD style string signature inside of a file.
         /// </summary>
-        /// <param name="searchRegion">The file to be searched</param>
-        /// <param name="signature">PEiD style string signature</param>
+        /// <param name="searchRegion">The file to be searched.</param>
+        /// <param name="signature">PEiD style string signature.</param>
         /// <returns>The zero-based index position of <paramref name="signature"/> if that <see cref="Signature"/> is found, or -1 if it is not.</returns>
         public static long FindSignature(FileStream searchRegion, string signature) => FindSignature(searchRegion, new Signature(signature));
 
         /// <summary>
-        /// Searches for a PEiD style string signature with an offset inside of a file
+        /// Searches for a PEiD style string signature with an offset inside of a file.
         /// </summary>
-        /// <param name="searchRegion">The file to be searched</param>
-        /// <param name="signature">PEiD style string signature</param>
-        /// <param name="offset">Offset to rebase the position</param>
+        /// <param name="searchRegion">The file to be searched.</param>
+        /// <param name="signature">PEiD style string signature.</param>
+        /// <param name="offset">Offset to rebase the position.</param>
         /// <returns>The zero-based index position of <paramref name="signature"/> if that <see cref="Signature"/> is found, or -1 if it is not.</returns>
         public static long FindSignature(FileStream searchRegion, string signature, long offset) => FindSignature(searchRegion, new Signature(signature, offset));
 
         /// <summary>
-        /// Searches for the byte pattern + mask inside of a byte array
+        /// Searches for the byte pattern + mask inside of a byte array.
         /// </summary>
-        /// <param name="searchRegion">The region to be searched</param>
-        /// <param name="pattern">The byte pattern to search for</param>
-        /// <param name="mask">The mask for the pattern</param>
+        /// <param name="searchRegion">The region to be searched.</param>
+        /// <param name="pattern">The byte pattern to search for.</param>
+        /// <param name="mask">The mask for the pattern.</param>
         /// <returns>The zero-based index position of <paramref name="pattern"/> and <paramref name="mask"/> if that <see cref="Signature"/> is found, or -1 if it is not.</returns>
         public static long FindSignature(byte[] searchRegion, byte[] pattern, string mask) => FindSignature(searchRegion, new Signature(pattern, mask));
 
         /// <summary>
-        /// Searches for the byte pattern + mask with an offset inside of a byte array
+        /// Searches for the byte pattern + mask with an offset inside of a byte array.
         /// </summary>
-        /// <param name="searchRegion">The region to be searched</param>
-        /// <param name="pattern">The byte pattern to search for</param>
-        /// <param name="mask">The mask for the pattern</param>
-        /// <param name="offset">Offset to rebase the position</param>
+        /// <param name="searchRegion">The region to be searched.</param>
+        /// <param name="pattern">The byte pattern to search for.</param>
+        /// <param name="mask">The mask for the pattern.</param>
+        /// <param name="offset">Offset to rebase the position.</param>
         /// <returns>The zero-based index position of <paramref name="pattern"/> and <paramref name="mask"/> if that <see cref="Signature"/> is found, or -1 if it is not.</returns>
         public static long FindSignature(byte[] searchRegion, byte[] pattern, string mask, long offset) => FindSignature(searchRegion, new Signature(pattern, mask, offset));
 
         /// <summary>
-        /// Searches for the PEiD style string signature inside of a byte array
+        /// Searches for the PEiD style string signature inside of a byte array.
         /// </summary>
-        /// <param name="searchRegion">The region to be searched</param>
-        /// <param name="signature">The <see cref="Signature"/> to search for</param>
+        /// <param name="searchRegion">The region to be searched.</param>
+        /// <param name="signature">The <see cref="Signature"/> to search for.</param>
         /// <returns>The zero-based index position of <paramref name="signature"/> if that <see cref="Signature"/> is found, or -1 if it is not.</returns>
         public static long FindSignature(byte[] searchRegion, string signature) => FindSignature(searchRegion, new Signature(signature));
 
         /// <summary>
-        /// Searches for the PEiD style string signature + offset inside of a byte array
+        /// Searches for the PEiD style string signature + offset inside of a byte array.
         /// </summary>
-        /// <param name="searchRegion">The region to be searched</param>
-        /// <param name="signature">The <see cref="Signature"/> to search for</param>
-        /// <param name="offset">Offset to rebase the position</param>
+        /// <param name="searchRegion">The region to be searched.</param>
+        /// <param name="signature">The <see cref="Signature"/> to search for.</param>
+        /// <param name="offset">Offset to rebase the position.</param>
         /// <returns>The zero-based index position of <paramref name="signature"/> if that <see cref="Signature"/> is found, or -1 if it is not.</returns>
         public static long FindSignature(byte[] searchRegion, string signature, long offset) => FindSignature(searchRegion, new Signature(signature, offset));
         #endregion
 
         #region Actual Implementations
         /// <summary>
-        /// Searches for a given <see cref="Signature"/> inside of a file
+        /// Searches for a given <see cref="Signature"/> inside of a file.
         /// </summary>
-        /// <param name="searchRegion">The file to be searched</param>
-        /// <param name="signature">The <see cref="Signature"/> to search for</param>
+        /// <param name="searchRegion">The file to be searched.</param>
+        /// <param name="signature">The <see cref="Signature"/> to search for.</param>
         /// <returns>The offset position of <paramref name="signature"/> if that <see cref="Signature"/> is found, or -1 if it is not.</returns>
         public static long FindSignature(FileStream searchRegion, Signature signature)
         {
@@ -111,10 +111,10 @@ namespace RFReborn.AoB
         }
 
         /// <summary>
-        /// Searches for a given <see cref="Signature"/> inside of a byte array
+        /// Searches for a given <see cref="Signature"/> inside of a byte array.
         /// </summary>
-        /// <param name="searchRegion">The region to be searched</param>
-        /// <param name="signature">The <see cref="Signature"/> to search for</param>
+        /// <param name="searchRegion">The region to be searched.</param>
+        /// <param name="signature">The <see cref="Signature"/> to search for.</param>
         /// <returns>The zero-based index position of <paramref name="signature"/> if that <see cref="Signature"/> is found, or -1 if it is not.</returns>
         public static long FindSignature(byte[] searchRegion, Signature signature)
         {
@@ -138,13 +138,13 @@ namespace RFReborn.AoB
         }
 
         /// <summary>
-        /// Checks if the byte pattern + mask match the searchregion at the specified index
+        /// Checks if the byte pattern + mask match the searchregion at the specified index.
         /// </summary>
-        /// <param name="index">Index in the search region</param>
-        /// <param name="searchRegion">Space to search</param>
-        /// <param name="pattern">pattern to match</param>
-        /// <param name="mask">mask for the pattern</param>
-        /// <returns>TRUE if it matches; FALSE otherwise</returns>
+        /// <param name="index">Index in the search region.</param>
+        /// <param name="searchRegion">Space to search.</param>
+        /// <param name="pattern">pattern to match.</param>
+        /// <param name="mask">mask for the pattern.</param>
+        /// <returns>TRUE if it matches; FALSE otherwise.</returns>
         private static bool CheckMask(int index, byte[] searchRegion, byte[] pattern, string mask)
         {
             for (var i = 0; i < pattern.Length; i++)

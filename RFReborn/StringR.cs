@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace RFReborn
 {
     /// <summary>
-    /// Provides functionality to manipulate and operate on <see cref="string"/>
+    /// Provides functionality to manipulate and operate on <see cref="string"/>.
     /// </summary>
     public static unsafe class StringR
     {
@@ -34,22 +34,22 @@ namespace RFReborn
             '\u000B',
             '\u000C',
             '\u000D',
-            '\u0085'
+            '\u0085',
         };
 
         /// <summary>
         /// Removes all whitespace chars from a string and returns it.
         /// </summary>
-        /// <param name="input">String to remove whitespace from</param>
-        /// <returns>A new string without whitespace</returns>
+        /// <param name="input">String to remove whitespace from.</param>
+        /// <returns>A new string without whitespace.</returns>
         public static string RemoveWhitespace(string input) => RemoveChars(input, s_whitespaceChars);
 
         /// <summary>
         /// Removes the specified chars from the string and returns it.
         /// </summary>
-        /// <param name="input">String where the chars should be removed from</param>
-        /// <param name="chars">The chars to remove</param>
-        /// <returns>A new string, without the chars</returns>
+        /// <param name="input">String where the chars should be removed from.</param>
+        /// <param name="chars">The chars to remove.</param>
+        /// <returns>A new string, without the chars.</returns>
         public static string RemoveChars(string input, ICollection<char> chars)
         {
             var len = input.Length;
@@ -94,8 +94,8 @@ namespace RFReborn
         /// <summary>
         /// Converts a byte array to its hex string representation.
         /// </summary>
-        /// <param name="input">Bytes to convert</param>
-        /// <returns>Hex string</returns>
+        /// <param name="input">Bytes to convert.</param>
+        /// <returns>Hex string.</returns>
         public static string ByteArrayToHexString(byte[] input)
         {
             var result = new char[input.Length * 2];

@@ -12,8 +12,8 @@ namespace RFReborn
         /// <summary>
         /// Calculates the factorial of n.
         /// </summary>
-        /// <param name="n">n</param>
-        /// <returns>n!</returns>
+        /// <param name="n">n.</param>
+        /// <returns>n!.</returns>
         public static BigInteger Factorial(int n)
         {
             if (n < 0)
@@ -45,8 +45,8 @@ namespace RFReborn
         /// <summary>
         /// Calculates the Nth Fibonacci.
         /// </summary>
-        /// <param name="n">n</param>
-        /// <returns>fib</returns>
+        /// <param name="n">n.</param>
+        /// <returns>fib.</returns>
         public static BigInteger Fibonacci(int n)
         {
             if (n < 0)
@@ -76,7 +76,7 @@ namespace RFReborn
         /// <summary>
         /// Checks if a number is prime.
         /// </summary>
-        /// <param name="n">Number to check</param>
+        /// <param name="n">Number to check.</param>
         /// <returns>TRUE if prime; otherwise FALSE.</returns>
         public static bool IsPrime(long n)
         {
@@ -106,8 +106,8 @@ namespace RFReborn
         /// <summary>
         /// Calculates the Nth prime number.
         /// </summary>
-        /// <param name="n">n</param>
-        /// <returns>prime number</returns>
+        /// <param name="n">n.</param>
+        /// <returns>prime number.</returns>
         public static long NthPrime(int n)
         {
             if (n < 0)
@@ -135,20 +135,20 @@ namespace RFReborn
         }
 
         /// <summary>
-        /// Rotates bits to the left
+        /// Rotates bits to the left.
         /// </summary>
-        /// <param name="x">Value to be rotated</param>
-        /// <param name="r">Number of bits to shift</param>
-        /// <returns>The rotated value. There is no error return</returns>
+        /// <param name="x">Value to be rotated.</param>
+        /// <param name="r">Number of bits to shift.</param>
+        /// <returns>The rotated value. There is no error return.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong RotateLeft(ulong x, int r) => (x << r) | (x >> (64 - r));
 
         /// <summary>
-        /// Rotates bits to the left
+        /// Rotates bits to the left.
         /// </summary>
-        /// <param name="x">Value to be rotated</param>
-        /// <param name="r">Number of bits to shift</param>
-        /// <returns>The rotated value. There is no error return</returns>
+        /// <param name="x">Value to be rotated.</param>
+        /// <param name="r">Number of bits to shift.</param>
+        /// <returns>The rotated value. There is no error return.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint RotateLeft(uint x, int r) => (x << r) | (x >> (32 - r));
     }

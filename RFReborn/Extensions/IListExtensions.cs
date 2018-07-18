@@ -4,15 +4,15 @@ using System.Runtime.CompilerServices;
 namespace RFReborn.Extensions
 {
     /// <summary>
-    /// Extends <see cref="IList{T}"/>
+    /// Extends <see cref="IList{T}"/>.
     /// </summary>
     public static class IListExtensions
     {
         /// <summary>
         ///     Performs a Fisher-Yates / Knuth - Shuffle on the <see cref="IList{T}"/>.
         /// </summary>
-        /// <param name="list"><see cref="IList{T}"/> to be shuffled</param>
-        /// <typeparam name="T">Type</typeparam>
+        /// <param name="list"><see cref="IList{T}"/> to be shuffled.</param>
+        /// <typeparam name="T">Type.</typeparam>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void FisherYatesShuffle<T>(this IList<T> list)
         {
@@ -28,10 +28,10 @@ namespace RFReborn.Extensions
         /// <summary>
         /// Swaps two members of an <see cref="IList{T}"/>.
         /// </summary>
-        /// <typeparam name="T">Type</typeparam>
-        /// <param name="list"><see cref="IList{T}"/> to perform operation on</param>
-        /// <param name="index1">Index of first member to swap</param>
-        /// <param name="index2">Index of second member to swap</param>
+        /// <typeparam name="T">Type.</typeparam>
+        /// <param name="list"><see cref="IList{T}"/> to perform operation on.</param>
+        /// <param name="index1">Index of first member to swap.</param>
+        /// <param name="index2">Index of second member to swap.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Swap<T>(this IList<T> list, int index1, int index2)
         {
@@ -46,8 +46,8 @@ namespace RFReborn.Extensions
         /// <param name="list">
         ///     Items to get permutations from.
         /// </param>
-        /// <typeparam name="T">Type</typeparam>
-        /// <returns><see cref="IEnumerable{T}"/> of all permutations</returns>
+        /// <typeparam name="T">Type.</typeparam>
+        /// <returns><see cref="IEnumerable{T}"/> of all permutations.</returns>
         public static IEnumerable<T[]> Permutations<T>(this IList<T> list)
         {
             var a = new T[list.Count];

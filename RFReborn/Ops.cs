@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 namespace RFReborn
 {
     /// <summary>
-    /// Provides general operations
+    /// Provides general operations.
     /// </summary>
     public static class Ops
     {
         /// <summary>
         /// Swaps two variables.
         /// </summary>
-        /// <typeparam name="T">Type</typeparam>
-        /// <param name="m1">First value</param>
-        /// <param name="m2">Second value</param>
+        /// <typeparam name="T">Type.</typeparam>
+        /// <param name="m1">First value.</param>
+        /// <param name="m2">Second value.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Swap<T>(ref T m1, ref T m2)
         {
@@ -27,17 +27,17 @@ namespace RFReborn
         /// <summary>
         /// Merges all given <see cref="IList{T}"/> into one and returns it.
         /// </summary>
-        /// <typeparam name="T">Type</typeparam>
-        /// <param name="listArray">All <see cref="IList{T}"/> to merge</param>
-        /// <returns>The merged <see cref="IList{T}"/></returns>
+        /// <typeparam name="T">Type.</typeparam>
+        /// <param name="listArray">All <see cref="IList{T}"/> to merge.</param>
+        /// <returns>The merged <see cref="IList{T}"/>.</returns>
         public static IList<T> Merge<T>(params IList<T>[] listArray) => Merge(enumList: listArray);
 
         /// <summary>
         /// Merges all given <see cref="IList{T}"/> into one and returns it.
         /// </summary>
-        /// <typeparam name="T">Type</typeparam>
-        /// <param name="enumList"><see cref="IEnumerable{T}"/> of all <see cref="IList{T}"/> to merge</param>
-        /// <returns>The merged <see cref="IList{T}"/></returns>
+        /// <typeparam name="T">Type.</typeparam>
+        /// <param name="enumList"><see cref="IEnumerable{T}"/> of all <see cref="IList{T}"/> to merge.</param>
+        /// <returns>The merged <see cref="IList{T}"/>.</returns>
         public static IList<T> Merge<T>(IEnumerable<IList<T>> enumList)
         {
             var newSize = 0;
@@ -60,10 +60,10 @@ namespace RFReborn
         /// <summary>
         /// Generates strings based on the specified charset and tests them against the <paramref name="checkFunc"/> until it returns true and returns the matching string.
         /// </summary>
-        /// <param name="charset">Characterst to be used when generating strings</param>
-        /// <param name="checkFunc">Function to for the generated string to be checked against</param>
-        /// <param name="startLength">Minimum/Starting length of the generated strings</param>
-        /// <param name="maxLength">Maximum length of the genereated strings</param>
+        /// <param name="charset">Characterst to be used when generating strings.</param>
+        /// <param name="checkFunc">Function to for the generated string to be checked against.</param>
+        /// <param name="startLength">Minimum/Starting length of the generated strings.</param>
+        /// <param name="maxLength">Maximum length of the genereated strings.</param>
         /// <returns>The string that matched the <paramref name="checkFunc"/> or <see cref="string.Empty"/> otherwise.</returns>
         public static string BruteForce(IList<char> charset, Func<string, bool> checkFunc, int startLength = 1, int maxLength = 6)
         {
