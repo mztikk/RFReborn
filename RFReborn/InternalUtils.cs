@@ -2,13 +2,13 @@
 
 namespace RFReborn
 {
-	internal static class InternalUtils
-	{
-		internal static readonly CryptoRandom Rng;
+    internal static class InternalUtils
+    {
+        internal static readonly CryptoRandom s_rng;
 
-		static InternalUtils()
-		{
-			Rng = new CryptoRandom();
-		}
-	}
+        static InternalUtils()
+        {
+            s_rng = new CryptoRandom();
+        }
+    }
 }
