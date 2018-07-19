@@ -8,7 +8,7 @@ namespace RFReborn
     /// <summary>
     /// Provides general operations.
     /// </summary>
-    public static class Ops
+    public unsafe static class Ops
     {
         /// <summary>
         /// Swaps two variables.
@@ -60,7 +60,17 @@ namespace RFReborn
         /// <summary>
         /// Generates strings based on the specified charset and tests them against the <paramref name="checkFunc"/> until it returns true and returns the matching string.
         /// </summary>
-        /// <param name="charset">Characterst to be used when generating strings.</param>
+        /// <param name="charset">Characterset to be used when generating strings.</param>
+        /// <param name="checkFunc">Function to for the generated string to be checked against.</param>
+        /// <param name="startLength">Minimum/Starting length of the generated strings.</param>
+        /// <param name="maxLength">Maximum length of the genereated strings.</param>
+        /// <returns>The string that matched the <paramref name="checkFunc"/> or <see cref="string.Empty"/> otherwise.</returns>
+        public static string BruteForce(string charset, Func<string, bool> checkFunc, int startLength = 1, int maxLength = 6) => BruteForce(charset.ToCharArray(), checkFunc, startLength, maxLength);
+
+        /// <summary>
+        /// Generates strings based on the specified charset and tests them against the <paramref name="checkFunc"/> until it returns true and returns the matching string.
+        /// </summary>
+        /// <param name="charset">Characterset to be used when generating strings.</param>
         /// <param name="checkFunc">Function to for the generated string to be checked against.</param>
         /// <param name="startLength">Minimum/Starting length of the generated strings.</param>
         /// <param name="maxLength">Maximum length of the genereated strings.</param>
@@ -68,12 +78,13 @@ namespace RFReborn
         public static string BruteForce(IList<char> charset, Func<string, bool> checkFunc, int startLength = 1, int maxLength = 6)
         {
             var found = string.Empty;
+            var charsetLength = charset.Count;
+            const long startw = 0;
+            var d = new long[maxLength + 1];
+            var set = new Dictionary<int, string>(Environment.ProcessorCount);
             for (var length = startLength; length < maxLength; length++)
             {
-                const long startw = 0;
                 var endw = (long)Math.Pow(charset.Count, length);
-                var d = new long[length + 1];
-                var charsetLength = charset.Count;
 
                 for (var i = length; i >= 0; i--)
                 {
@@ -82,34 +93,44 @@ namespace RFReborn
 
                 Parallel.For(startw, endw, (ind, loopState) =>
                 {
-                    var s = new char[length];
-                    var mw = ind;
-                    for (var i = length; i >= 0; i--)
+                    var id = Environment.CurrentManagedThreadId;
+                    if (!set.ContainsKey(id) || !set.TryGetValue(id, out var str))
                     {
-                        var w = (int)(mw / d[i]);
-
-                        if (i == length)
-                        {
-                            if (w != 0)
-                            {
-                                s[i] = (charset[w]);
-                            }
-                        }
-                        else
-                        {
-                            s[i] = (charset[w]);
-                        }
-
-                        mw -= (w * d[i]);
+                        str = new string(' ', length);
+                        set.Add(id, str);
                     }
 
-                    var str = new string(s);
-                    if (checkFunc(str))
+                    var mw = ind;
+                    fixed (char* strp = str)
                     {
-                        found = str;
-                        loopState.Break();
+                        for (var i = length; i >= 0; i--)
+                        {
+                            var w = (int)(mw / d[i]);
+
+                            if (i == length)
+                            {
+                                if (w != 0)
+                                {
+                                    strp[i] = (charset[w]);
+                                }
+                            }
+                            else
+                            {
+                                strp[i] = (charset[w]);
+                            }
+
+                            mw -= (w * d[i]);
+                        }
+
+                        if (checkFunc(str))
+                        {
+                            found = str;
+                            loopState.Break();
+                        }
                     }
                 });
+
+                set.Clear();
             }
 
             return found;

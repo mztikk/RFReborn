@@ -8,6 +8,21 @@ namespace RFReborn
     /// </summary>
     public static unsafe class StringR
     {
+        /// <summary>
+        /// All lowercase ascii chars;
+        /// </summary>
+        public const string LowerCaseAlpha = "abcdefghijklmnopqrstuvwxyz";
+
+        /// <summary>
+        /// All uppercase ascii chars
+        /// </summary>
+        public const string UpperCaseAlpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        /// <summary>
+        /// 0-9
+        /// </summary>
+        public const string Numeric = "1234567890";
+
         private static readonly HashSet<char> WhitespaceChars = new HashSet<char>
         {
             '\u0020',
