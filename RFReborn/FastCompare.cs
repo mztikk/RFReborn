@@ -6,6 +6,35 @@
     public unsafe static class FastCompare
     {
         /// <summary>
+        /// Checks if two strings are equal by comparing their byte representation in memory.
+        /// </summary>
+        /// <param name="left">First string to compare.</param>
+        /// <param name="right">Second string to compare.</param>
+        /// <returns>TRUE if equal, FALSE otherwise.</returns>
+        public static bool Equals(string left, string right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (left is null || right is null)
+            {
+                return false;
+            }
+
+            if (left.Length != right.Length)
+            {
+                return false;
+            }
+
+            fixed (void* lp = left, rp = right)
+            {
+                return Equals(lp, rp, left.Length * sizeof(char));
+            }
+        }
+
+        /// <summary>
         /// Checks if the specified arrays are equal in value.
         /// </summary>
         /// <typeparam name="T">Type.</typeparam>
