@@ -65,7 +65,7 @@
         }
 
         /// <summary>
-        /// Compares the specified number of bytes of the memory at <paramref name="left"/> and <paramref name="right"/>.
+        /// Compares the specified number of bytes in memory at <paramref name="left"/> and <paramref name="right"/>.
         /// </summary>
         /// <param name="left">Pointer to memory to compare.</param>
         /// <param name="right">Pointer to memory to compare.</param>
