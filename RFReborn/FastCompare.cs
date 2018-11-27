@@ -3,7 +3,7 @@
     /// <summary>
     /// Offers methods to compare data.
     /// </summary>
-    public unsafe static class FastCompare
+    public static unsafe class FastCompare
     {
         /// <summary>
         /// Checks if two strings are equal by comparing their byte representation in memory.

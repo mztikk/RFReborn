@@ -39,17 +39,14 @@ namespace RFReborn.Extensions
             var i = 0;
 
             var rng = random.Next(0, size);
-            using (IEnumerator<T> enumerator = enumerable.GetEnumerator())
+            foreach (T item in enumerable)
             {
-                while (enumerator.MoveNext())
+                if (i == rng)
                 {
-                    if (i == rng)
-                    {
-                        return enumerator.Current;
-                    }
-
-                    i++;
+                    return item;
                 }
+
+                i++;
             }
 
             return default;
