@@ -41,4 +41,8 @@
     <DocumentationFile>bin\Debug\netstandard2.0\RFReborn.xml</DocumentationFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="ArraySorting\" />
+  </ItemGroup>
+
 </Project>

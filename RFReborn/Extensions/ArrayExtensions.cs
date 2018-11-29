@@ -1,0 +1,72 @@
+﻿namespace RFReborn.Extensions
+{
+    /// <summary>
+    /// Extends <see cref="System.Array"/>.
+    /// </summary>
+    public static class ArrayExtensions
+    {
+        /// <summary>
+        /// Searches for the specified object and returns the index of its first occurrence in an array of unmanaged type.
+        /// </summary>
+        /// <typeparam name="T">Type of array.</typeparam>
+        /// <param name="haystack">Array to search in.</param>
+        /// <param name="needle">Item in array to search for.</param>
+        /// <returns>The zero-based index of the first occurrence of value in the entire array, if found; otherwise, –1.</returns>
+        public static unsafe int FastIndexOf<T>(this T[] haystack, T needle) where T : unmanaged
+        {
+            var found = -1;
+            var size = sizeof(T);
+            fixed (void* vhp = haystack)
+            {
+                T* np = &needle;
+                var hp = (byte*)vhp;
+                var traverse = hp;
+                var end = traverse + (haystack.Length * size);
+                while (traverse < end)
+                {
+                    if (FastCompare.Equals(traverse, np, size))
+                    {
+                        found = (int)((traverse - hp) / size);
+                        break;
+                    }
+
+                    traverse += size;
+                }
+            }
+
+            return found;
+        }
+
+        /// <summary>
+        /// Searches for the specified object and returns the index of its last occurrence in an array of unmanaged type.
+        /// </summary>
+        /// <typeparam name="T">Type of array.</typeparam>
+        /// <param name="haystack">Array to search in.</param>
+        /// <param name="needle">The object to locate in the array/>.</param>
+        /// <returns>The zero-based index of the last occurrence of value in the entire array, if found; otherwise, –1.</returns>
+        public static unsafe int FastLastIndexOf<T>(this T[] haystack, T needle) where T : unmanaged
+        {
+            var found = -1;
+            var size = sizeof(T);
+            fixed (void* vhp = haystack)
+            {
+                T* np = &needle;
+                var hp = (byte*)vhp;
+                var end = hp + (haystack.Length * size);
+                end -= size;
+                while (end >= hp)
+                {
+                    if (FastCompare.Equals(end, np, size))
+                    {
+                        found = (int)((end - hp) / size);
+                        break;
+                    }
+
+                    end -= size;
+                }
+            }
+
+            return found;
+        }
+    }
+}
