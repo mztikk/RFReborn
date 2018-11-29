@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace RFReborn.Extensions
@@ -50,6 +51,46 @@ namespace RFReborn.Extensions
             }
 
             return default;
+        }
+
+        /// <summary>
+        /// Fills the elements of a specified array of int with random numbers.
+        /// </summary>
+        /// <param name="random">Random provider</param>
+        /// <param name="buffer">An array of int to contain random numbers.</param>
+        /// <exception cref="T:System.ArgumentNullException">
+        ///     <paramref name="buffer"/> is null.
+        /// </exception>
+        public static void NextInts(this System.Random random, int[] buffer)
+        {
+            if (buffer == null)
+            {
+                throw new ArgumentNullException(nameof(buffer));
+            }
+
+            var randomBytes = new byte[buffer.Length * 4];
+            random.NextBytes(randomBytes);
+            Buffer.BlockCopy(randomBytes, 0, buffer, 0, randomBytes.Length);
+        }
+
+        /// <summary>
+        /// Fills the elements of a specified array of unmanaged type with random numbers.
+        /// </summary>
+        /// <param name="random">Random provider</param>
+        /// <param name="buffer">An array of unmanaged type to contain random bytes converted to T.</param>
+        /// <exception cref="T:System.ArgumentNullException">
+        ///     <paramref name="buffer"/> is null.
+        /// </exception>
+        public static unsafe void NextT<T>(this System.Random random, T[] buffer) where T : unmanaged
+        {
+            if (buffer == null)
+            {
+                throw new ArgumentNullException(nameof(buffer));
+            }
+
+            var randomBytes = new byte[buffer.Length * sizeof(T)];
+            random.NextBytes(randomBytes);
+            Buffer.BlockCopy(randomBytes, 0, buffer, 0, randomBytes.Length);
         }
     }
 }

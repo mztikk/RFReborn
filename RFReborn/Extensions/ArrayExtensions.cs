@@ -21,7 +21,7 @@
                 T* np = &needle;
                 var hp = (byte*)vhp;
                 var traverse = hp;
-                var end = traverse + (haystack.Length * size);
+                var end = traverse + ((haystack.Length - 1) * size);
                 while (traverse < end)
                 {
                     if (FastCompare.Equals(traverse, np, size))
