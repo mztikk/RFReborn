@@ -8,47 +8,47 @@ namespace RFReborn.AoB
     public static class Scanner
     {
         /// <summary>
-        /// Size of buffer to be used when reading from files.
+        /// Size of buffer to be used when reading from streams.
         /// </summary>
         private const int _BufferSize = 4048;
 
         #region FindSig
         #region Overloads
         /// <summary>
-        /// Searches for the byte pattern + mask inside of a file.
+        /// Searches for the byte pattern + mask inside of a stream.
         /// </summary>
-        /// <param name="searchRegion">The file to be searched.</param>
+        /// <param name="searchRegion">The stream to be searched.</param>
         /// <param name="pattern">The byte pattern to search for.</param>
         /// <param name="mask">The mask for the pattern.</param>
         /// <returns>The zero-based index position of <paramref name="pattern"/> and <paramref name="mask"/> if that <see cref="Signature"/> is found, or -1 if it is not.</returns>
-        public static long FindSignature(FileStream searchRegion, byte[] pattern, string mask) => FindSignature(searchRegion, new Signature(pattern, mask));
+        public static long FindSignature(Stream searchRegion, byte[] pattern, string mask) => FindSignature(searchRegion, new Signature(pattern, mask));
 
         /// <summary>
-        /// Searches for the byte pattern + mask with an offset inside of a file.
+        /// Searches for the byte pattern + mask with an offset inside of a stream.
         /// </summary>
-        /// <param name="searchRegion">The file to be searched.</param>
+        /// <param name="searchRegion">The stream to be searched.</param>
         /// <param name="pattern">The byte pattern to search for.</param>
         /// <param name="mask">The mask for the pattern.</param>
         /// <param name="offset">Offset to rebase the position.</param>
         /// <returns>The zero-based index position of <paramref name="pattern"/> and <paramref name="mask"/> if that <see cref="Signature"/> is found, or -1 if it is not.</returns>
-        public static long FindSignature(FileStream searchRegion, byte[] pattern, string mask, long offset) => FindSignature(searchRegion, new Signature(pattern, mask, offset));
+        public static long FindSignature(Stream searchRegion, byte[] pattern, string mask, long offset) => FindSignature(searchRegion, new Signature(pattern, mask, offset));
 
         /// <summary>
-        /// Searches for a PEiD style string signature inside of a file.
+        /// Searches for a PEiD style string signature inside of a stream.
         /// </summary>
-        /// <param name="searchRegion">The file to be searched.</param>
+        /// <param name="searchRegion">The stream to be searched.</param>
         /// <param name="signature">PEiD style string signature.</param>
         /// <returns>The zero-based index position of <paramref name="signature"/> if that <see cref="Signature"/> is found, or -1 if it is not.</returns>
-        public static long FindSignature(FileStream searchRegion, string signature) => FindSignature(searchRegion, new Signature(signature));
+        public static long FindSignature(Stream searchRegion, string signature) => FindSignature(searchRegion, new Signature(signature));
 
         /// <summary>
-        /// Searches for a PEiD style string signature with an offset inside of a file.
+        /// Searches for a PEiD style string signature with an offset inside of a stream.
         /// </summary>
-        /// <param name="searchRegion">The file to be searched.</param>
+        /// <param name="searchRegion">The stream to be searched.</param>
         /// <param name="signature">PEiD style string signature.</param>
         /// <param name="offset">Offset to rebase the position.</param>
         /// <returns>The zero-based index position of <paramref name="signature"/> if that <see cref="Signature"/> is found, or -1 if it is not.</returns>
-        public static long FindSignature(FileStream searchRegion, string signature, long offset) => FindSignature(searchRegion, new Signature(signature, offset));
+        public static long FindSignature(Stream searchRegion, string signature, long offset) => FindSignature(searchRegion, new Signature(signature, offset));
 
         /// <summary>
         /// Searches for the byte pattern + mask inside of a byte array.
@@ -89,12 +89,12 @@ namespace RFReborn.AoB
 
         #region Actual Implementations
         /// <summary>
-        /// Searches for a given <see cref="Signature"/> inside of a file.
+        /// Searches for a given <see cref="Signature"/> inside of a stream.
         /// </summary>
-        /// <param name="searchRegion">The file to be searched.</param>
+        /// <param name="searchRegion">The stream to be searched.</param>
         /// <param name="signature">The <see cref="Signature"/> to search for.</param>
         /// <returns>The offset position of <paramref name="signature"/> if that <see cref="Signature"/> is found, or -1 if it is not.</returns>
-        public static long FindSignature(FileStream searchRegion, Signature signature)
+        public static long FindSignature(Stream searchRegion, Signature signature)
         {
             var buffer = new byte[_BufferSize];
             int readByteCount;
