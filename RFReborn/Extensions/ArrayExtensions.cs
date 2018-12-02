@@ -92,7 +92,7 @@ namespace RFReborn.Extensions
         /// <typeparam name="T">Type of array.</typeparam>
         /// <param name="haystack">Array to search in.</param>
         /// <param name="needle">The object to locate in the array/>.</param>
-        /// <returns>The zero-based indices of the occurrences of <paramref name="needle"/> in the entire <paramref name="haystack"/>, if found; otherwise, –1.</returns>
+        /// <returns>The zero-based indices of the occurrences of <paramref name="needle"/> in the entire <paramref name="haystack"/>, if found; otherwise, an empty list.</returns>
         public static IEnumerable<int> IndicesOf<T>(this T[] haystack, T needle) where T : unmanaged
         {
             var indices = new List<int>();
