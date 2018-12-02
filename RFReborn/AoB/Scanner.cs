@@ -154,7 +154,11 @@ namespace RFReborn.AoB
                     continue;
                 }
 
-                if (mask[i] == 'x' && pattern[i] != searchRegion[index + i])
+                //if (mask[i] == 'x' && pattern[i] != searchRegion[index + i])
+                //{
+                //    return false;
+                //}
+                if (pattern[i] != searchRegion[index + i])
                 {
                     return false;
                 }

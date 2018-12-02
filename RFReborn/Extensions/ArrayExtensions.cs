@@ -1,10 +1,25 @@
-﻿namespace RFReborn.Extensions
+﻿using System.Runtime.CompilerServices;
+
+namespace RFReborn.Extensions
 {
     /// <summary>
     /// Extends <see cref="System.Array"/>.
     /// </summary>
     public static class ArrayExtensions
     {
+        /// <summary>
+        /// Checks if the specified arrays are equal in value.
+        /// </summary>
+        /// <typeparam name="T">Type.</typeparam>
+        /// <param name="left">First array to compare.</param>
+        /// <param name="right">Second array to compare.</param>
+        /// <returns>TRUE if all values are equal, FALSE otherwise.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool FastEquals<T>(this T[] left, T[] right) where T : unmanaged
+        {
+            return FastCompare.Equals(left, right);
+        }
+
         /// <summary>
         /// Searches for the specified object and returns the index of its first occurrence in an array of unmanaged type.
         /// </summary>

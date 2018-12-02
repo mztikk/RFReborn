@@ -1,4 +1,6 @@
-﻿namespace RFReborn
+﻿using System.Runtime.CompilerServices;
+
+namespace RFReborn
 {
     /// <summary>
     /// Offers methods to compare data.
@@ -11,6 +13,7 @@
         /// <param name="left">First string to compare.</param>
         /// <param name="right">Second string to compare.</param>
         /// <returns>TRUE if equal, FALSE otherwise.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Equals(string left, string right)
         {
             if (ReferenceEquals(left, right))
@@ -41,6 +44,7 @@
         /// <param name="left">First array to compare.</param>
         /// <param name="right">Second array to compare.</param>
         /// <returns>TRUE if all values are equal, FALSE otherwise.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Equals<T>(T[] left, T[] right) where T : unmanaged
         {
             if (ReferenceEquals(left, right))
