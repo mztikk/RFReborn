@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace RFReborn.Extensions
 {
@@ -26,8 +27,9 @@ namespace RFReborn.Extensions
         /// <typeparam name="T">Type of array.</typeparam>
         /// <param name="haystack">Array to search in.</param>
         /// <param name="needle">Item in array to search for.</param>
-        /// <returns>The zero-based index of the first occurrence of value in the entire array, if found; otherwise, –1.</returns>
-        public static unsafe int FastIndexOf<T>(this T[] haystack, T needle) where T : unmanaged
+        /// <param name="startIndex">Index in array at which to start searching, default is 0.</param>
+        /// <returns>The zero-based index of the first occurrence of <paramref name="needle"/> in the entire <paramref name="haystack"/>, if found; otherwise, –1.</returns>
+        public static unsafe int FastIndexOf<T>(this T[] haystack, T needle, int startIndex = 0) where T : unmanaged
         {
             var found = -1;
             var size = sizeof(T);
@@ -35,9 +37,9 @@ namespace RFReborn.Extensions
             {
                 T* np = &needle;
                 var hp = (byte*)vhp;
-                var traverse = hp;
-                var end = traverse + ((haystack.Length - 1) * size);
-                while (traverse < end)
+                var traverse = hp + (startIndex * size);
+                var end = hp + ((haystack.Length - 1) * size);
+                while (traverse <= end)
                 {
                     if (FastCompare.Equals(traverse, np, size))
                     {
@@ -58,7 +60,7 @@ namespace RFReborn.Extensions
         /// <typeparam name="T">Type of array.</typeparam>
         /// <param name="haystack">Array to search in.</param>
         /// <param name="needle">The object to locate in the array/>.</param>
-        /// <returns>The zero-based index of the last occurrence of value in the entire array, if found; otherwise, –1.</returns>
+        /// <returns>The zero-based index of the last occurrence of <paramref name="needle"/> in the entire <paramref name="haystack"/>, if found; otherwise, –1.</returns>
         public static unsafe int FastLastIndexOf<T>(this T[] haystack, T needle) where T : unmanaged
         {
             var found = -1;
@@ -82,6 +84,34 @@ namespace RFReborn.Extensions
             }
 
             return found;
+        }
+
+        /// <summary>
+        /// Searches for the specified object and returns the indices of all its occurrences in an array of unmanaged type.
+        /// </summary>
+        /// <typeparam name="T">Type of array.</typeparam>
+        /// <param name="haystack">Array to search in.</param>
+        /// <param name="needle">The object to locate in the array/>.</param>
+        /// <returns>The zero-based indices of the occurrences of <paramref name="needle"/> in the entire <paramref name="haystack"/>, if found; otherwise, –1.</returns>
+        public static IEnumerable<int> IndicesOf<T>(this T[] haystack, T needle) where T : unmanaged
+        {
+            var indices = new List<int>();
+
+            var i = 0;
+            var end = haystack.Length;
+            while (i <= end)
+            {
+                var index = haystack.FastIndexOf(needle, i);
+                if (index == -1)
+                {
+                    break;
+                }
+
+                i = index + 1;
+                indices.Add(index);
+            }
+
+            return indices;
         }
     }
 }
