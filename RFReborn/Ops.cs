@@ -8,7 +8,7 @@ namespace RFReborn
     /// <summary>
     /// Provides general operations.
     /// </summary>
-    public unsafe static class Ops
+    public static unsafe class Ops
     {
         /// <summary>
         /// Swaps two variables.
@@ -22,6 +22,49 @@ namespace RFReborn
             T tmp = m1;
             m1 = m2;
             m2 = tmp;
+        }
+
+        /// <summary>
+        /// Swaps <paramref name="len"/> number of bytes at the specified pointers.
+        /// </summary>
+        /// <param name="m1">First pointer.</param>
+        /// <param name="m2">Second pointer.</param>
+        /// <param name="len">Number of bytes to swap.</param>
+        public static void MemSwap(void* m1, void* m2, int len)
+        {
+            var pl = (byte*)m1;
+            var pr = (byte*)m2;
+            var bEnd = pl + len;
+
+            while (pl <= bEnd - 8)
+            {
+                var temp = *(ulong*)pl;
+                *(ulong*)pl = *(ulong*)pr;
+                *(ulong*)pr = temp;
+
+                pl += 8;
+                pr += 8;
+            }
+
+            while (pl <= bEnd - 4)
+            {
+                var temp = *(uint*)pl;
+                *(uint*)pl = *(uint*)pr;
+                *(uint*)pr = temp;
+
+                pl += 4;
+                pr += 4;
+            }
+
+            while (pl < bEnd)
+            {
+                var temp = *pl;
+                *pl = *pr;
+                *pr = temp;
+
+                pl++;
+                pr++;
+            }
         }
 
         /// <summary>

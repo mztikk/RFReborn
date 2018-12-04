@@ -27,6 +27,16 @@ namespace RFReborn.AoB
         /// </summary>
         public long Offset { get; }
 
+        /// <summary>
+        /// Index of the first wildcard in <see cref="Mask"/>
+        /// </summary>
+        public int FirstWildcard { get; }
+
+        /// <summary>
+        /// Index of the first byte in <see cref="Mask"/>
+        /// </summary>
+        public int FirstByte { get; }
+
         #region Constructors
         /// <summary>
         /// Constructs a new instance of <see cref="Signature"/> using a byte pattern and mask, with the offset defaulting to 0.
@@ -61,6 +71,8 @@ namespace RFReborn.AoB
             Mask = mask;
             Offset = offset;
             Sig = signature;
+            FirstWildcard = mask.IndexOf('?');
+            FirstByte = mask.IndexOf('x');
         }
         #endregion
 

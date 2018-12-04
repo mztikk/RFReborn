@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace RFReborn.AoB
 {
@@ -145,6 +146,7 @@ namespace RFReborn.AoB
         /// <param name="pattern">pattern to match.</param>
         /// <param name="mask">mask for the pattern.</param>
         /// <returns>TRUE if it matches; FALSE otherwise.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool CheckMask(int index, byte[] searchRegion, byte[] pattern, string mask)
         {
             for (var i = 0; i < pattern.Length; i++)
