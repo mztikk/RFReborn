@@ -3,6 +3,10 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Platforms>AnyCPU;x64;x86</Platforms>
+    <PackageLicenseUrl />
+    <PackageProjectUrl>https://github.com/mztikk/RFReborn</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/mztikk/RFReborn</RepositoryUrl>
+    <Authors>mztikk</Authors>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

@@ -194,6 +194,7 @@ namespace RFReborn.AoB
         /// <param name="searchRegion">pointer inside region where to start searching</param>
         /// <param name="sig"><see cref="Signature"/> to search for</param>
         /// <returns>TRUE if it matches; FALSE otherwise.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe bool CheckMask(byte* searchRegion, Signature sig)
         {
             fixed (byte* patternp = sig.Pattern)

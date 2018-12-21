@@ -9,19 +9,59 @@ namespace RFReborn
     public static unsafe class StringR
     {
         /// <summary>
-        /// All lowercase ascii chars;
+        /// Full latin alphabet in uppercase
         /// </summary>
-        public const string LowerCaseAlpha = "abcdefghijklmnopqrstuvwxyz";
+        public const string AlphabetUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         /// <summary>
-        /// All uppercase ascii chars
+        /// Full latin alphabet in lowercase
         /// </summary>
-        public const string UpperCaseAlpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        public const string AlphabetLower = "abcdefghijklmnopqrstuvwxyz";
 
         /// <summary>
-        /// 0-9
+        /// Full latin alphabet in uppercase plus all numbers from 0 to 9
         /// </summary>
-        public const string Numeric = "1234567890";
+        public const string Alphanumeric = AlphabetUpper + Numbers;
+
+        /// <summary>
+        /// Full latin alphabet in uppercase, all numbers from 0 to 9 and all special characters (except space)
+        /// </summary>
+        public const string Chars = AlphabetUpper + Numbers + Special;
+
+        /// <summary>
+        /// Full latin alphabet in uppercase, all numbers from 0 to 9, all special characters (including space)
+        /// </summary>
+        public const string CharsWhite = Chars + " ";
+
+        /// <summary>
+        /// Consonants of the latin alphabet
+        /// </summary>
+        public const string Consonants = "BCDFGHJKLMNPQRSTVWXYZ";
+
+        /// <summary>
+        /// Vowels of the latin alphabet
+        /// </summary>
+        public const string Vowels = "AEIOU";
+
+        /// <summary>
+        /// Numbers from 0 to 9
+        /// </summary>
+        public const string Numbers = "0123456789";
+
+        /// <summary>
+        /// Special characters
+        /// </summary>
+        public const string Special = ".:-_,;#+*?=)(/&%$§!\"\\<>|@'´`~}][{";
+
+        /// <summary>
+        /// Gets the escaped unicode value string represantion of a char
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        public static string GetEscapeSequence(char c)
+        {
+            return "\\u" + ((int)c).ToString("X4");
+        }
 
         private static readonly HashSet<char> WhitespaceChars = new HashSet<char>
         {
