@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Runtime.CompilerServices;
 
 namespace RFReborn.AoB
@@ -117,24 +118,42 @@ namespace RFReborn.AoB
         /// <param name="searchRegion">The region to be searched.</param>
         /// <param name="signature">The <see cref="Signature"/> to search for.</param>
         /// <returns>The zero-based index position of <paramref name="signature"/> if that <see cref="Signature"/> is found, or -1 if it is not.</returns>
-        public static long FindSignature(byte[] searchRegion, Signature signature)
+        public static unsafe long FindSignature(byte[] searchRegion, Signature signature)
         {
             var firstIndex = signature.Mask.IndexOf('x');
             var firstItem = signature.Pattern[firstIndex];
 
-            for (var i = 0; i < searchRegion.Length - signature.Pattern.Length; i++)
+            fixed (byte* srp = searchRegion)
             {
-                if (searchRegion[i + firstIndex] != firstItem)
-                {
-                    continue;
-                }
+                var sp = srp;
+                var end = sp + searchRegion.Length;
 
-                if (CheckMask(i, searchRegion, signature.Pattern, signature.Mask))
+                var i = 0;
+
+                while (sp <= end)
                 {
-                    return i + signature.Offset;
+                    var find = Array.IndexOf(searchRegion, firstItem, i);
+                    if (find == -1)
+                    {
+                        return -1;
+                    }
+
+                    var size = find - i;
+                    sp = srp + find;
+                    i += size;
+
+                    var pre = sp;
+                    if (CheckMask(sp, signature))
+                    {
+                        return i + signature.Offset - firstIndex;
+                    }
+                    var post = sp;
+
+                    var delta = post - pre;
+                    i += (int)delta + 1;
+                    sp++;
                 }
             }
-
             return -1;
         }
 
@@ -168,6 +187,38 @@ namespace RFReborn.AoB
 
             return true;
         }
+
+        /// <summary>
+        /// Checks if the <see cref="Signature"/> <paramref name="sig"/> matches the searchregion
+        /// </summary>
+        /// <param name="searchRegion">pointer inside region where to start searching</param>
+        /// <param name="sig"><see cref="Signature"/> to search for</param>
+        /// <returns>TRUE if it matches; FALSE otherwise.</returns>
+        private static unsafe bool CheckMask(byte* searchRegion, Signature sig)
+        {
+            fixed (byte* patternp = sig.Pattern)
+            {
+                var pp = patternp;
+                var end = pp + sig.Pattern.Length;
+                var i = sig.FirstByte;
+                pp += i;
+
+                while (pp < end)
+                {
+                    if (sig.Mask[i] != '?' && *pp != *searchRegion)
+                    {
+                        return false;
+                    }
+
+                    i++;
+                    pp++;
+                    searchRegion++;
+                }
+            }
+
+            return true;
+        }
+
         #endregion
         #endregion
     }
