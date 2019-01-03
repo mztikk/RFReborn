@@ -74,7 +74,7 @@ namespace RFReborn.Hashing
 
             if (len >= 16)
             {
-                var limit = bEnd - 15;
+                var limit = bEnd - 16;
 
                 var v1 = seed + PRIME32_1 + PRIME32_2;
                 var v2 = seed + PRIME32_2;
@@ -85,28 +85,33 @@ namespace RFReborn.Hashing
                 {
                     // inlined Round and Get32Bits per hand since it didn't seem to do that even with AggressiveInlining and it has to be inlined for better performance
                     v1 += *((uint*)p) * PRIME32_2;
-                    v1 = MathR.RotateLeft(v1, 13);
+                    //v1 = MathR.RotateLeft(v1, 13);
+                    v1 = rotl13(v1);
                     v1 *= PRIME32_1;
                     p += 4;
 
                     v2 += *((uint*)p) * PRIME32_2;
-                    v2 = MathR.RotateLeft(v2, 13);
+                    //v2 = MathR.RotateLeft(v2, 13);
+                    v2 = rotl13(v2);
                     v2 *= PRIME32_1;
                     p += 4;
 
                     v3 += *((uint*)p) * PRIME32_2;
-                    v3 = MathR.RotateLeft(v3, 13);
+                    //v3 = MathR.RotateLeft(v3, 13);
+                    v3 = rotl13(v3);
                     v3 *= PRIME32_1;
                     p += 4;
 
                     v4 += *((uint*)p) * PRIME32_2;
-                    v4 = MathR.RotateLeft(v4, 13);
+                    //v4 = MathR.RotateLeft(v4, 13);
+                    v4 = rotl13(v4);
                     v4 *= PRIME32_1;
                     p += 4;
 
-                } while (p < limit);
+                } while (p <= limit);
 
-                h32 = MathR.RotateLeft(v1, 1) + MathR.RotateLeft(v2, 7) + MathR.RotateLeft(v3, 12) + MathR.RotateLeft(v4, 18);
+                //h32 = MathR.RotateLeft(v1, 1) + MathR.RotateLeft(v2, 7) + MathR.RotateLeft(v3, 12) + MathR.RotateLeft(v4, 18);
+                h32 = rotl1(v1) + rotl7(v2) + rotl12(v3) + rotl18(v4);
             }
             else
             {
@@ -115,21 +120,44 @@ namespace RFReborn.Hashing
 
             h32 += (uint)len;
 
-            while (p < bEnd - 4)
+            while (p + 4 <= bEnd)
             {
                 h32 += *((uint*)p) * PRIME32_3;
-                h32 = MathR.RotateLeft(h32, 17) * PRIME32_4;
+                //h32 = MathR.RotateLeft(h32, 17) * PRIME32_4;
+                h32 = rotl17(h32) * PRIME32_4;
                 p += 4;
             }
             while (p < bEnd)
             {
                 h32 += *p * PRIME32_5;
-                h32 = MathR.RotateLeft(h32, 11) * PRIME32_1;
+                //h32 = MathR.RotateLeft(h32, 11) * PRIME32_1;
+                h32 = rotl11(h32) * PRIME32_1;
                 p += 1;
             }
 
             return Avalanche(h32);
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static uint rotl1(uint x) => (x << 1) | (x >> 31);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static uint rotl7(uint x) => (x << 7) | (x >> 25);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static uint rotl11(uint x) => (x << 11) | (x >> 21);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static uint rotl12(uint x) => (x << 12) | (x >> 20);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static uint rotl13(uint x) => (x << 13) | (x >> 19);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static uint rotl17(uint x) => (x << 17) | (x >> 15);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static uint rotl18(uint x) => (x << 18) | (x >> 14);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static uint Avalanche(uint h32)
