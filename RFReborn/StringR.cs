@@ -153,18 +153,15 @@ namespace RFReborn
         /// <returns>Hex string.</returns>
         public static string ByteArrayToHexString(byte[] input)
         {
-            var result = new char[input.Length * 2];
-            fixed (char* resultP = result)
+            var result = stackalloc char[input.Length * 2];
+            var resultP2 = (uint*)result;
+            fixed (uint* lookupP = Lookup32Unsafe)
             {
-                var resultP2 = (uint*)resultP;
-                fixed (uint* lookupP = Lookup32Unsafe)
+                fixed (byte* bytesP = input)
                 {
-                    fixed (byte* bytesP = input)
+                    for (var i = 0; i < input.Length; i++)
                     {
-                        for (var i = 0; i < input.Length; i++)
-                        {
-                            resultP2[i] = lookupP[bytesP[i]];
-                        }
+                        resultP2[i] = lookupP[bytesP[i]];
                     }
                 }
             }
