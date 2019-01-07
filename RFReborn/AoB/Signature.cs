@@ -5,7 +5,7 @@ namespace RFReborn.AoB
     /// <summary>
     /// Represents an AoB Signature.
     /// </summary>
-    public class Signature
+    public unsafe class Signature
     {
         /// <summary>
         /// The byte pattern of the signature.
@@ -86,7 +86,7 @@ namespace RFReborn.AoB
         {
             var split = signature.Split(' ');
             var bytes = new byte[split.Length];
-            var mask = new char[split.Length];
+            var mask = stackalloc char[split.Length];
             for (var i = 0; i < split.Length; i++)
             {
                 if (split[i][0] == '?' || split[i][1] == '?')
