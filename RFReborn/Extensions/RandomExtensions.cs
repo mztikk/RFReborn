@@ -7,7 +7,7 @@ namespace RFReborn.Extensions
     /// <summary>
     /// Extends <see cref="System.Random"/>.
     /// </summary>
-    public static class RandomExtensions
+    public static unsafe class RandomExtensions
     {
         /// <summary>
         /// Chooses a random item inside of the provided <see cref="IList{T}"/> and returns it.
@@ -70,7 +70,11 @@ namespace RFReborn.Extensions
 
             var randomBytes = new byte[buffer.Length * 4];
             random.NextBytes(randomBytes);
-            Buffer.BlockCopy(randomBytes, 0, buffer, 0, randomBytes.Length);
+            //Buffer.BlockCopy(randomBytes, 0, buffer, 0, randomBytes.Length);
+            fixed (void* rp = randomBytes, bp = buffer)
+            {
+                Buffer.MemoryCopy(rp, bp, randomBytes.Length, randomBytes.Length);
+            }
         }
 
         /// <summary>
@@ -81,7 +85,7 @@ namespace RFReborn.Extensions
         /// <exception cref="T:System.ArgumentNullException">
         ///     <paramref name="buffer"/> is null.
         /// </exception>
-        public static unsafe void NextT<T>(this System.Random random, T[] buffer) where T : unmanaged
+        public static void NextT<T>(this System.Random random, T[] buffer) where T : unmanaged
         {
             if (buffer == null)
             {
@@ -90,7 +94,11 @@ namespace RFReborn.Extensions
 
             var randomBytes = new byte[buffer.Length * sizeof(T)];
             random.NextBytes(randomBytes);
-            Buffer.BlockCopy(randomBytes, 0, buffer, 0, randomBytes.Length);
+            //Buffer.BlockCopy(randomBytes, 0, buffer, 0, randomBytes.Length);
+            fixed (void* rp = randomBytes, bp = buffer)
+            {
+                Buffer.MemoryCopy(rp, bp, randomBytes.Length, randomBytes.Length);
+            }
         }
     }
 }
