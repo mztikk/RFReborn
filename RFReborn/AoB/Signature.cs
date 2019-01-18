@@ -70,7 +70,7 @@ namespace RFReborn.AoB
             Pattern = pattern;
             Mask = mask;
             Offset = offset;
-            Sig = signature;
+            Sig = Standardize(signature);
             FirstWildcard = mask.IndexOf('?');
             FirstByte = mask.IndexOf('x');
         }
@@ -82,9 +82,19 @@ namespace RFReborn.AoB
         /// </summary>
         /// <param name="signature">PEiD style string signature.</param>
         /// <returns>Byte pattern and mask as tuple.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static (byte[], string) GetPatternAndMaskFromSignature(string signature)
         {
-            var split = signature.Split(' ');
+            // remove whitespace and split every 2 chars so we can support sigs that dont even have whitespace in the first place or are not formatted with whitespace after every byte/wildcard
+            // 0F ?? AE ?? CC |standard
+            // 0F??AE ?? CC |works now also
+            signature = StringR.RemoveWhitespace(signature);
+            if (signature.Length % 2 != 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(signature), "signature length(excluding whitespace) must be divisible by 2, make sure to prepend bytes with 0 if necessary and make wildcards full ?? instead of single ?");
+            }
+            var split = StringR.SplitN(signature, 2);
+            //var split = signature.Split(' ');
             var bytes = new byte[split.Length];
             var mask = stackalloc char[split.Length];
             for (var i = 0; i < split.Length; i++)
@@ -132,6 +142,24 @@ namespace RFReborn.AoB
             }
 
             return string.Join(" ", rtn);
+        }
+
+        /// <summary>
+        /// Returns the standardized format of a signature, delimited with a space after every byte, with bytes being 2 chars, eg: "0F ?? AE ?? CC"
+        /// </summary>
+        /// <param name="signature">signature to format</param>
+        /// <returns>formatted signature</returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static string Standardize(string signature)
+        {
+            signature = StringR.RemoveWhitespace(signature);
+            if (signature.Length % 2 != 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(signature), "signature length(excluding whitespace) must be divisible by 2, make sure to prepend bytes with 0 if necessary and make wildcards full ?? instead of single ?");
+            }
+
+            var split = StringR.SplitN(signature, 2);
+            return string.Join(" ", split);
         }
         #endregion
     }

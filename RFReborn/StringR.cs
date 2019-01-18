@@ -175,6 +175,8 @@ namespace RFReborn
         /// <param name="str">String to split.</param>
         /// <param name="n">Length of split parts.</param>
         /// <returns>Array of strings that each contain a split part.</returns>
+        /// <exception cref="ArgumentNullException">string is null</exception>
+        /// <exception cref="ArgumentOutOfRangeException">n is smaller or equal to 0</exception>
         public static string[] SplitN(string str, int n)
         {
             if (str is null)
