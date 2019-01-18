@@ -168,5 +168,42 @@ namespace RFReborn
 
             return new string(result);
         }
+
+        /// <summary>
+        /// Splits a <see cref="string"/> in parts of <paramref name="n"/> length.
+        /// </summary>
+        /// <param name="str">String to split.</param>
+        /// <param name="n">Length of split parts.</param>
+        /// <returns>Array of strings that each contain a split part.</returns>
+        public static string[] SplitN(string str, int n)
+        {
+            if (str is null)
+            {
+                throw new ArgumentNullException(nameof(str) + " can't be null.");
+            }
+
+            if (n <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(n) + " must a positive integer and greater than zero.");
+            }
+
+            var rtn = new string[(int)Math.Ceiling((double)str.Length / n)];
+
+            fixed (void* vp = str)
+            {
+                var p = (char*)vp;
+                var i = 0;
+                var j = 0;
+                while (i < str.Length)
+                {
+                    var trueLen = Math.Min(n, str.Length - i);
+
+                    rtn[j++] = new string(p, i, trueLen);
+                    i += trueLen;
+                }
+            }
+
+            return rtn;
+        }
     }
 }
