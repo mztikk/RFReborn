@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Collections;
-using System.Runtime.InteropServices;
-using System.Text;
 
 namespace RFReborn
 {
-    internal static unsafe class TypeConversion<T> where T : unmanaged
+    /// <summary>
+    /// Class used to convert unmanaged objects to byte arrays or from bytes to an object.
+    /// </summary>
+    /// <typeparam name="T">Type used for conversion</typeparam>
+    public static unsafe class TypeConversion<T> where T : unmanaged
     {
         static TypeConversion()
         {
@@ -15,97 +16,51 @@ namespace RFReborn
         }
 
 #pragma warning disable S2743 // Static fields should not be used in generic types
+        /// <summary>
+        /// <see cref="Type"/> of <typeparamref name="T"/>
+        /// </summary>
         public static Type Type { get; }
 
+        /// <summary>
+        /// <see cref="TypeCode"/> of <typeparamref name="T"/>
+        /// </summary>
         public static TypeCode TypeCode { get; }
 
+        /// <summary>
+        /// Size in bytes of <typeparamref name="T"/>
+        /// </summary>
         public static int Size { get; }
 #pragma warning restore S2743 // Static fields should not be used in generic types
 
-        public static byte[] ToByteArray(T obj)
+        /// <summary>
+        /// Converts an unmanaged object to a byte array
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns>Returns an array consisting of the bytes of the <paramref name="obj"/></returns>
+        public static byte[] ToByteArray(in T obj)
         {
-            switch (TypeCode)
+            var rtn = new byte[Size];
+            fixed (void* rtnPointer = rtn)
             {
-                case TypeCode.Boolean:
-                    return BitConverter.GetBytes((bool)(object)obj);
-                case TypeCode.Char:
-                    return Encoding.UTF8.GetBytes(new[] { (char)(object)obj });
-                case TypeCode.SByte:
-                case TypeCode.Byte:
-                    return new byte[] { (byte)(object)obj };
-                case TypeCode.Int16:
-                    return BitConverter.GetBytes((short)(object)obj);
-                case TypeCode.UInt16:
-                    return BitConverter.GetBytes((ushort)(object)obj);
-                case TypeCode.Int32:
-                    return BitConverter.GetBytes((int)(object)obj);
-                case TypeCode.UInt32:
-                    return BitConverter.GetBytes((uint)(object)obj);
-                case TypeCode.Int64:
-                    return BitConverter.GetBytes((long)(object)obj);
-                case TypeCode.UInt64:
-                    return BitConverter.GetBytes((ulong)(object)obj);
-                case TypeCode.Single:
-                    return BitConverter.GetBytes((float)(object)obj);
-                case TypeCode.Double:
-                    return BitConverter.GetBytes((double)(object)obj);
-                case TypeCode.Decimal:
-                    var bits = decimal.GetBits((decimal)(object)obj);
-                    var ba = new BitArray(bits);
-                    var bytes = new byte[ba.Length / 8];
-                    ba.CopyTo(bytes, 0);
-                    return bytes;
+                var a = (T*)rtnPointer;
+                *a = obj;
             }
 
-            var structBytes = new byte[Size];
-            IntPtr ptr = Marshal.AllocHGlobal(Size);
-            Marshal.StructureToPtr(obj, ptr, false);
-            Marshal.Copy(ptr, structBytes, 0, Size);
-            Marshal.FreeHGlobal(ptr);
-            return structBytes;
+            return rtn;
         }
 
-        public static T ToObject(byte[] btArray, int index = 0)
+        /// <summary>
+        /// Converts a byte array to an object of <typeparamref name="T"/>
+        /// </summary>
+        /// <param name="bytes">Bytes to convert</param>
+        /// <param name="index">Start index inside the byte array</param>
+        /// <returns>Returns an object of type <typeparamref name="T"/></returns>
+        public static T ToObject(byte[] bytes, int index = 0)
         {
-            switch (TypeCode)
+            fixed (byte* ff = bytes)
             {
-                case TypeCode.Boolean:
-                    return (T)(object)BitConverter.ToBoolean(btArray, index);
-                case TypeCode.Char:
-                    return (T)(object)Encoding.UTF8.GetChars(btArray)[index];
-                case TypeCode.SByte:
-                case TypeCode.Byte:
-                    return (T)(object)btArray[index];
-                case TypeCode.Int16:
-                    return (T)(object)BitConverter.ToInt16(btArray, index);
-                case TypeCode.UInt16:
-                    return (T)(object)BitConverter.ToUInt16(btArray, index);
-                case TypeCode.Int32:
-                    return (T)(object)BitConverter.ToInt32(btArray, index);
-                case TypeCode.UInt32:
-                    return (T)(object)BitConverter.ToUInt32(btArray, index);
-                case TypeCode.Int64:
-                    return (T)(object)BitConverter.ToInt64(btArray, index);
-                case TypeCode.UInt64:
-                    return (T)(object)BitConverter.ToUInt64(btArray, index);
-                case TypeCode.Single:
-                    return (T)(object)BitConverter.ToSingle(btArray, index);
-                case TypeCode.Double:
-                    return (T)(object)BitConverter.ToDouble(btArray, index);
-                case TypeCode.Decimal:
-                    return (T)(object)new decimal(
-                        BitConverter.ToInt32(btArray, index),
-                        BitConverter.ToInt32(btArray, index + 4),
-                        BitConverter.ToInt32(btArray, index + 8),
-                        btArray[index + 15] == 128,
-                        btArray[index + 14]);
+                return *(T*)(ff + index);
             }
-
-            IntPtr ptr = Marshal.AllocHGlobal(Size);
-            Marshal.Copy(btArray, index, ptr, Size);
-            T rtn = Marshal.PtrToStructure<T>(ptr);
-            Marshal.FreeHGlobal(ptr);
-            return rtn;
         }
     }
 }
