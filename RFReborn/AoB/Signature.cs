@@ -83,7 +83,7 @@ namespace RFReborn.AoB
         /// <param name="signature">PEiD style string signature.</param>
         /// <returns>Byte pattern and mask as tuple.</returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static (byte[], string) GetPatternAndMaskFromSignature(string signature)
+        public static (byte[] aob, string mask) GetPatternAndMaskFromSignature(string signature)
         {
             // remove whitespace and split every 2 chars so we can support sigs that dont even have whitespace in the first place or are not formatted with whitespace after every byte/wildcard
             // 0F ?? AE ?? CC |standard
