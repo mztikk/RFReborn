@@ -174,5 +174,51 @@ namespace RFReborn
 
             return rtn;
         }
+
+        /// <summary>
+        /// Splits the string every nth char with the specified separator./Inserts the separator every nth char.
+        /// </summary>
+        /// <param name="str">String to split.</param>
+        /// <param name="n">Length of split parts.</param>
+        /// <param name="seperator">Separator to use between the split parts.</param>
+        /// <returns>A new string with the separator every nth char.</returns>
+        public static string InSplit(string str, int n, string seperator)
+        {
+            if (str is null)
+            {
+                throw new ArgumentNullException(nameof(str) + " can't be null.");
+            }
+
+            if (n <= 0 || string.IsNullOrEmpty(seperator))
+            {
+                return str;
+            }
+
+            var extraSize = (int)Math.Ceiling((double)str.Length / n) * seperator.Length;
+            extraSize -= seperator.Length;
+            var sSize = sizeof(char) * seperator.Length;
+            var newSize = str.Length + extraSize;
+            var rtn = new char[newSize];
+            var i = 0;
+            fixed (void* vp = rtn)
+            {
+                var rp = (char*)vp;
+                fixed (void* vs = seperator)
+                {
+                    while (i < str.Length)
+                    {
+                        *rp = str[i++];
+                        rp++;
+                        if (i % n == 0)
+                        {
+                            Buffer.MemoryCopy(vs, rp, sSize, sSize);
+                            rp += seperator.Length;
+                        }
+                    }
+                }
+            }
+
+            return new string(rtn);
+        }
     }
 }

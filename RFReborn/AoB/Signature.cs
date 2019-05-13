@@ -158,8 +158,9 @@ namespace RFReborn.AoB
                 throw new ArgumentOutOfRangeException(nameof(signature), "signature length(excluding whitespace) must be divisible by 2, make sure to prepend bytes with 0 if necessary and make wildcards full ?? instead of single ?");
             }
 
-            var split = StringR.SplitN(signature, 2);
-            return string.Join(" ", split);
+            //var split = StringR.SplitN(signature, 2);
+            //return string.Join(" ", split);
+            return StringR.InSplit(signature, 2, " ");
         }
         #endregion
     }
