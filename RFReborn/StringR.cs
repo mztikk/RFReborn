@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace RFReborn
 {
@@ -124,49 +125,15 @@ namespace RFReborn
             return new string(rtn, 0, dstIdx);
         }
 
-        // https://stackoverflow.com/a/24343727
-        private static readonly uint[] Lookup32Unsafe = CreateLookup32Unsafe();
-
-        private static uint[] CreateLookup32Unsafe()
-        {
-            var result = new uint[256];
-            for (var i = 0; i < 256; i++)
-            {
-                var s = i.ToString("X2");
-                if (BitConverter.IsLittleEndian)
-                {
-                    result[i] = s[0] + ((uint)s[1] << 16);
-                }
-                else
-                {
-                    result[i] = s[1] + ((uint)s[0] << 16);
-                }
-            }
-
-            return result;
-        }
-
         /// <summary>
         /// Converts a byte array to its hex string representation.
         /// </summary>
         /// <param name="input">Bytes to convert.</param>
         /// <returns>Hex string.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string ByteArrayToHexString(byte[] input)
         {
-            var result = stackalloc char[input.Length * 2];
-            var resultP2 = (uint*)result;
-            fixed (uint* lookupP = Lookup32Unsafe)
-            {
-                fixed (byte* bytesP = input)
-                {
-                    for (var i = 0; i < input.Length; i++)
-                    {
-                        resultP2[i] = lookupP[bytesP[i]];
-                    }
-                }
-            }
-
-            return new string(result);
+            return BitConverter.ToString(input).Replace("-", "");
         }
 
         /// <summary>
