@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace RFReborn.Extensions
@@ -59,7 +60,7 @@ namespace RFReborn.Extensions
         {
             if (list.Count <= 0)
             {
-                return default;
+                throw new ArgumentException("Number of choices can not be lesser than or equal to 0.");
             }
 
             return list[random.Next(0, list.Count)];
@@ -89,7 +90,9 @@ namespace RFReborn.Extensions
                 i++;
             }
 
-            return default;
+            // should never get here
+            // only possible if random.Next returns wrong values or the size of the enumerable wasn't generated correctly
+            throw new Exception($"Failed to get random item in range of 0 to {size} of {enumerable}");
         }
 
         /// <summary>
