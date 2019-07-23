@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace RFReborn.Extensions
 {
@@ -30,6 +31,25 @@ namespace RFReborn.Extensions
 
             actualKey = null;
             return false;
+        }
+
+        /// <summary>
+        /// Adds the key with value 1 if it doesn't exist, otherwise increments it by 1.
+        /// </summary>
+        /// <typeparam name="T">Type of key.</typeparam>
+        /// <param name="dict">Dictionary to operate on.</param>
+        /// <param name="key">Key to be added or incremented.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AddOrIncrement<T>(this Dictionary<T, int> dict, T key)
+        {
+            if (dict.ContainsKey(key))
+            {
+                dict[key]++;
+            }
+            else
+            {
+                dict[key] = 1;
+            }
         }
     }
 }
