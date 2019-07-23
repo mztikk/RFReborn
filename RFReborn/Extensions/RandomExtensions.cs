@@ -10,6 +10,45 @@ namespace RFReborn.Extensions
     public static unsafe class RandomExtensions
     {
         /// <summary>
+        /// Returns a random <see cref="double"/> that is within a specified range.
+        /// </summary>
+        /// <param name="random">Random generator to be used.</param>
+        /// <param name="minValue">The inclusive lower bound of the random number returned.</param>
+        /// <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
+        /// <returns>A <see cref="double"/> greater than or equal to minValue and less than maxValue; that is, the range of return values includes minValue but not <paramref name="maxValue"/>. If <paramref name="minValue"/> equals <paramref name="maxValue"/>, <paramref name="minValue"/> is returned.</returns>
+        /// <exception cref="ArgumentException"><paramref name="minValue"/> is greater than <paramref name="maxValue"/>.</exception>
+        public static double NextDouble(this System.Random random, double minValue, double maxValue)
+        {
+            if (minValue > maxValue)
+            {
+                throw new ArgumentException($"{nameof(minValue)} is greater than {nameof(maxValue)}.");
+            }
+            if (minValue == maxValue)
+            {
+                return minValue;
+            }
+
+            return (random.NextDouble() * (maxValue - minValue)) + minValue;
+        }
+
+        /// <summary>
+        /// Returns a non-negative random <see cref="double"/> that is less than the specified maximum.
+        /// </summary>
+        /// <param name="random">Random generator to be used.</param>
+        /// <param name="maxValue">The exclusive upper bound of the random number to be generated. maxValue must be greater than or equal to 0.</param>
+        /// <returns>A <see cref="double"/> that is greater than or equal to 0, and less than maxValue; that is, the range of return values ordinarily includes 0 but not maxValue. However, if maxValue equals 0, maxValue is returned.</returns>
+        /// <exception cref="ArgumentException"><paramref name="maxValue"/> is less than 0.</exception>
+        public static double NextDouble(this System.Random random, double maxValue)
+        {
+            if (maxValue < 0)
+            {
+                throw new ArgumentException($"{nameof(maxValue)} is less than 0.");
+            }
+
+            return NextDouble(random, 0, maxValue);
+        }
+
+        /// <summary>
         /// Chooses a random item inside of the provided <see cref="IList{T}"/> and returns it.
         /// </summary>
         /// <typeparam name="T">Type.</typeparam>
