@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using RFReborn.Pairs;
 
 namespace RFReborn.Extensions
 {
