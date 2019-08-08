@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RFReborn
+﻿namespace RFReborn
 {
     /// <summary>
     /// Class that holds two values as a pair.
@@ -33,7 +31,7 @@ namespace RFReborn
         /// Create a <see cref="Pair{T}"/> from a Tuple T, T
         /// </summary>
         /// <param name="args"></param>
-        public static implicit operator Pair<T>((T left, T right)args)
+        public static implicit operator Pair<T>((T left, T right) args)
         {
             return new Pair<T>(args.left, args.right);
         }
