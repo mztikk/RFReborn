@@ -44,5 +44,14 @@
         {
             return new Pair<T>(valuePair.Left, valuePair.Right);
         }
+
+        /// <summary>
+        /// Creates a new <see cref="Pair{T}"/> from a <see cref="RefValuePair{T}"/>
+        /// </summary>
+        /// <param name="refValuePair"></param>
+        public static implicit operator Pair<T>(RefValuePair<T> refValuePair)
+        {
+            return new Pair<T>(refValuePair.Left, refValuePair.Right);
+        }
     }
 }
