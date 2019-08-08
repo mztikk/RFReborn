@@ -1,4 +1,4 @@
-﻿namespace RFReborn
+﻿namespace RFReborn.Pairs
 {
     /// <summary>
     /// Class that holds two values as a pair.

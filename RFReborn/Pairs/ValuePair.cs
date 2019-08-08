@@ -1,4 +1,4 @@
-﻿namespace RFReborn
+﻿namespace RFReborn.Pairs
 {
     /// <summary>
     /// Struct that holds two values as a pair.
