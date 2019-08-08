@@ -35,5 +35,14 @@
         {
             return new ValuePair<T>(args.left, args.right);
         }
+
+        /// <summary>
+        /// Creates a new <see cref="ValuePair{T}"/> from a <see cref="Pair{T}"/>
+        /// </summary>
+        /// <param name="pair"></param>
+        public static implicit operator ValuePair<T>(Pair<T> pair)
+        {
+            return new ValuePair<T>(pair.Left, pair.Right);
+        }
     }
 }
