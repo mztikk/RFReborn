@@ -1,20 +1,20 @@
 ﻿namespace RFReborn
 {
     /// <summary>
-    /// Class that holds two values as a pair.
+    /// Struct that holds two values as a pair.
     /// </summary>
     /// <typeparam name="T">type of value</typeparam>
-    public class ValuePair<T>
+    public readonly struct ValuePair<T>
     {
         /// <summary>
-        /// Left Value of the ValuePair
+        /// Left Value of the StructPair
         /// </summary>
-        public T Left;
+        public readonly T Left;
 
         /// <summary>
-        /// Right Value of the ValuePair
+        /// Right Value of the StructPair
         /// </summary>
-        public T Right;
+        public readonly T Right;
 
         /// <summary>
         /// Creates a new <see cref="ValuePair{T}"/> instance
@@ -25,6 +25,15 @@
         {
             Left = left;
             Right = right;
+        }
+
+        /// <summary>
+        /// Create a <see cref="ValuePair{T}"/> from a Tuple T, T
+        /// </summary>
+        /// <param name="args"></param>
+        public static implicit operator ValuePair<T>((T left, T right) args)
+        {
+            return new ValuePair<T>(args.left, args.right);
         }
     }
 }
