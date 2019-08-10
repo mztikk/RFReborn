@@ -87,7 +87,7 @@ namespace RFReborn.AoB
         /// <param name="offset">Offset to rebase the position.</param>
         /// <returns>The zero-based index position of <paramref name="signature"/> if that <see cref="Signature"/> is found, or -1 if it is not.</returns>
         public static long FindSignature(byte[] searchRegion, string signature, long offset) => FindSignature(searchRegion, new Signature(signature, offset));
-        #endregion
+        #endregion Overloads
 
         #region Actual Implementations
         /// <summary>
@@ -220,7 +220,7 @@ namespace RFReborn.AoB
             return true;
         }
 
-        #endregion
-        #endregion
+        #endregion Actual Implementations
+        #endregion FindSig
     }
 }

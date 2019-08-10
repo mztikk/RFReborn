@@ -74,7 +74,7 @@ namespace RFReborn.AoB
             FirstWildcard = mask.IndexOf('?');
             FirstByte = mask.IndexOf('x');
         }
-        #endregion
+        #endregion Constructors
 
         #region Converters
         /// <summary>
@@ -162,6 +162,6 @@ namespace RFReborn.AoB
             //return string.Join(" ", split);
             return StringR.InSplit(signature, 2, " ");
         }
-        #endregion
+        #endregion Converters
     }
 }
