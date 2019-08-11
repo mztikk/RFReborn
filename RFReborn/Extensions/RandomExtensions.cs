@@ -57,7 +57,7 @@ namespace RFReborn.Extensions
         /// <returns>Random item inside of list, default in case of a failure.</returns>
         public static T Choice<T>(this System.Random random, IList<T> list)
         {
-            if (list.Count <= 0)
+            if (list.Count == 0)
             {
                 throw new ArgumentException("Number of choices can not be lesser than or equal to 0.");
             }
