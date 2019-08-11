@@ -82,6 +82,25 @@ namespace RFReborn.Hashing
             }
         }
 
+        /// <summary>
+        /// Hashes the files bytes with the given hash algorithm.
+        /// </summary>
+        /// <param name="hashName">Hash algorithm to use.</param>
+        /// <param name="file">File to read and hash</param>
+        /// <returns>Hex string of the hashed input.</returns>
+        public static string Hash(string hashName, FileInfo file)
+        {
+            if (!file.Exists)
+            {
+                throw new ArgumentException($"File does not exist \"{file.FullName}\"", nameof(file));
+            }
+
+            using (FileStream stream = file.OpenRead())
+            {
+                return Hash(hashName, stream);
+            }
+        }
+
         private static HashAlgorithm GetHashAlgorithm(string hashName)
         {
             if (!ValidHashes.Contains(hashName))
