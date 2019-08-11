@@ -65,7 +65,7 @@ namespace RFReborn.Hashing
                 throw new ArgumentException("Hash does not exist", nameof(hashName));
             }
 
-            using (var hashAlgorithm = (HashAlgorithm)CryptoConfig.CreateFromName(hashName))
+            using (HashAlgorithm hashAlgorithm = GetHashAlgorithm(hashName))
             {
                 var hashedBytes = hashAlgorithm.ComputeHash(input);
                 return StringR.ByteArrayToHexString(hashedBytes);
@@ -80,16 +80,21 @@ namespace RFReborn.Hashing
         /// <returns>Hex string of the hashed input.</returns>
         public static string Hash(string hashName, Stream input)
         {
+            using (HashAlgorithm hashAlgorithm = GetHashAlgorithm(hashName))
+            {
+                var hashedBytes = hashAlgorithm.ComputeHash(input);
+                return StringR.ByteArrayToHexString(hashedBytes);
+            }
+        }
+
+        private static HashAlgorithm GetHashAlgorithm(string hashName)
+        {
             if (!ValidHashes.Contains(hashName))
             {
                 throw new ArgumentException("Hash does not exist", nameof(hashName));
             }
 
-            using (var hashAlgorithm = (HashAlgorithm)CryptoConfig.CreateFromName(hashName))
-            {
-                var hashedBytes = hashAlgorithm.ComputeHash(input);
-                return StringR.ByteArrayToHexString(hashedBytes);
-            }
+            return (HashAlgorithm)CryptoConfig.CreateFromName(hashName);
         }
     }
 }
