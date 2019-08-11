@@ -60,11 +60,6 @@ namespace RFReborn.Hashing
         /// <returns>Hex string of the hashed input.</returns>
         public static string Hash(string hashName, byte[] input)
         {
-            if (!ValidHashes.Contains(hashName))
-            {
-                throw new ArgumentException("Hash does not exist", nameof(hashName));
-            }
-
             using (HashAlgorithm hashAlgorithm = GetHashAlgorithm(hashName))
             {
                 var hashedBytes = hashAlgorithm.ComputeHash(input);
