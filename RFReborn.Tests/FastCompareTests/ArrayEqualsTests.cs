@@ -1,49 +1,96 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RFReborn.Extensions;
+using RFReborn.Pairs;
 
 namespace RFReborn.Tests.FastCompareTests
 {
     [TestClass]
     public class ArrayEqualsTests
     {
-        private readonly byte[] _byteTest1 = new byte[] { 1, 5, 6, 123, 255 };
-        private readonly byte[] _byteTest2 = new byte[] { 65, 35, 76, 23, 255 };
-        private readonly byte[] _byteTest3 = new byte[] { 65, 35, 76, 23 };
-        private readonly byte[] _byteTest4 = new byte[] { 65, 35, 76, 23 };
+        #region Byte Tests
+        private readonly List<Pair<byte[]>> _equalBytePairs = new List<Pair<byte[]>>() {
+            { new byte[] { 1, 5, 6, 123, 255 },new byte[] { 1, 5, 6, 123, 255 }},
+            { new byte[] { 65, 35, 76, 23, 255 },new byte[] { 65, 35, 76, 23, 255 }},
+            { new byte[] { 00, 00, 00, 00, 00 },new byte[] { 00, 00, 00, 00, 00 }}
+        };
 
-        private readonly short[] _shortTest1 = new short[] { 1, 5, 6, 123, 754 };
-        private readonly short[] _shortTest2 = new short[] { 65, 35, 76, 23, 754 };
-        private readonly short[] _shortTest3 = new short[] { 65, 35, 76, 23 };
-        private readonly short[] _shortTest4 = new short[] { 65, 35, 76, 23 };
-
-        private readonly int[] _intTest1 = new int[] { 3456, 54743, 23423, 75642, 234 };
-        private readonly int[] _intTest2 = new int[] { 546, 8654, 635, 34764, 0 };
-        private readonly int[] _intTest3 = new int[] { 546, 8654, 635, 34764, };
-        private readonly int[] _intTest4 = new int[] { 546, 8654, 635, 34764, };
+        private readonly List<Pair<byte[]>> _diffBytePairs = new List<Pair<byte[]>>() {
+            { new byte[] { 65, 35, 76, 23, 255 },new byte[] { 65, 35, 76, 23 }},
+            { new byte[] { 65, 35, 76, 23 },new byte[] { 65, 35, 76, 23, 255 }},
+            { new byte[] { 65, 35, 76, 23, 255 },new byte[] { 1, 5, 6, 123, 255 }},
+            { new byte[] { 00, 00, 00, 00, 00 },new byte[] { 00, 00, 00, 00, 01 }}
+        };
 
         [TestMethod]
-        public void ArrayEquals()
+        public void ByteArrayEquals()
         {
-            AssertEquals(_byteTest1, _byteTest1);
-            AssertEquals(_byteTest2, _byteTest2);
-            AssertEquals(_byteTest3, _byteTest4);
-            AssertDiff(_byteTest1, _byteTest2);
-            AssertDiff(_byteTest1, _byteTest3);
-            AssertDiff(_byteTest2, _byteTest3);
-
-            AssertEquals(_shortTest1, _shortTest1);
-            AssertEquals(_shortTest2, _shortTest2);
-            AssertEquals(_shortTest3, _shortTest4);
-            AssertDiff(_shortTest1, _shortTest2);
-            AssertDiff(_shortTest1, _shortTest3);
-            AssertDiff(_shortTest2, _shortTest3);
-
-            AssertEquals(_intTest1, _intTest1);
-            AssertEquals(_intTest2, _intTest2);
-            AssertEquals(_intTest3, _intTest4);
-            AssertDiff(_intTest1, _intTest2);
-            AssertDiff(_intTest1, _intTest3);
-            AssertDiff(_intTest2, _intTest3);
+            foreach (Pair<byte[]> pair in _equalBytePairs)
+            {
+                AssertEquals(pair.Left, pair.Right);
+            }
+            foreach (Pair<byte[]> pair in _diffBytePairs)
+            {
+                AssertDiff(pair.Left, pair.Right);
+            }
         }
+        #endregion Byte Tests
+
+        #region Short Tests
+        private readonly List<Pair<short[]>> _equalShortPairs = new List<Pair<short[]>>() {
+            { new short[] { 1, 5, 6, 123, 255 },new short[] { 1, 5, 6, 123, 255 }},
+            { new short[] { 65, 35, 76, 23, 255 },new short[] { 65, 35, 76, 23, 255 }},
+            { new short[] { 00, 00, 00, 00, 00 },new short[] { 00, 00, 00, 00, 00 }}
+        };
+
+        private readonly List<Pair<short[]>> _diffShortPairs = new List<Pair<short[]>>() {
+            { new short[] { 65, 35, 76, 23, 255 },new short[] { 65, 35, 76, 23 }},
+            { new short[] { 65, 35, 76, 23 },new short[] { 65, 35, 76, 23, 255 }},
+            { new short[] { 65, 35, 76, 23, 255 },new short[] { 1, 5, 6, 123, 255 }},
+            { new short[] { 00, 00, 00, 00, 00 },new short[] { 00, 00, 00, 00, 01 }}
+        };
+
+        [TestMethod]
+        public void ShortArrayEquals()
+        {
+            foreach (Pair<short[]> pair in _equalShortPairs)
+            {
+                AssertEquals(pair.Left, pair.Right);
+            }
+            foreach (Pair<short[]> pair in _diffShortPairs)
+            {
+                AssertDiff(pair.Left, pair.Right);
+            }
+        }
+        #endregion Short Tests
+
+        #region Int Tests
+        private readonly List<Pair<int[]>> _equalIntPairs = new List<Pair<int[]>>() {
+            { new int[] { 1, 5, 6, 123, 255 },new int[] { 1, 5, 6, 123, 255 }},
+            { new int[] { 65, 35, 76, 23, 255 },new int[] { 65, 35, 76, 23, 255 }},
+            { new int[] { 00, 00, 00, 00, 00 },new int[] { 00, 00, 00, 00, 00 }}
+        };
+
+        private readonly List<Pair<int[]>> _diffIntPairs = new List<Pair<int[]>>() {
+            { new int[] { 65, 35, 76, 23, 255 },new int[] { 65, 35, 76, 23 }},
+            { new int[] { 65, 35, 76, 23 },new int[] { 65, 35, 76, 23, 255 }},
+            { new int[] { 65, 35, 76, 23, 255 },new int[] { 1, 5, 6, 123, 255 }},
+            { new int[] { 00, 00, 00, 00, 00 },new int[] { 00, 00, 00, 00, 01 }}
+        };
+
+        [TestMethod]
+        public void IntArrayEquals()
+        {
+            foreach (Pair<int[]> pair in _equalIntPairs)
+            {
+                AssertEquals(pair.Left, pair.Right);
+            }
+            foreach (Pair<int[]> pair in _diffIntPairs)
+            {
+                AssertDiff(pair.Left, pair.Right);
+            }
+        }
+        #endregion Int Tests
 
         private void AssertEquals<T>(T[] left, T[] right) where T : unmanaged
         {
