@@ -41,7 +41,7 @@ namespace RFReborn
             }
 
             // set started to false if the process exits
-            Exited += (_, __) => _started = false;
+            Exited += (_, _1) => _started = false;
 
             OverwriteStartInfo();
 
