@@ -1,4 +1,6 @@
-﻿namespace RFReborn.Pairs
+﻿using System.Collections.Generic;
+
+namespace RFReborn.Pairs
 {
     /// <summary>
     /// Class that holds two values as a pair.
@@ -52,6 +54,24 @@
         public static implicit operator Pair<T>(RefValuePair<T> refValuePair)
         {
             return new Pair<T>(refValuePair.Left, refValuePair.Right);
+        }
+    }
+
+    /// <summary>
+    /// Extends <see cref="ICollection{T}"/>.
+    /// </summary>
+    public static class PairCollection
+    {
+        /// <summary>
+        /// Adds a new <see cref="Pair{T}"/> to the <paramref name="collection"/>
+        /// </summary>
+        /// <typeparam name="T">type of <see cref="Pair{T}"/></typeparam>
+        /// <param name="collection"><see cref="ICollection{T}"/> to add to</param>
+        /// <param name="left">left value</param>
+        /// <param name="right">right value</param>
+        public static void Add<T>(this ICollection<Pair<T>> collection, T left, T right)
+        {
+            collection.Add(new Pair<T>(left, right));
         }
     }
 }
