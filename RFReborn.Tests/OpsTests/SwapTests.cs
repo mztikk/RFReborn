@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RFReborn.Extensions;
 using RFReborn.Pairs;
 
 namespace RFReborn.Tests.OpsTests
