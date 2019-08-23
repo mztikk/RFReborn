@@ -33,4 +33,31 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="Extensions\ArithmeticMean.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ArithmeticMean.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Extensions\ArithmeticMean.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ArithmeticMean.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Extensions\ArithmeticMean.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ArithmeticMean.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>
