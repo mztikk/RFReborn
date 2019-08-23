@@ -1,0 +1,38 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ output extension=".cs" #>
+<# var types = new string[]{"int", "uint", "long", "ulong", "byte", "short", "ushort"};  #>
+using System.Collections.Generic;
+using System.Numerics;
+
+namespace RFReborn.Extensions
+{
+    /// <summary>
+    /// Extends <see cref="IEnumerable{T}"/> with Arithmetic Mean calculation methods
+    /// </summary>
+    public static class ArithmeticMean
+    {
+<# foreach (var t in types) {#>
+        /// <summary>
+        /// Calculates the arithmetic mean of <paramref name="ienum"/>
+        /// </summary>
+        /// <param name="ienum"></param>
+        /// <returns></returns>
+        public static <#=t#> Mean(this IEnumerable<<#=t#>> ienum)
+        {
+            var sum = new BigInteger(0);
+            ulong count = 0;
+
+            foreach (var item in ienum)
+            {
+                count++;
+                sum += item;
+            }
+
+            return (<#=t#>)(sum / count);
+        }
+<#if (t != types[types.Length - 1]) {#>
+
+<#}}#>
+    }
+}
