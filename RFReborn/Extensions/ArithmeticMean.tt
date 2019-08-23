@@ -16,8 +16,8 @@ namespace RFReborn.Extensions
         /// <summary>
         /// Calculates the arithmetic mean of <paramref name="ienum"/>
         /// </summary>
-        /// <param name="ienum"></param>
-        /// <returns></returns>
+        /// <param name="ienum"><see cref="IEnumerable{T}"/> to calculate the mean from</param>
+        /// <returns>Returns the arithmetic mean of <paramref name="ienum"/></returns>
         public static <#=t#> Mean(this IEnumerable<<#=t#>> ienum)
         {
             var sum = new BigInteger(0);

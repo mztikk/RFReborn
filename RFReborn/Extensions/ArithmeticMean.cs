@@ -11,8 +11,8 @@ namespace RFReborn.Extensions
         /// <summary>
         /// Calculates the arithmetic mean of <paramref name="ienum"/>
         /// </summary>
-        /// <param name="ienum"></param>
-        /// <returns></returns>
+        /// <param name="ienum"><see cref="IEnumerable{T}"/> to calculate the mean from</param>
+        /// <returns>Returns the arithmetic mean of <paramref name="ienum"/></returns>
         public static sbyte Mean(this IEnumerable<sbyte> ienum)
         {
             var sum = new BigInteger(0);
@@ -30,8 +30,8 @@ namespace RFReborn.Extensions
         /// <summary>
         /// Calculates the arithmetic mean of <paramref name="ienum"/>
         /// </summary>
-        /// <param name="ienum"></param>
-        /// <returns></returns>
+        /// <param name="ienum"><see cref="IEnumerable{T}"/> to calculate the mean from</param>
+        /// <returns>Returns the arithmetic mean of <paramref name="ienum"/></returns>
         public static byte Mean(this IEnumerable<byte> ienum)
         {
             var sum = new BigInteger(0);
@@ -49,8 +49,8 @@ namespace RFReborn.Extensions
         /// <summary>
         /// Calculates the arithmetic mean of <paramref name="ienum"/>
         /// </summary>
-        /// <param name="ienum"></param>
-        /// <returns></returns>
+        /// <param name="ienum"><see cref="IEnumerable{T}"/> to calculate the mean from</param>
+        /// <returns>Returns the arithmetic mean of <paramref name="ienum"/></returns>
         public static short Mean(this IEnumerable<short> ienum)
         {
             var sum = new BigInteger(0);
@@ -68,8 +68,8 @@ namespace RFReborn.Extensions
         /// <summary>
         /// Calculates the arithmetic mean of <paramref name="ienum"/>
         /// </summary>
-        /// <param name="ienum"></param>
-        /// <returns></returns>
+        /// <param name="ienum"><see cref="IEnumerable{T}"/> to calculate the mean from</param>
+        /// <returns>Returns the arithmetic mean of <paramref name="ienum"/></returns>
         public static ushort Mean(this IEnumerable<ushort> ienum)
         {
             var sum = new BigInteger(0);
@@ -87,8 +87,8 @@ namespace RFReborn.Extensions
         /// <summary>
         /// Calculates the arithmetic mean of <paramref name="ienum"/>
         /// </summary>
-        /// <param name="ienum"></param>
-        /// <returns></returns>
+        /// <param name="ienum"><see cref="IEnumerable{T}"/> to calculate the mean from</param>
+        /// <returns>Returns the arithmetic mean of <paramref name="ienum"/></returns>
         public static int Mean(this IEnumerable<int> ienum)
         {
             var sum = new BigInteger(0);
@@ -106,8 +106,8 @@ namespace RFReborn.Extensions
         /// <summary>
         /// Calculates the arithmetic mean of <paramref name="ienum"/>
         /// </summary>
-        /// <param name="ienum"></param>
-        /// <returns></returns>
+        /// <param name="ienum"><see cref="IEnumerable{T}"/> to calculate the mean from</param>
+        /// <returns>Returns the arithmetic mean of <paramref name="ienum"/></returns>
         public static uint Mean(this IEnumerable<uint> ienum)
         {
             var sum = new BigInteger(0);
@@ -125,8 +125,8 @@ namespace RFReborn.Extensions
         /// <summary>
         /// Calculates the arithmetic mean of <paramref name="ienum"/>
         /// </summary>
-        /// <param name="ienum"></param>
-        /// <returns></returns>
+        /// <param name="ienum"><see cref="IEnumerable{T}"/> to calculate the mean from</param>
+        /// <returns>Returns the arithmetic mean of <paramref name="ienum"/></returns>
         public static long Mean(this IEnumerable<long> ienum)
         {
             var sum = new BigInteger(0);
@@ -144,8 +144,8 @@ namespace RFReborn.Extensions
         /// <summary>
         /// Calculates the arithmetic mean of <paramref name="ienum"/>
         /// </summary>
-        /// <param name="ienum"></param>
-        /// <returns></returns>
+        /// <param name="ienum"><see cref="IEnumerable{T}"/> to calculate the mean from</param>
+        /// <returns>Returns the arithmetic mean of <paramref name="ienum"/></returns>
         public static ulong Mean(this IEnumerable<ulong> ienum)
         {
             var sum = new BigInteger(0);
