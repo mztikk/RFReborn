@@ -94,29 +94,6 @@ namespace RFReborn.Extensions
             throw new Exception($"Failed to get random item in range of 0 to {size} of {enumerable}");
         }
 
-        public static T WeightedChoice<T>(this System.Random random, IList<T> choices, IList<double> weights)
-        {
-            var weightSum = 0d;
-            for (var i = 0; i < choices.Count; i++)
-            {
-                weightSum += weights[i];
-            }
-
-            var rnd = random.NextDouble(weightSum);
-            for (var i = 0; i < choices.Count; i++)
-            {
-                if (rnd < weights[i])
-                {
-                    return choices[i];
-                }
-
-                rnd -= weights[i];
-            }
-
-            throw new Exception();
-        }
-
-
         /// <summary>
         /// Fills the elements of a specified array of int with random numbers.
         /// </summary>
