@@ -35,6 +35,11 @@ namespace RFReborn.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Swap<T>(this IList<T> list, int index1, int index2)
         {
+            if (index1 == index2)
+            {
+                return;
+            }
+
             T tmp = list[index1];
             list[index1] = list[index2];
             list[index2] = tmp;
