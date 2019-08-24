@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace RFReborn.Extensions
 {
@@ -74,7 +73,6 @@ namespace RFReborn.Extensions
         /// <returns>Random item inside of Enumerable, default in case of a failure.>.</returns>
         public static T Choice<T>(this System.Random random, IEnumerable<T> enumerable)
         {
-            // Linq Count() tries to cast to ICollection so I merged the ICollection overload with this one
             var size = enumerable.Count();
             var i = 0;
 
