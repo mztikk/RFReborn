@@ -220,5 +220,32 @@ namespace RFReborn
 
             return new string(rtn);
         }
+
+        /// <summary>
+        /// Returns a new string where the first char is capitalized.
+        /// </summary>
+        /// <param name="s">String to capitalize</param>
+        /// <returns></returns>
+        public static string CapitalizeFirstLetter(this string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return s;
+            }
+
+            if (s.Length == 1)
+            {
+                return s.ToUpper();
+            }
+
+            var rtn = string.Copy(s);
+            fixed (void* rtnP = rtn)
+            {
+                var rtnPC = (char*)rtnP;
+                *rtnPC = char.ToUpperInvariant(*rtnPC);
+            }
+
+            return rtn;
+        }
     }
 }
