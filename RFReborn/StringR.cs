@@ -219,7 +219,7 @@ namespace RFReborn
         /// Returns a new string where the first char is capitalized.
         /// </summary>
         /// <param name="s">String to capitalize</param>
-        /// <returns></returns>
+        /// <returns>A new string with the first char capitalized</returns>
         public static string CapitalizeFirstLetter(this string s)
         {
             if (string.IsNullOrEmpty(s))
