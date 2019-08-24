@@ -15,6 +15,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="ArithmeticMeanTests\ArithmeticMeanTests.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ArithmeticMeanTests.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
     <PackageReference Include="MSTest.TestFramework" Version="1.4.0" />
@@ -22,6 +30,25 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RFReborn\RFReborn.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ArithmeticMeanTests\ArithmeticMeanTests.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ArithmeticMeanTests.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ArithmeticMeanTests\ArithmeticMeanTests.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ArithmeticMeanTests.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

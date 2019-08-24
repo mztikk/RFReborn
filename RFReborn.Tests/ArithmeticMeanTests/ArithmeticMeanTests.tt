@@ -1,0 +1,57 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ output extension=".cs" #>
+<# var types = new string[]{"sbyte", "byte", "short", "ushort", "int", "uint", "long", "ulong"};  #>
+using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RFReborn.Extensions;
+
+namespace RFReborn.Tests.ArithmeticMeanTests
+{
+<# foreach (var t in types) {#>
+    [TestClass]
+    public class ArithmeticMean<#=CapitalizeFirstLetter(t)#>Tests
+    {
+        private readonly List<(<#=t#>[] array, <#=t#> mean)> _tests = new List<(<#=t#>[], <#=t#>)>() {
+            (new <#=t#>[] { 1, 2, 3, 4, 5 }, 3),
+            (new <#=t#>[] { 1, 0, 5, 50, 120, 13 }, 31),<# if (t != "sbyte" && t != "byte") {#>
+
+            (new <#=t#>[] { 100, 5000, 1337, 50, 120, 13 }, 1103),
+<#}else{#>
+
+<#}#>
+        };
+
+        [TestMethod]
+        public void ArithmeticMean<#=CapitalizeFirstLetter(t)#>()
+        {
+            foreach ((<#=t#>[] array, <#=t#> mean) test in _tests)
+            {
+                AssertIsMean(test.array, test.mean);
+            }
+        }
+
+        private void AssertIsMean(<#=t#>[] array, <#=t#> mean)
+        {
+            Assert.AreEqual(mean, array.Mean());
+        }
+    }
+<#if (t != types[types.Length - 1]) {#>
+
+<#}}#>
+}
+
+<#+         public static string CapitalizeFirstLetter(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return s;
+            }
+            if (s.Length == 1)
+            {
+                return s.ToUpper();
+            }
+            return s.Remove(1).ToUpper() + s.Substring(1);
+        }
+
+  #>
