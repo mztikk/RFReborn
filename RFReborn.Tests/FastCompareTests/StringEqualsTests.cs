@@ -32,14 +32,8 @@ namespace RFReborn.Tests.FastCompareTests
             }
         }
 
-        private void AssertEquals(string left, string right)
-        {
-            Assert.IsTrue(FastCompare.Equals(left, right));
-        }
+        private void AssertEquals(string left, string right) => Assert.IsTrue(FastCompare.Equals(left, right));
 
-        private void AssertDiff(string left, string right)
-        {
-            Assert.IsFalse(FastCompare.Equals(left, right));
-        }
+        private void AssertDiff(string left, string right) => Assert.IsFalse(FastCompare.Equals(left, right));
     }
 }

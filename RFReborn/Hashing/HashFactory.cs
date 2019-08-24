@@ -15,16 +15,16 @@ namespace RFReborn.Hashing
         /// <summary>
         /// List of all valid hash names.
         /// </summary>
-        public static readonly ReadOnlyCollection<string> ValidHashes = new ReadOnlyCollection<string>(new List<string>() { "MD5", "SHA1", "SHA256", "SHA384", "SHA512" });
+        public static readonly ReadOnlyCollection<string> s_validHashes = new ReadOnlyCollection<string>(new List<string>() { "MD5", "SHA1", "SHA256", "SHA384", "SHA512" });
 
         /// <summary>
-        /// Gets the name of the hash as represented in <see cref="ValidHashes"/>. Turns "md5" into "MD5" for example.
+        /// Gets the name of the hash as represented in <see cref="s_validHashes"/>. Turns "md5" into "MD5" for example.
         /// </summary>
         /// <param name="name">Name of the hash to get the actual key.</param>
         /// <returns>Returns the actual name of the hash or <see cref="string.Empty"/> if it does not exist.</returns>
         public static string GetHashName(string name)
         {
-            foreach (var hash in ValidHashes)
+            foreach (string hash in s_validHashes)
             {
                 if (hash.Equals(name, StringComparison.OrdinalIgnoreCase))
                 {
@@ -62,7 +62,7 @@ namespace RFReborn.Hashing
         {
             using (HashAlgorithm hashAlgorithm = GetHashAlgorithm(hashName))
             {
-                var hashedBytes = hashAlgorithm.ComputeHash(input);
+                byte[] hashedBytes = hashAlgorithm.ComputeHash(input);
                 return StringR.ByteArrayToHexString(hashedBytes);
             }
         }
@@ -77,7 +77,7 @@ namespace RFReborn.Hashing
         {
             using (HashAlgorithm hashAlgorithm = GetHashAlgorithm(hashName))
             {
-                var hashedBytes = hashAlgorithm.ComputeHash(input);
+                byte[] hashedBytes = hashAlgorithm.ComputeHash(input);
                 return StringR.ByteArrayToHexString(hashedBytes);
             }
         }
@@ -103,7 +103,7 @@ namespace RFReborn.Hashing
 
         private static HashAlgorithm GetHashAlgorithm(string hashName)
         {
-            if (!ValidHashes.Contains(hashName))
+            if (!s_validHashes.Contains(hashName))
             {
                 throw new ArgumentException("Hash does not exist", nameof(hashName));
             }

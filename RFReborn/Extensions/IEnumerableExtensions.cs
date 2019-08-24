@@ -74,7 +74,7 @@ namespace RFReborn.Extensions
                 throw new ArgumentException("IEnumerable can not be empty.");
             }
 
-            var count = new Dictionary<T, ulong>();
+            Dictionary<T, ulong> count = new Dictionary<T, ulong>();
             foreach (T item in ienum)
             {
                 count.AddOrIncrement(item);

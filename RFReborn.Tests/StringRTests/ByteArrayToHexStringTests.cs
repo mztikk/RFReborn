@@ -20,9 +20,6 @@ namespace RFReborn.Tests.StringRTests
             }
         }
 
-        private void AssertEquals(byte[] toTest, string expected)
-        {
-            Assert.AreEqual(expected, StringR.ByteArrayToHexString(toTest));
-        }
+        private void AssertEquals(byte[] toTest, string expected) => Assert.AreEqual(expected, StringR.ByteArrayToHexString(toTest));
     }
 }

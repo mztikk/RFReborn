@@ -16,10 +16,10 @@ namespace RFReborn.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void FisherYatesShuffle<T>(this IList<T> list)
         {
-            for (var i = 0; i < list.Count; i++)
+            for (int i = 0; i < list.Count; i++)
             {
                 T tmp = list[i];
-                var r = InternalUtils.Rng.Next(i, list.Count);
+                int r = InternalUtils.s_rng.Next(i, list.Count);
                 list[i] = list[r];
                 list[r] = tmp;
             }
@@ -55,21 +55,21 @@ namespace RFReborn.Extensions
         /// <returns><see cref="IEnumerable{T}"/> of all permutations.</returns>
         public static IEnumerable<T[]> Permutations<T>(this IList<T> list)
         {
-            var a = new T[list.Count];
+            T[] a = new T[list.Count];
             list.CopyTo(a, 0);
 
             yield return a;
 
-            var n = a.Length;
-            var p = new int[n];
+            int n = a.Length;
+            int[] p = new int[n];
 
-            var i = 1;
+            int i = 1;
 
             while (i < n)
             {
                 if (p[i] < i)
                 {
-                    var j = i % 2 == 0 ? 0 : p[i];
+                    int j = i % 2 == 0 ? 0 : p[i];
                     a.Swap(i, j);
 
                     yield return a;

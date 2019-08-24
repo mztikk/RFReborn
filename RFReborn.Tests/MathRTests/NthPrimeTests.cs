@@ -27,9 +27,6 @@ namespace RFReborn.Tests.MathRTests
             }
         }
 
-        private void AssertEquals(int n, long prime)
-        {
-            Assert.AreEqual(prime, MathR.NthPrime(n));
-        }
+        private void AssertEquals(int n, long prime) => Assert.AreEqual(prime, MathR.NthPrime(n));
     }
 }

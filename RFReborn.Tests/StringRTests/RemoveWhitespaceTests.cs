@@ -19,14 +19,8 @@ namespace RFReborn.Tests.StringRTests
             }
         }
 
-        private void RemoveWhitespaceAssert(string expected, string toTest)
-        {
-            Assert.AreEqual(expected, StringR.RemoveWhitespace(toTest));
-        }
+        private void RemoveWhitespaceAssert(string expected, string toTest) => Assert.AreEqual(expected, StringR.RemoveWhitespace(toTest));
 
-        private void AssertNoSpace(string toTest)
-        {
-            Assert.IsFalse(StringR.RemoveWhitespace(toTest).Contains(" "));
-        }
+        private void AssertNoSpace(string toTest) => Assert.IsFalse(StringR.RemoveWhitespace(toTest).Contains(" "));
     }
 }

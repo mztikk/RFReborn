@@ -59,12 +59,9 @@ namespace RFReborn
         /// </summary>
         /// <param name="c"></param>
         /// <returns></returns>
-        public static string GetEscapeSequence(char c)
-        {
-            return "\\u" + ((int)c).ToString("X4");
-        }
+        public static string GetEscapeSequence(char c) => "\\u" + ((int)c).ToString("X4");
 
-        private static readonly HashSet<char> WhitespaceChars = new HashSet<char>
+        private static readonly HashSet<char> s_whitespaceChars = new HashSet<char>
         {
             '\u0020',
             '\u00A0',
@@ -98,7 +95,7 @@ namespace RFReborn
         /// </summary>
         /// <param name="input">String to remove whitespace from.</param>
         /// <returns>A new string without whitespace.</returns>
-        public static string RemoveWhitespace(string input) => RemoveChars(input, WhitespaceChars);
+        public static string RemoveWhitespace(string input) => RemoveChars(input, s_whitespaceChars);
 
         /// <summary>
         /// Removes the specified chars from the string and returns it.
@@ -108,12 +105,12 @@ namespace RFReborn
         /// <returns>A new string, without the chars.</returns>
         public static string RemoveChars(string input, ICollection<char> chars)
         {
-            var len = input.Length;
-            var rtn = stackalloc char[len];
-            var dstIdx = 0;
-            for (var i = 0; i < len; i++)
+            int len = input.Length;
+            char* rtn = stackalloc char[len];
+            int dstIdx = 0;
+            for (int i = 0; i < len; i++)
             {
-                var ch = input[i];
+                char ch = input[i];
                 if (chars.Contains(ch))
                 {
                     continue;
@@ -131,10 +128,7 @@ namespace RFReborn
         /// <param name="input">Bytes to convert.</param>
         /// <returns>Hex string.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static string ByteArrayToHexString(byte[] input)
-        {
-            return BitConverter.ToString(input).Replace("-", "");
-        }
+        public static string ByteArrayToHexString(byte[] input) => BitConverter.ToString(input).Replace("-", "");
 
         /// <summary>
         /// Splits a <see cref="string"/> in parts of <paramref name="n"/> length.
@@ -156,16 +150,16 @@ namespace RFReborn
                 throw new ArgumentOutOfRangeException(nameof(n) + " must a positive integer and greater than zero.");
             }
 
-            var rtn = new string[(int)Math.Ceiling((double)str.Length / n)];
+            string[] rtn = new string[(int)Math.Ceiling((double)str.Length / n)];
 
             fixed (void* vp = str)
             {
-                var p = (char*)vp;
-                var i = 0;
-                var j = 0;
+                char* p = (char*)vp;
+                int i = 0;
+                int j = 0;
                 while (i < str.Length)
                 {
-                    var trueLen = Math.Min(n, str.Length - i);
+                    int trueLen = Math.Min(n, str.Length - i);
 
                     rtn[j++] = new string(p, i, trueLen);
                     i += trueLen;
@@ -194,15 +188,15 @@ namespace RFReborn
                 return str;
             }
 
-            var extraSize = (int)Math.Ceiling((double)str.Length / n) * seperator.Length;
+            int extraSize = (int)Math.Ceiling((double)str.Length / n) * seperator.Length;
             extraSize -= seperator.Length;
-            var sSize = sizeof(char) * seperator.Length;
-            var newSize = str.Length + extraSize;
-            var rtn = new char[newSize];
-            var i = 0;
+            int sSize = sizeof(char) * seperator.Length;
+            int newSize = str.Length + extraSize;
+            char[] rtn = new char[newSize];
+            int i = 0;
             fixed (void* vp = rtn)
             {
-                var rp = (char*)vp;
+                char* rp = (char*)vp;
                 fixed (void* vs = seperator)
                 {
                     while (i < str.Length)
@@ -238,10 +232,10 @@ namespace RFReborn
                 return s.ToUpper();
             }
 
-            var rtn = string.Copy(s);
+            string rtn = string.Copy(s);
             fixed (void* rtnP = rtn)
             {
-                var rtnPC = (char*)rtnP;
+                char* rtnPC = (char*)rtnP;
                 *rtnPC = char.ToUpperInvariant(*rtnPC);
             }
 

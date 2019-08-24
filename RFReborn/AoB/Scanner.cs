@@ -98,11 +98,11 @@ namespace RFReborn.AoB
         /// <returns>The offset position of <paramref name="signature"/> if that <see cref="Signature"/> is found, or -1 if it is not.</returns>
         public static long FindSignature(Stream searchRegion, Signature signature)
         {
-            var buffer = new byte[BufferSize];
+            byte[] buffer = new byte[BufferSize];
             int readByteCount;
             while ((readByteCount = searchRegion.Read(buffer, 0, buffer.Length)) != 0)
             {
-                var find = FindSignature(buffer, signature);
+                long find = FindSignature(buffer, signature);
                 if (find != -1)
                 {
                     return searchRegion.Position - readByteCount + find;
@@ -120,36 +120,36 @@ namespace RFReborn.AoB
         /// <returns>The zero-based index position of <paramref name="signature"/> if that <see cref="Signature"/> is found, or -1 if it is not.</returns>
         public static unsafe long FindSignature(byte[] searchRegion, Signature signature)
         {
-            var firstIndex = signature.Mask.IndexOf('x');
-            var firstItem = signature.Pattern[firstIndex];
+            int firstIndex = signature.Mask.IndexOf('x');
+            byte firstItem = signature.Pattern[firstIndex];
 
             fixed (byte* srp = searchRegion)
             {
-                var sp = srp;
-                var end = sp + searchRegion.Length;
+                byte* sp = srp;
+                byte* end = sp + searchRegion.Length;
 
-                var i = 0;
+                int i = 0;
 
                 while (sp <= end)
                 {
-                    var find = Array.IndexOf(searchRegion, firstItem, i);
+                    int find = Array.IndexOf(searchRegion, firstItem, i);
                     if (find == -1)
                     {
                         return -1;
                     }
 
-                    var size = find - i;
+                    int size = find - i;
                     sp = srp + find;
                     i += size;
 
-                    var pre = sp;
+                    byte* pre = sp;
                     if (CheckMask(sp, signature))
                     {
                         return i + signature.Offset - firstIndex;
                     }
-                    var post = sp;
+                    byte* post = sp;
 
-                    var delta = post - pre;
+                    long delta = post - pre;
                     i += (int)delta + 1;
                     sp++;
                 }
@@ -168,7 +168,7 @@ namespace RFReborn.AoB
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool CheckMask(int index, byte[] searchRegion, byte[] pattern, string mask)
         {
-            for (var i = 0; i < pattern.Length; i++)
+            for (int i = 0; i < pattern.Length; i++)
             {
                 if (mask[i] == '?')
                 {
@@ -199,9 +199,9 @@ namespace RFReborn.AoB
         {
             fixed (byte* patternp = sig.Pattern)
             {
-                var pp = patternp;
-                var end = pp + sig.Pattern.Length;
-                var i = sig.FirstByte;
+                byte* pp = patternp;
+                byte* end = pp + sig.Pattern.Length;
+                int i = sig.FirstByte;
                 pp += i;
 
                 while (pp < end)

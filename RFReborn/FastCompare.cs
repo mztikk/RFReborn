@@ -77,9 +77,9 @@ namespace RFReborn
         /// <returns>TRUE if all bytes are equal in value, FALSE otherwise.</returns>
         public static bool Equals(void* left, void* right, long len)
         {
-            var pl = (byte*)left;
-            var pr = (byte*)right;
-            var bEnd = pl + len;
+            byte* pl = (byte*)left;
+            byte* pr = (byte*)right;
+            byte* bEnd = pl + len;
 
             while (pl <= bEnd - 8)
             {

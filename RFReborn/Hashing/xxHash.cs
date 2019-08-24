@@ -41,7 +41,7 @@ namespace RFReborn.Hashing
         /// <returns>The computed hash code.</returns>
         public static uint Hash<T>(T input, uint seed = 0) where T : unmanaged
         {
-            var p = (void*)&input;
+            void* p = (void*)&input;
             return Hash(p, sizeof(T), seed);
         }
 
@@ -68,18 +68,18 @@ namespace RFReborn.Hashing
         /// <returns>The computed hash code.</returns>
         public static uint Hash(void* input, int len, uint seed = 0)
         {
-            var p = (byte*)input;
-            var bEnd = p + len;
+            byte* p = (byte*)input;
+            byte* bEnd = p + len;
             uint h32;
 
             if (len >= 16)
             {
-                var limit = bEnd - 16;
+                byte* limit = bEnd - 16;
 
-                var v1 = seed + PRIME32_1 + PRIME32_2;
-                var v2 = seed + PRIME32_2;
-                var v3 = seed + 0;
-                var v4 = seed - PRIME32_1;
+                uint v1 = seed + PRIME32_1 + PRIME32_2;
+                uint v2 = seed + PRIME32_2;
+                uint v3 = seed + 0;
+                uint v4 = seed - PRIME32_1;
 
                 do
                 {

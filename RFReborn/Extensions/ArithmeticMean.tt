@@ -20,10 +20,10 @@ namespace RFReborn.Extensions
         /// <returns>Returns the arithmetic mean of <paramref name="ienum"/></returns>
         public static <#=t#> Mean(this IEnumerable<<#=t#>> ienum)
         {
-            var sum = new BigInteger(0);
+            BigInteger sum = new BigInteger(0);
             ulong count = 0;
 
-            foreach (var item in ienum)
+            foreach (<#=t#> item in ienum)
             {
                 count++;
                 sum += item;

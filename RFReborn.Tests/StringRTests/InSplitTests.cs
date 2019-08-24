@@ -26,21 +26,12 @@ namespace RFReborn.Tests.StringRTests
         }
 
         [TestMethod]
-        public void InSplitReturnStringOnNonSeperator()
-        {
-            Assert.AreEqual("test", StringR.InSplit("test", 2, string.Empty));
-        }
+        public void InSplitReturnStringOnNonSeperator() => Assert.AreEqual("test", StringR.InSplit("test", 2, string.Empty));
 
         [TestMethod]
-        public void InSplitExceptionOnNullString()
-        {
-            Assert.ThrowsException<ArgumentNullException>(() => StringR.InSplit(null, 0, null));
-        }
+        public void InSplitExceptionOnNullString() => Assert.ThrowsException<ArgumentNullException>(() => StringR.InSplit(null, 0, null));
 
-        private void AssertSplit(InSplitCase inSplitCase)
-        {
-            Assert.AreEqual(inSplitCase.Result, StringR.InSplit(inSplitCase.Str, inSplitCase.N, inSplitCase.Seperator));
-        }
+        private void AssertSplit(InSplitCase inSplitCase) => Assert.AreEqual(inSplitCase.Result, StringR.InSplit(inSplitCase.Str, inSplitCase.N, inSplitCase.Seperator));
 
         private class InSplitCase
         {

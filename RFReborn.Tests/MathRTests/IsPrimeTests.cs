@@ -13,25 +13,19 @@ namespace RFReborn.Tests.MathRTests
         [TestMethod]
         public void IsPrime()
         {
-            foreach (var prime in _primes)
+            foreach (int prime in _primes)
             {
                 AssertIsPrime(prime);
             }
 
-            foreach (var nonPrime in _nonPrimes)
+            foreach (int nonPrime in _nonPrimes)
             {
                 AssertIsNotPrime(nonPrime);
             }
         }
 
-        private void AssertIsPrime(int n)
-        {
-            Assert.IsTrue(MathR.IsPrime(n));
-        }
+        private void AssertIsPrime(int n) => Assert.IsTrue(MathR.IsPrime(n));
 
-        private void AssertIsNotPrime(int n)
-        {
-            Assert.IsFalse(MathR.IsPrime(n));
-        }
+        private void AssertIsNotPrime(int n) => Assert.IsFalse(MathR.IsPrime(n));
     }
 }

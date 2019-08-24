@@ -33,28 +33,19 @@ namespace RFReborn.Pairs
         /// Create a <see cref="UnmanagedPair{T}"/> from a Tuple T, T
         /// </summary>
         /// <param name="args"></param>
-        public static implicit operator UnmanagedPair<T>((T left, T right) args)
-        {
-            return new UnmanagedPair<T>(args.left, args.right);
-        }
+        public static implicit operator UnmanagedPair<T>((T left, T right) args) => new UnmanagedPair<T>(args.left, args.right);
 
         /// <summary>
         /// Creates a new <see cref="UnmanagedPair{T}"/> from a <see cref="Pair{T}"/>
         /// </summary>
         /// <param name="pair"></param>
-        public static implicit operator UnmanagedPair<T>(Pair<T> pair)
-        {
-            return new UnmanagedPair<T>(pair.Left, pair.Right);
-        }
+        public static implicit operator UnmanagedPair<T>(Pair<T> pair) => new UnmanagedPair<T>(pair.Left, pair.Right);
 
         /// <summary>
         /// Creates a new <see cref="UnmanagedPair{T}"/> from a <see cref="RefValuePair{T}"/>
         /// </summary>
         /// <param name="refValuePair"></param>
-        public static implicit operator UnmanagedPair<T>(RefValuePair<T> refValuePair)
-        {
-            return new UnmanagedPair<T>(refValuePair.Left, refValuePair.Right);
-        }
+        public static implicit operator UnmanagedPair<T>(RefValuePair<T> refValuePair) => new UnmanagedPair<T>(refValuePair.Left, refValuePair.Right);
     }
 
     /// <summary>
@@ -69,9 +60,6 @@ namespace RFReborn.Pairs
         /// <param name="collection"><see cref="ICollection{T}"/> to add to</param>
         /// <param name="left">left value</param>
         /// <param name="right">right value</param>
-        public static void Add<T>(this ICollection<UnmanagedPair<T>> collection, T left, T right) where T : unmanaged
-        {
-            collection.Add(new UnmanagedPair<T>(left, right));
-        }
+        public static void Add<T>(this ICollection<UnmanagedPair<T>> collection, T left, T right) where T : unmanaged => collection.Add(new UnmanagedPair<T>(left, right));
     }
 }

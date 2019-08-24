@@ -20,7 +20,7 @@ namespace RFReborn.Extensions
         /// <returns>TRUE if the Dictionary contains an element with the specified key; otherwise, FALSE.</returns>
         public static bool ContainsKey<T>(this Dictionary<string, T> dict, string key, StringComparison stringComparison, out string actualKey)
         {
-            foreach (var k in dict.Keys)
+            foreach (string k in dict.Keys)
             {
                 if (string.Equals(k, key, stringComparison))
                 {

@@ -21,10 +21,7 @@ namespace RFReborn.Tests.ArithmeticMeanTests
             }
         }
 
-        private void AssertIsMean(sbyte[] array, sbyte mean)
-        {
-            Assert.AreEqual(mean, array.Mean());
-        }
+        private void AssertIsMean(sbyte[] array, sbyte mean) => Assert.AreEqual(mean, array.Mean());
     }
 
     [TestClass]
@@ -44,10 +41,7 @@ namespace RFReborn.Tests.ArithmeticMeanTests
             }
         }
 
-        private void AssertIsMean(byte[] array, byte mean)
-        {
-            Assert.AreEqual(mean, array.Mean());
-        }
+        private void AssertIsMean(byte[] array, byte mean) => Assert.AreEqual(mean, array.Mean());
     }
 
     [TestClass]
@@ -68,10 +62,7 @@ namespace RFReborn.Tests.ArithmeticMeanTests
             }
         }
 
-        private void AssertIsMean(short[] array, short mean)
-        {
-            Assert.AreEqual(mean, array.Mean());
-        }
+        private void AssertIsMean(short[] array, short mean) => Assert.AreEqual(mean, array.Mean());
     }
 
     [TestClass]
@@ -92,10 +83,7 @@ namespace RFReborn.Tests.ArithmeticMeanTests
             }
         }
 
-        private void AssertIsMean(ushort[] array, ushort mean)
-        {
-            Assert.AreEqual(mean, array.Mean());
-        }
+        private void AssertIsMean(ushort[] array, ushort mean) => Assert.AreEqual(mean, array.Mean());
     }
 
     [TestClass]
@@ -116,10 +104,7 @@ namespace RFReborn.Tests.ArithmeticMeanTests
             }
         }
 
-        private void AssertIsMean(int[] array, int mean)
-        {
-            Assert.AreEqual(mean, array.Mean());
-        }
+        private void AssertIsMean(int[] array, int mean) => Assert.AreEqual(mean, array.Mean());
     }
 
     [TestClass]
@@ -140,10 +125,7 @@ namespace RFReborn.Tests.ArithmeticMeanTests
             }
         }
 
-        private void AssertIsMean(uint[] array, uint mean)
-        {
-            Assert.AreEqual(mean, array.Mean());
-        }
+        private void AssertIsMean(uint[] array, uint mean) => Assert.AreEqual(mean, array.Mean());
     }
 
     [TestClass]
@@ -164,10 +146,7 @@ namespace RFReborn.Tests.ArithmeticMeanTests
             }
         }
 
-        private void AssertIsMean(long[] array, long mean)
-        {
-            Assert.AreEqual(mean, array.Mean());
-        }
+        private void AssertIsMean(long[] array, long mean) => Assert.AreEqual(mean, array.Mean());
     }
 
     [TestClass]
@@ -188,10 +167,7 @@ namespace RFReborn.Tests.ArithmeticMeanTests
             }
         }
 
-        private void AssertIsMean(ulong[] array, ulong mean)
-        {
-            Assert.AreEqual(mean, array.Mean());
-        }
+        private void AssertIsMean(ulong[] array, ulong mean) => Assert.AreEqual(mean, array.Mean());
     }
 }
 

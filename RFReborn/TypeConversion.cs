@@ -39,10 +39,10 @@ namespace RFReborn
         /// <returns>Returns an array consisting of the bytes of the <paramref name="obj"/></returns>
         public static byte[] ToByteArray(in T obj)
         {
-            var rtn = new byte[Size];
+            byte[] rtn = new byte[Size];
             fixed (void* rtnPointer = rtn)
             {
-                var a = (T*)rtnPointer;
+                T* a = (T*)rtnPointer;
                 *a = obj;
             }
 

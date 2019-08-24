@@ -93,11 +93,12 @@ namespace RFReborn.AoB
             {
                 throw new ArgumentOutOfRangeException(nameof(signature), "signature length(excluding whitespace) must be divisible by 2, make sure to prepend bytes with 0 if necessary and make wildcards full ?? instead of single ?");
             }
-            var split = StringR.SplitN(signature, 2);
+
+            string[] split = StringR.SplitN(signature, 2);
             //var split = signature.Split(' ');
-            var bytes = new byte[split.Length];
-            var mask = stackalloc char[split.Length];
-            for (var i = 0; i < split.Length; i++)
+            byte[] bytes = new byte[split.Length];
+            char* mask = stackalloc char[split.Length];
+            for (int i = 0; i < split.Length; i++)
             {
                 if (split[i][0] == '?' || split[i][1] == '?')
                 {
@@ -128,8 +129,8 @@ namespace RFReborn.AoB
                 throw new ArgumentException("Pattern length has to match mask length.");
             }
 
-            var rtn = new string[pattern.Length];
-            for (var i = 0; i < rtn.Length; i++)
+            string[] rtn = new string[pattern.Length];
+            for (int i = 0; i < rtn.Length; i++)
             {
                 if (mask[i] == 'x')
                 {

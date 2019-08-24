@@ -29,9 +29,6 @@ namespace RFReborn.Tests.MathRTests
             }
         }
 
-        private void AssertEqual(int n, BigInteger fibonacci)
-        {
-            Assert.AreEqual(fibonacci, MathR.Fibonacci(n));
-        }
+        private void AssertEqual(int n, BigInteger fibonacci) => Assert.AreEqual(fibonacci, MathR.Fibonacci(n));
     }
 }

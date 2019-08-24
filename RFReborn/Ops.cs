@@ -32,13 +32,13 @@ namespace RFReborn
         /// <param name="len">Number of bytes to swap.</param>
         public static void MemSwap(void* m1, void* m2, int len)
         {
-            var pl = (byte*)m1;
-            var pr = (byte*)m2;
-            var bEnd = pl + len;
+            byte* pl = (byte*)m1;
+            byte* pr = (byte*)m2;
+            byte* bEnd = pl + len;
 
             while (pl <= bEnd - 8)
             {
-                var temp = *(ulong*)pl;
+                ulong temp = *(ulong*)pl;
                 *(ulong*)pl = *(ulong*)pr;
                 *(ulong*)pr = temp;
 
@@ -48,7 +48,7 @@ namespace RFReborn
 
             while (pl <= bEnd - 4)
             {
-                var temp = *(uint*)pl;
+                uint temp = *(uint*)pl;
                 *(uint*)pl = *(uint*)pr;
                 *(uint*)pr = temp;
 
@@ -58,7 +58,7 @@ namespace RFReborn
 
             while (pl < bEnd)
             {
-                var temp = *pl;
+                byte temp = *pl;
                 *pl = *pr;
                 *pr = temp;
 
@@ -83,14 +83,14 @@ namespace RFReborn
         /// <returns>The merged <see cref="IList{T}"/>.</returns>
         public static IList<T> Merge<T>(IEnumerable<IList<T>> enumList)
         {
-            var newSize = 0;
+            int newSize = 0;
             foreach (IList<T> list in enumList)
             {
                 newSize += list.Count;
             }
 
-            var rtn = new T[newSize];
-            var lastIndex = 0;
+            T[] rtn = new T[newSize];
+            int lastIndex = 0;
             foreach (IList<T> list in enumList)
             {
                 list.CopyTo(rtn, lastIndex);
@@ -120,35 +120,35 @@ namespace RFReborn
         /// <returns>The string that matched the <paramref name="checkFunc"/> or <see cref="string.Empty"/> otherwise.</returns>
         public static string BruteForce(IList<char> charset, Func<string, bool> checkFunc, int startLength = 1, int maxLength = 6)
         {
-            var found = string.Empty;
-            var charsetLength = charset.Count;
+            string found = string.Empty;
+            int charsetLength = charset.Count;
             const long startw = 0;
-            var d = new long[maxLength + 1];
-            var set = new Dictionary<int, string>(Environment.ProcessorCount);
-            for (var length = startLength; length < maxLength; length++)
+            long[] d = new long[maxLength + 1];
+            Dictionary<int, string> set = new Dictionary<int, string>(Environment.ProcessorCount);
+            for (int length = startLength; length < maxLength; length++)
             {
-                var endw = (long)Math.Pow(charset.Count, length);
+                long endw = (long)Math.Pow(charset.Count, length);
 
-                for (var i = length; i >= 0; i--)
+                for (int i = length; i >= 0; i--)
                 {
                     d[i] = (long)Math.Pow(charsetLength, i);
                 }
 
                 Parallel.For(startw, endw, (ind, loopState) =>
                 {
-                    var id = Environment.CurrentManagedThreadId;
-                    if (!set.ContainsKey(id) || !set.TryGetValue(id, out var str))
+                    int id = Environment.CurrentManagedThreadId;
+                    if (!set.ContainsKey(id) || !set.TryGetValue(id, out string str))
                     {
                         str = new string(' ', length);
                         set.Add(id, str);
                     }
 
-                    var mw = ind;
+                    long mw = ind;
                     fixed (char* strp = str)
                     {
-                        for (var i = length; i >= 0; i--)
+                        for (int i = length; i >= 0; i--)
                         {
-                            var w = (int)(mw / d[i]);
+                            int w = (int)(mw / d[i]);
 
                             if (i == length)
                             {

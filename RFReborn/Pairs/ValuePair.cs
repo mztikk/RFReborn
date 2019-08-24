@@ -33,28 +33,19 @@ namespace RFReborn.Pairs
         /// Create a <see cref="ValuePair{T}"/> from a Tuple T, T
         /// </summary>
         /// <param name="args"></param>
-        public static implicit operator ValuePair<T>((T left, T right) args)
-        {
-            return new ValuePair<T>(args.left, args.right);
-        }
+        public static implicit operator ValuePair<T>((T left, T right) args) => new ValuePair<T>(args.left, args.right);
 
         /// <summary>
         /// Creates a new <see cref="ValuePair{T}"/> from a <see cref="Pair{T}"/>
         /// </summary>
         /// <param name="pair"></param>
-        public static implicit operator ValuePair<T>(Pair<T> pair)
-        {
-            return new ValuePair<T>(pair.Left, pair.Right);
-        }
+        public static implicit operator ValuePair<T>(Pair<T> pair) => new ValuePair<T>(pair.Left, pair.Right);
 
         /// <summary>
         /// Creates a new <see cref="ValuePair{T}"/> from a <see cref="RefValuePair{T}"/>
         /// </summary>
         /// <param name="refValuePair"></param>
-        public static implicit operator ValuePair<T>(RefValuePair<T> refValuePair)
-        {
-            return new ValuePair<T>(refValuePair.Left, refValuePair.Right);
-        }
+        public static implicit operator ValuePair<T>(RefValuePair<T> refValuePair) => new ValuePair<T>(refValuePair.Left, refValuePair.Right);
     }
 
     /// <summary>
@@ -69,9 +60,6 @@ namespace RFReborn.Pairs
         /// <param name="collection"><see cref="ICollection{T}"/> to add to</param>
         /// <param name="left">left value</param>
         /// <param name="right">right value</param>
-        public static void Add<T>(this ICollection<ValuePair<T>> collection, T left, T right)
-        {
-            collection.Add(new ValuePair<T>(left, right));
-        }
+        public static void Add<T>(this ICollection<ValuePair<T>> collection, T left, T right) => collection.Add(new ValuePair<T>(left, right));
     }
 }

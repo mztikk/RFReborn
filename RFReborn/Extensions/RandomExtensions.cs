@@ -73,10 +73,10 @@ namespace RFReborn.Extensions
         /// <returns>Random item inside of Enumerable, default in case of a failure.>.</returns>
         public static T Choice<T>(this System.Random random, IEnumerable<T> enumerable)
         {
-            var size = enumerable.Count();
-            var i = 0;
+            int size = enumerable.Count();
+            int i = 0;
 
-            var rng = random.Next(0, size);
+            int rng = random.Next(0, size);
             foreach (T item in enumerable)
             {
                 if (i == rng)
@@ -90,6 +90,28 @@ namespace RFReborn.Extensions
             // should never get here
             // only possible if random.Next returns wrong values or the size of the enumerable wasn't generated correctly
             throw new Exception($"Failed to get random item in range of 0 to {size} of {enumerable}");
+        }
+
+        public static T WeightedChoice<T>(this System.Random random, IList<T> choices, IList<double> weights)
+        {
+            double weightSum = 0d;
+            for (int i = 0; i < choices.Count; i++)
+            {
+                weightSum += weights[i];
+            }
+
+            double rnd = random.NextDouble(weightSum);
+            for (int i = 0; i < choices.Count; i++)
+            {
+                if (rnd < weights[i])
+                {
+                    return choices[i];
+                }
+
+                rnd -= weights[i];
+            }
+
+            throw new Exception();
         }
 
         /// <summary>
@@ -107,7 +129,7 @@ namespace RFReborn.Extensions
                 throw new ArgumentNullException(nameof(buffer));
             }
 
-            var randomBytes = new byte[buffer.Length * 4];
+            byte[] randomBytes = new byte[buffer.Length * 4];
             random.NextBytes(randomBytes);
             //Buffer.BlockCopy(randomBytes, 0, buffer, 0, randomBytes.Length);
             fixed (void* rp = randomBytes, bp = buffer)
@@ -131,7 +153,7 @@ namespace RFReborn.Extensions
                 throw new ArgumentNullException(nameof(buffer));
             }
 
-            var randomBytes = new byte[buffer.Length * sizeof(T)];
+            byte[] randomBytes = new byte[buffer.Length * sizeof(T)];
             random.NextBytes(randomBytes);
             //Buffer.BlockCopy(randomBytes, 0, buffer, 0, randomBytes.Length);
             fixed (void* rp = randomBytes, bp = buffer)

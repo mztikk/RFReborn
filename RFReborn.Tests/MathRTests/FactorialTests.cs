@@ -28,9 +28,6 @@ namespace RFReborn.Tests.MathRTests
             }
         }
 
-        private void AssertEqual(int n, BigInteger factorial)
-        {
-            Assert.AreEqual(factorial, MathR.Factorial(n));
-        }
+        private void AssertEqual(int n, BigInteger factorial) => Assert.AreEqual(factorial, MathR.Factorial(n));
     }
 }

@@ -28,7 +28,7 @@ namespace RFReborn
 
             BigInteger sum = n;
             BigInteger result = n;
-            for (var i = n - 2; i > 1; i -= 2)
+            for (int i = n - 2; i > 1; i -= 2)
             {
                 sum += i;
                 result *= sum;
@@ -56,7 +56,7 @@ namespace RFReborn
 
             BigInteger a = BigInteger.Zero;
             BigInteger b = BigInteger.One;
-            for (var i = 31; i >= 0; i--)
+            for (int i = 31; i >= 0; i--)
             {
                 BigInteger d = a * ((b * 2) - a);
                 BigInteger e = (a * a) + (b * b);
@@ -90,9 +90,9 @@ namespace RFReborn
                 return n == 2;
             }
 
-            var sqrt = Math.Sqrt(n) + 0.5;
+            double sqrt = Math.Sqrt(n) + 0.5;
 
-            for (var i = 3; i <= sqrt; i += 2)
+            for (int i = 3; i <= sqrt; i += 2)
             {
                 if (n % i == 0)
                 {
@@ -121,7 +121,7 @@ namespace RFReborn
             }
 
             long i = 3;
-            var primeCount = 1;
+            int primeCount = 1;
             while (primeCount < n)
             {
                 if (IsPrime(i))

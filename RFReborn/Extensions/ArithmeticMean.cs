@@ -15,10 +15,10 @@ namespace RFReborn.Extensions
         /// <returns>Returns the arithmetic mean of <paramref name="ienum"/></returns>
         public static sbyte Mean(this IEnumerable<sbyte> ienum)
         {
-            var sum = new BigInteger(0);
+            BigInteger sum = new BigInteger(0);
             ulong count = 0;
 
-            foreach (var item in ienum)
+            foreach (sbyte item in ienum)
             {
                 count++;
                 sum += item;
@@ -34,10 +34,10 @@ namespace RFReborn.Extensions
         /// <returns>Returns the arithmetic mean of <paramref name="ienum"/></returns>
         public static byte Mean(this IEnumerable<byte> ienum)
         {
-            var sum = new BigInteger(0);
+            BigInteger sum = new BigInteger(0);
             ulong count = 0;
 
-            foreach (var item in ienum)
+            foreach (byte item in ienum)
             {
                 count++;
                 sum += item;
@@ -53,10 +53,10 @@ namespace RFReborn.Extensions
         /// <returns>Returns the arithmetic mean of <paramref name="ienum"/></returns>
         public static short Mean(this IEnumerable<short> ienum)
         {
-            var sum = new BigInteger(0);
+            BigInteger sum = new BigInteger(0);
             ulong count = 0;
 
-            foreach (var item in ienum)
+            foreach (short item in ienum)
             {
                 count++;
                 sum += item;
@@ -72,10 +72,10 @@ namespace RFReborn.Extensions
         /// <returns>Returns the arithmetic mean of <paramref name="ienum"/></returns>
         public static ushort Mean(this IEnumerable<ushort> ienum)
         {
-            var sum = new BigInteger(0);
+            BigInteger sum = new BigInteger(0);
             ulong count = 0;
 
-            foreach (var item in ienum)
+            foreach (ushort item in ienum)
             {
                 count++;
                 sum += item;
@@ -91,10 +91,10 @@ namespace RFReborn.Extensions
         /// <returns>Returns the arithmetic mean of <paramref name="ienum"/></returns>
         public static int Mean(this IEnumerable<int> ienum)
         {
-            var sum = new BigInteger(0);
+            BigInteger sum = new BigInteger(0);
             ulong count = 0;
 
-            foreach (var item in ienum)
+            foreach (int item in ienum)
             {
                 count++;
                 sum += item;
@@ -110,10 +110,10 @@ namespace RFReborn.Extensions
         /// <returns>Returns the arithmetic mean of <paramref name="ienum"/></returns>
         public static uint Mean(this IEnumerable<uint> ienum)
         {
-            var sum = new BigInteger(0);
+            BigInteger sum = new BigInteger(0);
             ulong count = 0;
 
-            foreach (var item in ienum)
+            foreach (uint item in ienum)
             {
                 count++;
                 sum += item;
@@ -129,10 +129,10 @@ namespace RFReborn.Extensions
         /// <returns>Returns the arithmetic mean of <paramref name="ienum"/></returns>
         public static long Mean(this IEnumerable<long> ienum)
         {
-            var sum = new BigInteger(0);
+            BigInteger sum = new BigInteger(0);
             ulong count = 0;
 
-            foreach (var item in ienum)
+            foreach (long item in ienum)
             {
                 count++;
                 sum += item;
@@ -148,10 +148,10 @@ namespace RFReborn.Extensions
         /// <returns>Returns the arithmetic mean of <paramref name="ienum"/></returns>
         public static ulong Mean(this IEnumerable<ulong> ienum)
         {
-            var sum = new BigInteger(0);
+            BigInteger sum = new BigInteger(0);
             ulong count = 0;
 
-            foreach (var item in ienum)
+            foreach (ulong item in ienum)
             {
                 count++;
                 sum += item;

@@ -52,14 +52,8 @@ namespace RFReborn.Tests.FastCompareTests
             }
         }
 
-        private void AssertEquals<T>(T[] left, T[] right) where T : unmanaged
-        {
-            Assert.IsTrue(GetPtrEquals(left, right));
-        }
+        private void AssertEquals<T>(T[] left, T[] right) where T : unmanaged => Assert.IsTrue(GetPtrEquals(left, right));
 
-        private void AssertDiff<T>(T[] left, T[] right) where T : unmanaged
-        {
-            Assert.IsFalse(GetPtrEquals(left, right));
-        }
+        private void AssertDiff<T>(T[] left, T[] right) where T : unmanaged => Assert.IsFalse(GetPtrEquals(left, right));
     }
 }

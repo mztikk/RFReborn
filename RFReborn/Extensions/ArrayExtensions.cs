@@ -17,10 +17,7 @@ namespace RFReborn.Extensions
         /// <param name="right">Second array to compare.</param>
         /// <returns>TRUE if all values are equal, FALSE otherwise.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool FastEquals<T>(this T[] left, T[] right) where T : unmanaged
-        {
-            return FastCompare.Equals(left, right);
-        }
+        public static bool FastEquals<T>(this T[] left, T[] right) where T : unmanaged => FastCompare.Equals(left, right);
 
         /// <summary>
         /// Searches for the specified object and returns the indices of all its occurrences in an array of unmanaged type.
@@ -31,14 +28,14 @@ namespace RFReborn.Extensions
         /// <returns>The zero-based indices of the occurrences of <paramref name="needle"/> in the entire <paramref name="haystack"/>, if found; otherwise, an empty list.</returns>
         public static IEnumerable<int> IndicesOf<T>(this T[] haystack, T needle) where T : unmanaged
         {
-            var indices = new List<int>();
+            List<int> indices = new List<int>();
 
-            var i = 0;
-            var end = haystack.Length;
+            int i = 0;
+            int end = haystack.Length;
             while (i < end)
             {
                 //var index = haystack.FastIndexOf(needle, i);
-                var index = Array.IndexOf(haystack, needle, i);
+                int index = Array.IndexOf(haystack, needle, i);
                 if (index == -1)
                 {
                     break;
@@ -59,13 +56,13 @@ namespace RFReborn.Extensions
         /// <returns>The zero-based indices of the occurrences of <paramref name="needle"/> in the entire <paramref name="haystack"/>, if found; otherwise, an empty list.</returns>
         public static IEnumerable<int> IndicesOf(this string haystack, char needle)
         {
-            var indices = new List<int>();
+            List<int> indices = new List<int>();
 
-            var i = 0;
-            var end = haystack.Length;
+            int i = 0;
+            int end = haystack.Length;
             while (i < end)
             {
-                var index = haystack.IndexOf(needle, i);
+                int index = haystack.IndexOf(needle, i);
                 if (index == -1)
                 {
                     break;

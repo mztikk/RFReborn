@@ -90,10 +90,7 @@ namespace RFReborn.Random
         /// optional random buffer.
         /// </summary>
         /// <param name="enableRandomPool">set to <c>true</c> to enable the random pool buffer for increased performance.</param>
-        public CryptoRandom(bool enableRandomPool)
-        {
-            IsRandomPoolEnabled = enableRandomPool;
-        }
+        public CryptoRandom(bool enableRandomPool) => IsRandomPoolEnabled = enableRandomPool;
 
         private void InitBuffer()
         {
@@ -119,11 +116,9 @@ namespace RFReborn.Random
         /// <returns>
         /// A 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>.
         /// </returns>
-        public override int Next()
-        {
+        public override int Next() =>
             // Mask away the sign bit so that we always return nonnegative integers
-            return (int)GetRandomUInt32() & 0x7FFFFFFF;
-        }
+            (int)GetRandomUInt32() & 0x7FFFFFFF;
 
         /// <summary>
         /// Returns a nonnegative random number less than the specified maximum.
@@ -172,10 +167,10 @@ namespace RFReborn.Random
 
             while (true)
             {
-                var rand = GetRandomUInt32();
+                uint rand = GetRandomUInt32();
 
                 const long max = 1 + (long)uint.MaxValue;
-                var remainder = max % diff;
+                long remainder = max % diff;
 
                 if (rand < max - remainder)
                 {
@@ -216,7 +211,7 @@ namespace RFReborn.Random
                 // Can we fit the requested number of bytes in the buffer?
                 if (IsRandomPoolEnabled && _buffer.Length <= buffer.Length)
                 {
-                    var count = buffer.Length;
+                    int count = buffer.Length;
 
                     EnsureRandomBuffer(count);
 
@@ -241,7 +236,7 @@ namespace RFReborn.Random
             {
                 EnsureRandomBuffer(4);
 
-                var rand = BitConverter.ToUInt32(_buffer, _bufferPosition);
+                uint rand = BitConverter.ToUInt32(_buffer, _bufferPosition);
 
                 _bufferPosition += 4;
 

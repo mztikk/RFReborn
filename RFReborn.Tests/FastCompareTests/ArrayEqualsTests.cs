@@ -91,14 +91,8 @@ namespace RFReborn.Tests.FastCompareTests
         }
         #endregion Int Tests
 
-        private void AssertEquals<T>(T[] left, T[] right) where T : unmanaged
-        {
-            Assert.IsTrue(FastCompare.Equals(left, right));
-        }
+        private void AssertEquals<T>(T[] left, T[] right) where T : unmanaged => Assert.IsTrue(FastCompare.Equals(left, right));
 
-        private void AssertDiff<T>(T[] left, T[] right) where T : unmanaged
-        {
-            Assert.IsFalse(FastCompare.Equals(left, right));
-        }
+        private void AssertDiff<T>(T[] left, T[] right) where T : unmanaged => Assert.IsFalse(FastCompare.Equals(left, right));
     }
 }
