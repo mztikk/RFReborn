@@ -103,7 +103,6 @@ namespace RFReborn.Files
             {
                 string currentDir = dirs.Pop();
                 DirectoryInfo di = new DirectoryInfo(currentDir);
-                Debug.WriteLine("{0}: {1}", di.FullName, di.CreationTime);
 
                 if (onDirectory?.Invoke(di) != false)
                 {
@@ -161,7 +160,6 @@ namespace RFReborn.Files
                         try
                         {
                             FileInfo fi = new FileInfo(file);
-                            Debug.WriteLine("{0}: {1}, {2}", fi.Name, fi.Length, fi.CreationTime);
                             onFile?.Invoke(fi);
                         }
                         catch (FileNotFoundException e)
