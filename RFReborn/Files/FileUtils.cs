@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 
 namespace RFReborn.Files
@@ -122,12 +121,10 @@ namespace RFReborn.Files
                     // about the systems on which this code will run.
                     catch (UnauthorizedAccessException e)
                     {
-                        Debug.WriteLine(e.Message);
                         continue;
                     }
                     catch (DirectoryNotFoundException e)
                     {
-                        Debug.WriteLine(e.Message);
                         continue;
                     }
 
@@ -145,12 +142,10 @@ namespace RFReborn.Files
                     }
                     catch (UnauthorizedAccessException e)
                     {
-                        Debug.WriteLine(e.Message);
                         continue;
                     }
                     catch (DirectoryNotFoundException e)
                     {
-                        Debug.WriteLine(e.Message);
                         continue;
                     }
 
@@ -167,7 +162,6 @@ namespace RFReborn.Files
                             // If file was deleted by a separate application
                             // or thread since the call to TraverseTree()
                             // then just continue.
-                            Debug.WriteLine(e.Message);
                             continue;
                         }
                     }
