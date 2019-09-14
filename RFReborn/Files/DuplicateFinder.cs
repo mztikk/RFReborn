@@ -48,8 +48,6 @@ namespace RFReborn.Files
                     }
                     catch (IOException) { }
                     catch (UnauthorizedAccessException) { }
-
-                    return true;
                 });
             }
 

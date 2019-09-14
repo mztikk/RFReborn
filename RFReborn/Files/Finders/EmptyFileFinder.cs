@@ -27,8 +27,6 @@ namespace RFReborn.Files.Finders
                     }
                 }
                 catch (IOException) { }
-
-                return true;
             });
 
             return emptyFiles;

@@ -27,11 +27,11 @@ namespace RFReborn.Files.Finders
 
                     if (folderCount > 0)
                     {
-                        return false;
+                        //return false;
                     }
                 }
 
-                return true;
+                //return true;
             });
 
             return emptyDirs;
