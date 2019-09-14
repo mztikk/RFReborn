@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 namespace RFReborn.Extensions
 {
     /// <summary>
-    /// Extends <see cref="System.Array"/>.
+    /// Extends <see cref="Array"/>.
     /// </summary>
     public static class ArrayExtensions
     {
