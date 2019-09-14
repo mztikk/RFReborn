@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 
 namespace RFReborn.Files.Finders
@@ -28,6 +27,8 @@ namespace RFReborn.Files.Finders
                     }
                 }
                 catch (IOException) { }
+
+                return true;
             });
 
             return emptyFiles;
