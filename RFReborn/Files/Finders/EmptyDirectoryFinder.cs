@@ -20,18 +20,10 @@ namespace RFReborn.Files.Finders
 
             FileUtils.Walk(root, (DirectoryInfo di) =>
             {
-                (ulong fileCount, ulong folderCount) = FileUtils.CountFilesAndFolders(di.FullName);
-                if (fileCount == 0)
+                if (!FileUtils.AnyFile(di.FullName))
                 {
                     emptyDirs.Add(di);
-
-                    if (folderCount > 0)
-                    {
-                        //return false;
-                    }
                 }
-
-                //return true;
             });
 
             return emptyDirs;
