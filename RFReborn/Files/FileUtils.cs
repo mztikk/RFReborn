@@ -234,11 +234,11 @@ namespace RFReborn.Files
                     // choice of which exceptions to catch depends entirely on the specific task
                     // you are intending to perform and also on how much you know with certainty
                     // about the systems on which this code will run.
-                    catch (UnauthorizedAccessException e)
+                    catch (UnauthorizedAccessException)
                     {
                         continue;
                     }
-                    catch (DirectoryNotFoundException e)
+                    catch (DirectoryNotFoundException)
                     {
                         continue;
                     }
@@ -258,11 +258,11 @@ namespace RFReborn.Files
                         {
                             files = Directory.GetFiles(currentDir);
                         }
-                        catch (UnauthorizedAccessException e)
+                        catch (UnauthorizedAccessException)
                         {
                             continue;
                         }
-                        catch (DirectoryNotFoundException e)
+                        catch (DirectoryNotFoundException)
                         {
                             continue;
                         }
@@ -278,7 +278,7 @@ namespace RFReborn.Files
                                     break;
                                 }
                             }
-                            catch (FileNotFoundException e)
+                            catch (FileNotFoundException)
                             {
                                 // If file was deleted by a separate application
                                 // or thread since the call to TraverseTree()
