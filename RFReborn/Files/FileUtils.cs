@@ -12,18 +12,6 @@ namespace RFReborn.Files
         private const int InitialCapacity = 64;
 
         /// <summary>
-        /// Method that takes a <see cref="DirectoryInfo"/> as parameter, used to perform operations on a <see cref="DirectoryInfo"/>.
-        /// </summary>
-        /// <param name="directory"><see cref="DirectoryInfo"/> to perform operations on</param>
-        public delegate void OnDirectory(DirectoryInfo directory);
-
-        /// <summary>
-        /// Method that takes a <see cref="FileInfo"/> as parameter, used to perform operations on a <see cref="FileInfo"/>.
-        /// </summary>
-        /// <param name="file"><see cref="FileInfo"/> to perform operations on</param>
-        public delegate void OnFile(FileInfo file);
-
-        /// <summary>
         /// Checks if there is any File inside a root path
         /// </summary>
         /// <param name="root">Path where to start walking</param>
@@ -54,17 +42,9 @@ namespace RFReborn.Files
                     continue;
                 }
 
-                foreach (string file in files)
+                if (files.Length > 0)
                 {
-                    try
-                    {
-                        FileInfo fi = new FileInfo(file);
-                        return true;
-                    }
-                    catch (FileNotFoundException)
-                    {
-                        continue;
-                    }
+                    return true;
                 }
 
                 string[] subDirs;
@@ -138,23 +118,87 @@ namespace RFReborn.Files
         /// Walks a path, invoking <paramref name="onDirectory"/> on every <see cref="DirectoryInfo"/> found.
         /// </summary>
         /// <param name="root">Path where to start walking</param>
-        /// <param name="onDirectory">Action to perform on every <see cref="DirectoryInfo"/></param>
-        public static void Walk(string root, OnDirectory onDirectory) => Walk(root, onDirectory, null);
+        /// <param name="onDirectory">
+        /// <para>Method that takes a <see cref="DirectoryInfo"/> as parameter, used to perform operations on a <see cref="DirectoryInfo"/>.</para>
+        /// <para>If this returns false it will skip walking this path.</para>
+        /// </param>
+        public static void Walk(string root, Func<DirectoryInfo, bool> onDirectory) => Walk(root, onDirectory, null);
 
         /// <summary>
         /// Walks a path, invoking <paramref name="onFile"/> on every <see cref="FileInfo"/> found.
         /// </summary>
         /// <param name="root">Path where to start walking</param>
-        /// <param name="onFile">Action to perform on every <see cref="FileInfo"/></param>
-        public static void Walk(string root, OnFile onFile) => Walk(root, null, onFile);
+        /// <param name="onFile">
+        /// <para>Method that takes a <see cref="FileInfo"/> as parameter, used to perform operations on a <see cref="FileInfo"/>.</para>
+        /// <para>If this returns false it will skip evaluating the rest of the files in the current directory.</para>
+        /// </param>
+        public static void Walk(string root, Func<FileInfo, bool> onFile) => Walk(root, null, onFile);
 
         /// <summary>
         /// Walks a path, invoking <paramref name="onDirectory"/> on every <see cref="DirectoryInfo"/> and <paramref name="onFile"/> on every <see cref="FileInfo"/> found.
         /// </summary>
         /// <param name="root">Path where to start walking</param>
-        /// <param name="onDirectory">Action to perform on every <see cref="DirectoryInfo"/></param>
-        /// <param name="onFile">Action to perform on every <see cref="FileInfo"/></param>
-        public static void Walk(string root, OnDirectory onDirectory, OnFile onFile)
+        /// <param name="onDirectory">
+        /// <para>Method that takes a <see cref="DirectoryInfo"/> as parameter, used to perform operations on a <see cref="DirectoryInfo"/>.</para>
+        public static void Walk(string root, Action<DirectoryInfo> onDirectory) => Walk(root, onDirectory, null);
+
+        /// <summary>
+        /// Walks a path, invoking <paramref name="onDirectory"/> on every <see cref="DirectoryInfo"/> and <paramref name="onFile"/> on every <see cref="FileInfo"/> found.
+        /// </summary>
+        /// <param name="root">Path where to start walking</param>
+        /// <param name="onFile">
+        /// <para>Method that takes a <see cref="FileInfo"/> as parameter, used to perform operations on a <see cref="FileInfo"/>.</para>
+        /// </param>
+        public static void Walk(string root, Action<FileInfo> onFile) => Walk(root, null, onFile);
+
+        /// <summary>
+        /// Walks a path, invoking <paramref name="onDirectory"/> on every <see cref="DirectoryInfo"/> and <paramref name="onFile"/> on every <see cref="FileInfo"/> found.
+        /// </summary>
+        /// <param name="root">Path where to start walking</param>
+        /// <param name="onDirectory">
+        /// <para>Method that takes a <see cref="DirectoryInfo"/> as parameter, used to perform operations on a <see cref="DirectoryInfo"/>.</para>
+        /// </param>
+        /// <param name="onFile">
+        /// <para>Method that takes a <see cref="FileInfo"/> as parameter, used to perform operations on a <see cref="FileInfo"/>.</para>
+        /// </param>
+        public static void Walk(string root, Action<DirectoryInfo> onDirectory, Action<FileInfo> onFile)
+        {
+            Func<DirectoryInfo, bool> onDirFunc = null;
+            if (!(onDirectory is null))
+            {
+                onDirFunc = (DirectoryInfo di) =>
+                {
+                    onDirectory.Invoke(di);
+                    return true;
+                };
+            }
+
+            Func<FileInfo, bool> onFileFunc = null;
+            if (!(onFile is null))
+            {
+                onFileFunc = (FileInfo fi) =>
+                {
+                    onFile.Invoke(fi);
+                    return true;
+                };
+            }
+
+            Walk(root, onDirFunc, onFileFunc);
+        }
+
+        /// <summary>
+        /// Walks a path, invoking <paramref name="onDirectory"/> on every <see cref="DirectoryInfo"/> and <paramref name="onFile"/> on every <see cref="FileInfo"/> found.
+        /// </summary>
+        /// <param name="root">Path where to start walking</param>
+        /// <param name="onDirectory">
+        /// <para>Method that takes a <see cref="DirectoryInfo"/> as parameter, used to perform operations on a <see cref="DirectoryInfo"/>.</para>
+        /// <para>If this returns false it will skip walking this path.</para>
+        /// </param>
+        /// <param name="onFile">
+        /// <para>Method that takes a <see cref="FileInfo"/> as parameter, used to perform operations on a <see cref="FileInfo"/>.</para>
+        /// <para>If this returns false it will skip evaluating the rest of the files in the current directory.</para>
+        /// </param>
+        public static void Walk(string root, Func<DirectoryInfo, bool> onDirectory, Func<FileInfo, bool> onFile)
         {
             // Data structure to hold names of subfolders to be
             // examined for files.
@@ -172,46 +216,22 @@ namespace RFReborn.Files
                 string currentDir = dirs.Pop();
 
                 DirectoryInfo di = new DirectoryInfo(currentDir);
-                onDirectory?.Invoke(di);
-
-                string[] subDirs;
-                try
+                if (onDirectory?.Invoke(di) != false)
                 {
-                    subDirs = Directory.GetDirectories(currentDir);
-                }
-                // An UnauthorizedAccessException exception will be thrown if we do not have
-                // discovery permission on a folder or file. It may or may not be acceptable
-                // to ignore the exception and continue enumerating the remaining files and
-                // folders. It is also possible (but unlikely) that a DirectoryNotFound exception
-                // will be raised. This will happen if currentDir has been deleted by
-                // another application or thread after our call to Directory.Exists. The
-                // choice of which exceptions to catch depends entirely on the specific task
-                // you are intending to perform and also on how much you know with certainty
-                // about the systems on which this code will run.
-                catch (UnauthorizedAccessException e)
-                {
-                    continue;
-                }
-                catch (DirectoryNotFoundException e)
-                {
-                    continue;
-                }
-
-                // Push the subdirectories onto the stack for traversal.
-                // This could also be done before handing the files.
-                foreach (string str in subDirs)
-                {
-                    dirs.Push(str);
-                }
-
-                // only go through files if we have a file handler
-                if (checkFiles)
-                {
-                    string[] files = null;
+                    string[] subDirs;
                     try
                     {
-                        files = Directory.GetFiles(currentDir);
+                        subDirs = Directory.GetDirectories(currentDir);
                     }
+                    // An UnauthorizedAccessException exception will be thrown if we do not have
+                    // discovery permission on a folder or file. It may or may not be acceptable
+                    // to ignore the exception and continue enumerating the remaining files and
+                    // folders. It is also possible (but unlikely) that a DirectoryNotFound exception
+                    // will be raised. This will happen if currentDir has been deleted by
+                    // another application or thread after our call to Directory.Exists. The
+                    // choice of which exceptions to catch depends entirely on the specific task
+                    // you are intending to perform and also on how much you know with certainty
+                    // about the systems on which this code will run.
                     catch (UnauthorizedAccessException e)
                     {
                         continue;
@@ -221,20 +241,48 @@ namespace RFReborn.Files
                         continue;
                     }
 
-                    // Perform the required action on each file here.
-                    foreach (string file in files)
+                    // Push the subdirectories onto the stack for traversal.
+                    // This could also be done before handing the files.
+                    foreach (string str in subDirs)
                     {
+                        dirs.Push(str);
+                    }
+
+                    // only go through files if we have a file handler
+                    if (checkFiles)
+                    {
+                        string[] files = null;
                         try
                         {
-                            FileInfo fi = new FileInfo(file);
-                            onFile.Invoke(fi);
+                            files = Directory.GetFiles(currentDir);
                         }
-                        catch (FileNotFoundException e)
+                        catch (UnauthorizedAccessException e)
                         {
-                            // If file was deleted by a separate application
-                            // or thread since the call to TraverseTree()
-                            // then just continue.
                             continue;
+                        }
+                        catch (DirectoryNotFoundException e)
+                        {
+                            continue;
+                        }
+
+                        // Perform the required action on each file here.
+                        foreach (string file in files)
+                        {
+                            try
+                            {
+                                FileInfo fi = new FileInfo(file);
+                                if (!onFile.Invoke(fi))
+                                {
+                                    break;
+                                }
+                            }
+                            catch (FileNotFoundException e)
+                            {
+                                // If file was deleted by a separate application
+                                // or thread since the call to TraverseTree()
+                                // then just continue.
+                                continue;
+                            }
                         }
                     }
                 }
