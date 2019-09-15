@@ -141,6 +141,7 @@ namespace RFReborn.Files
         /// <param name="root">Path where to start walking</param>
         /// <param name="onDirectory">
         /// <para>Method that takes a <see cref="DirectoryInfo"/> as parameter, used to perform operations on a <see cref="DirectoryInfo"/>.</para>
+        /// </param>
         public static void Walk(string root, Action<DirectoryInfo> onDirectory) => Walk(root, onDirectory, null);
 
         /// <summary>
