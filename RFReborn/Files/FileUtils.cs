@@ -9,6 +9,8 @@ namespace RFReborn.Files
     /// </summary>
     public static class FileUtils
     {
+        private const int InitialCapacity = 64;
+
         /// <summary>
         /// Method that takes a <see cref="DirectoryInfo"/> as parameter, used to perform operations on a <see cref="DirectoryInfo"/>.
         /// </summary>
@@ -28,7 +30,7 @@ namespace RFReborn.Files
         /// <returns>Returns <see langword="true"/> if there is any File; <see langword="false"/> otherwise.</returns>
         public static bool AnyFile(string root)
         {
-            Stack<string> dirs = new Stack<string>(20);
+            Stack<string> dirs = new Stack<string>(InitialCapacity);
             if (!Directory.Exists(root))
             {
                 throw new ArgumentException();
@@ -156,7 +158,7 @@ namespace RFReborn.Files
         {
             // Data structure to hold names of subfolders to be
             // examined for files.
-            Stack<string> dirs = new Stack<string>(20);
+            Stack<string> dirs = new Stack<string>(InitialCapacity);
             if (!Directory.Exists(root))
             {
                 throw new ArgumentException();
