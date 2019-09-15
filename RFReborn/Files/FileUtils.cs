@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace RFReborn.Files
 {
@@ -161,6 +162,7 @@ namespace RFReborn.Files
         /// <param name="onFile">
         /// <para>Method that takes a <see cref="FileInfo"/> as parameter, used to perform operations on a <see cref="FileInfo"/>.</para>
         /// </param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Walk(string root, Action<DirectoryInfo> onDirectory, Action<FileInfo> onFile)
         {
             Func<DirectoryInfo, bool> onDirFunc = null;
