@@ -135,7 +135,7 @@ namespace RFReborn.Files
         public static void Walk(string root, Func<FileInfo, bool> onFile) => Walk(root, null, onFile);
 
         /// <summary>
-        /// Walks a path, invoking <paramref name="onDirectory"/> on every <see cref="DirectoryInfo"/> and <paramref name="onFile"/> on every <see cref="FileInfo"/> found.
+        /// Walks a path, invoking <paramref name="onDirectory"/> on every <see cref="DirectoryInfo"/> found.
         /// </summary>
         /// <param name="root">Path where to start walking</param>
         /// <param name="onDirectory">
@@ -143,7 +143,7 @@ namespace RFReborn.Files
         public static void Walk(string root, Action<DirectoryInfo> onDirectory) => Walk(root, onDirectory, null);
 
         /// <summary>
-        /// Walks a path, invoking <paramref name="onDirectory"/> on every <see cref="DirectoryInfo"/> and <paramref name="onFile"/> on every <see cref="FileInfo"/> found.
+        /// Walks a path, invoking <paramref name="onFile"/> on every <see cref="FileInfo"/> found.
         /// </summary>
         /// <param name="root">Path where to start walking</param>
         /// <param name="onFile">
