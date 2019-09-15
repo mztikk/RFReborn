@@ -22,6 +22,73 @@ namespace RFReborn.Files
         public delegate void OnFile(FileInfo file);
 
         /// <summary>
+        /// Checks if there is any File inside a root path
+        /// </summary>
+        /// <param name="root">Path where to start walking</param>
+        /// <returns>Returns <see langword="true"/> if there is any File; <see langword="false"/> otherwise.</returns>
+        public static bool AnyFile(string root)
+        {
+            Stack<string> dirs = new Stack<string>(20);
+            if (!Directory.Exists(root))
+            {
+                throw new ArgumentException();
+            }
+
+            dirs.Push(root);
+            while (dirs.Count > 0)
+            {
+                string currentDir = dirs.Pop();
+                string[] files;
+                try
+                {
+                    files = Directory.GetFiles(currentDir);
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    continue;
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    continue;
+                }
+
+                foreach (string file in files)
+                {
+                    try
+                    {
+                        FileInfo fi = new FileInfo(file);
+                        return true;
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        continue;
+                    }
+                }
+
+                string[] subDirs;
+                try
+                {
+                    subDirs = Directory.GetDirectories(currentDir);
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    continue;
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    continue;
+                }
+
+                foreach (string str in subDirs)
+                {
+                    dirs.Push(str);
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Counts the number of <see cref="DirectoryInfo"/> inside the <paramref name="root"/> path.
         /// </summary>
         /// <param name="root">Path where to start walking</param>
@@ -95,6 +162,8 @@ namespace RFReborn.Files
                 throw new ArgumentException();
             }
 
+            bool checkFiles = !(onFile is null);
+
             dirs.Push(root);
             while (dirs.Count > 0)
             {
@@ -133,34 +202,38 @@ namespace RFReborn.Files
                     dirs.Push(str);
                 }
 
-                string[] files = null;
-                try
+                // only go through files if we have a file handler
+                if (checkFiles)
                 {
-                    files = Directory.GetFiles(currentDir);
-                }
-                catch (UnauthorizedAccessException e)
-                {
-                    continue;
-                }
-                catch (DirectoryNotFoundException e)
-                {
-                    continue;
-                }
-
-                // Perform the required action on each file here.
-                foreach (string file in files)
-                {
+                    string[] files = null;
                     try
                     {
-                        FileInfo fi = new FileInfo(file);
-                        onFile?.Invoke(fi);
+                        files = Directory.GetFiles(currentDir);
                     }
-                    catch (FileNotFoundException e)
+                    catch (UnauthorizedAccessException e)
                     {
-                        // If file was deleted by a separate application
-                        // or thread since the call to TraverseTree()
-                        // then just continue.
                         continue;
+                    }
+                    catch (DirectoryNotFoundException e)
+                    {
+                        continue;
+                    }
+
+                    // Perform the required action on each file here.
+                    foreach (string file in files)
+                    {
+                        try
+                        {
+                            FileInfo fi = new FileInfo(file);
+                            onFile.Invoke(fi);
+                        }
+                        catch (FileNotFoundException e)
+                        {
+                            // If file was deleted by a separate application
+                            // or thread since the call to TraverseTree()
+                            // then just continue.
+                            continue;
+                        }
                     }
                 }
             }
