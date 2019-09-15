@@ -23,7 +23,10 @@ namespace RFReborn.Files.Finders
                 if (!FileUtils.AnyFile(di.FullName))
                 {
                     emptyDirs.Add(di);
+                    return false;
                 }
+
+                return true;
             });
 
             return emptyDirs;
