@@ -15,21 +15,29 @@ namespace RFReborn.Files.Finders
         /// <returns><see cref="IEnumerable{T}"/> of empty <see cref="FileInfo"/></returns>
         public IEnumerable<FileInfo> Find(string root)
         {
-            HashSet<FileInfo> emptyFiles = new HashSet<FileInfo>();
-
-            FileUtils.Walk(root, (FileInfo fi) =>
+            foreach (string file in FileUtils.Walk(root, FileSystemEnumeration.FilesOnly))
             {
+                FileInfo fi;
+                long len;
                 try
                 {
-                    if (fi.Length == 0)
-                    {
-                        emptyFiles.Add(fi);
-                    }
+                    fi = new FileInfo(file);
+                    len = fi.Length;
                 }
-                catch (IOException) { }
-            });
+                catch (FileNotFoundException)
+                {
+                    continue;
+                }
+                catch (IOException)
+                {
+                    continue;
+                }
 
-            return emptyFiles;
+                if (len == 0)
+                {
+                    yield return fi;
+                }
+            }
         }
     }
 }
