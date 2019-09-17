@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace RFReborn
+namespace RFReborn.Comparison
 {
     /// <summary>
     /// Offers methods to compare data.
