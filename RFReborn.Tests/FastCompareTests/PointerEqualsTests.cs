@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RFReborn.Comparison;
 
 namespace RFReborn.Tests.FastCompareTests
 {

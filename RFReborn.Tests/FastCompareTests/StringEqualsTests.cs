@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RFReborn.Comparison;
 using RFReborn.Pairs;
 
 namespace RFReborn.Tests.FastCompareTests
