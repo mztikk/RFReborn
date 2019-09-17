@@ -6,7 +6,7 @@ namespace RFReborn.Files.Finders
 {
     public class FileSearchOptions : DynamicComparer<FileInfo>
     {
-        public FileSearchOptions() => comparisonType = DynamicComparisonType.Any;
+        public FileSearchOptions() => comparisonType = DynamicComparisonType.NonNull;
 
         public string Extension { get; set; }
 

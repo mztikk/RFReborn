@@ -3,6 +3,7 @@
     public enum DynamicComparisonType
     {
         Full,
-        Any
+        Any,
+        NonNull
     }
 }

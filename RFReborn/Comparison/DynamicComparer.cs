@@ -15,6 +15,8 @@ namespace RFReborn.Comparison
                     return FullComparison(t);
                 case DynamicComparisonType.Any:
                     return AnyComparison(t);
+                case DynamicComparisonType.NonNull:
+                    return NonNullComparison(t);
                 default:
                     return false;
             }
@@ -68,6 +70,57 @@ namespace RFReborn.Comparison
             }
 
             return false;
+        }
+
+        private bool NonNullComparison(T t)
+        {
+            Type tType = t.GetType();
+            const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance;
+
+            foreach (PropertyInfo prop in GetType().GetProperties(bindingFlags))
+            {
+                // check if FileInfo has this property aswell
+                PropertyInfo tProp = tType.GetProperty(prop.Name, bindingFlags);
+                if (tProp is null)
+                {
+                    continue;
+                }
+
+                // check if types match
+                bool match = false;
+                if (prop.PropertyType == tProp.PropertyType)
+                {
+                    match = true;
+                }
+                // check if our type is nullable and the underlying types match
+                else if (prop.PropertyType.IsGenericType)
+                {
+                    Type innerType = Nullable.GetUnderlyingType(prop.PropertyType);
+                    if (!(innerType is null) && innerType == tProp.PropertyType)
+                    {
+                        match = true;
+                    }
+                }
+
+                if (!match)
+                {
+                    continue;
+                }
+
+                object val = prop.GetValue(this, null);
+                if (val is null)
+                {
+                    continue;
+                }
+                object fiPropVal = tProp.GetValue(t, null);
+                bool valueEquals = val is IComparable compare && compare.CompareTo(fiPropVal) == 0;
+                if (!valueEquals)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private bool FullComparison(T t)
