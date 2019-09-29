@@ -45,7 +45,7 @@ namespace RFReborn.Tests.StringRTests
             foreach (Pair<string> test in _capitalizeNoChangeTests)
             {
                 string og = new string(test.Left);
-                AssertCapitalizedNoChange(og, test.Right);
+                AssertCapitalizedNoChangeSelf(og, test.Right);
             }
         }
 
