@@ -21,6 +21,11 @@ namespace RFReborn.Comparison
 
         private bool AnyComparison(T t)
         {
+            if (t is null)
+            {
+                return false;
+            }
+
             Type tType = t.GetType();
             const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance;
 
@@ -71,6 +76,11 @@ namespace RFReborn.Comparison
 
         private bool NonNullComparison(T t)
         {
+            if (t is null)
+            {
+                return false;
+            }
+
             Type tType = t.GetType();
             const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance;
 
@@ -122,6 +132,11 @@ namespace RFReborn.Comparison
 
         private bool FullComparison(T t)
         {
+            if (t is null)
+            {
+                return false;
+            }
+
             Type tType = t.GetType();
             const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance;
 
