@@ -42,6 +42,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Extensions\AddOrIncrement.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AddOrIncrement.cs</LastGenOutput>
+    </None>
     <None Update="Extensions\ArithmeticMean.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ArithmeticMean.cs</LastGenOutput>
@@ -53,6 +57,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Extensions\AddOrIncrement.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AddOrIncrement.tt</DependentUpon>
+    </Compile>
     <Compile Update="Extensions\ArithmeticMean.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

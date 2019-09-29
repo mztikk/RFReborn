@@ -1,0 +1,38 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ output extension=".cs" #>
+<# var types = new string[]{"sbyte", "byte", "short", "ushort", "int", "uint", "long", "ulong"};  #>
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+
+namespace RFReborn.Extensions
+{
+    /// <summary>
+    /// Extends <see cref="Dictionary{TKey, TValue}"/> where TValue is a integer type with AddOrIncrement
+    /// </summary>
+    public static class AddOrIncrementExt
+    {
+<# foreach (var t in types) {#>
+        /// <summary>
+        /// Adds the key with value 1 if it doesn't exist, otherwise increments it by 1.
+        /// </summary>
+        /// <typeparam name="T">Type of key.</typeparam>
+        /// <param name="dict">Dictionary to operate on.</param>
+        /// <param name="key">Key to be added or incremented.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AddOrIncrement<T>(this Dictionary<T, <#=t#>> dict, T key)
+        {
+            if (dict.ContainsKey(key))
+            {
+                dict[key]++;
+            }
+            else
+            {
+                dict[key] = 1;
+            }
+        }
+<#if (t != types[types.Length - 1]) {#>
+
+<#}}#>
+    }
+}
