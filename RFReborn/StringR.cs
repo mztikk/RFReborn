@@ -220,6 +220,7 @@ namespace RFReborn
         /// </summary>
         /// <param name="s">String to capitalize</param>
         /// <returns>A new string with the first char capitalized</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string CapitalizeFirstLetter(this string s)
         {
             if (string.IsNullOrEmpty(s))
@@ -229,17 +230,32 @@ namespace RFReborn
 
             if (s.Length == 1)
             {
-                return s.ToUpper();
+                return s.ToUpperInvariant();
             }
 
-            string rtn = string.Copy(s);
-            fixed (void* rtnP = rtn)
-            {
-                char* rtnPC = (char*)rtnP;
-                *rtnPC = char.ToUpperInvariant(*rtnPC);
-            }
+            string rtn = new string(s);
+            rtn.CapitalizeFirstLetterSelf();
 
             return rtn;
+        }
+
+        /// <summary>
+        /// Capitalizes the first char in a string
+        /// </summary>
+        /// <param name="s">String to capitalize</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void CapitalizeFirstLetterSelf(this string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return;
+            }
+
+            fixed (void* sP = s)
+            {
+                char* sPC = (char*)sP;
+                *sPC = char.ToUpperInvariant(*sPC);
+            }
         }
     }
 }
