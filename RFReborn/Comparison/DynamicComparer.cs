@@ -11,20 +11,13 @@ namespace RFReborn.Comparison
 
         public DynamicComparer() : this(DynamicComparisonType.Full) { }
 
-        public bool Compare(T t)
+        public bool Compare(T t) => comparisonType switch
         {
-            switch (comparisonType)
-            {
-                case DynamicComparisonType.Full:
-                    return FullComparison(t);
-                case DynamicComparisonType.Any:
-                    return AnyComparison(t);
-                case DynamicComparisonType.NonNull:
-                    return NonNullComparison(t);
-                default:
-                    return false;
-            }
-        }
+            DynamicComparisonType.Full => FullComparison(t),
+            DynamicComparisonType.Any => AnyComparison(t),
+            DynamicComparisonType.NonNull => NonNullComparison(t),
+            _ => false,
+        };
 
         private bool AnyComparison(T t)
         {
