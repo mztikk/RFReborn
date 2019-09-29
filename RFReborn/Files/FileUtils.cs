@@ -327,7 +327,6 @@ namespace RFReborn.Files
                 if (enumDirs)
                 {
                     yield return currentDir;
-
                 }
 
                 IEnumerable<string> subDirs;
