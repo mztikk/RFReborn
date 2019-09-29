@@ -164,9 +164,9 @@ namespace RFReborn.Files
         /// <para>Method that takes a <see cref="FileInfo"/> as parameter, used to perform operations on a <see cref="FileInfo"/>.</para>
         /// </param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Walk(string root, Action<DirectoryInfo> onDirectory, Action<FileInfo> onFile)
+        public static void Walk(string root, Action<DirectoryInfo>? onDirectory, Action<FileInfo>? onFile)
         {
-            Func<DirectoryInfo, bool> onDirFunc = null;
+            Func<DirectoryInfo, bool>? onDirFunc = null;
             if (onDirectory is { })
             {
                 onDirFunc = (DirectoryInfo di) =>
@@ -176,7 +176,7 @@ namespace RFReborn.Files
                 };
             }
 
-            Func<FileInfo, bool> onFileFunc = null;
+            Func<FileInfo, bool>? onFileFunc = null;
             if (onFile is { })
             {
                 onFileFunc = (FileInfo fi) =>
@@ -201,7 +201,7 @@ namespace RFReborn.Files
         /// <para>Method that takes a <see cref="FileInfo"/> as parameter, used to perform operations on a <see cref="FileInfo"/>.</para>
         /// <para>If this returns false it will skip evaluating the rest of the files in the current directory.</para>
         /// </param>
-        public static void Walk(string root, Func<DirectoryInfo, bool> onDirectory, Func<FileInfo, bool> onFile)
+        public static void Walk(string root, Func<DirectoryInfo, bool>? onDirectory, Func<FileInfo, bool>? onFile)
         {
             // Data structure to hold names of subfolders to be
             // examined for files.
@@ -274,7 +274,8 @@ namespace RFReborn.Files
                             try
                             {
                                 FileInfo fi = new FileInfo(file);
-                                if (!onFile.Invoke(fi))
+                                // this is definitely not null due to onFile is {} check and we're in true branch
+                                if (!onFile!.Invoke(fi))
                                 {
                                     break;
                                 }
