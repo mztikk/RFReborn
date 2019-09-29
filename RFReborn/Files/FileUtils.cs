@@ -167,7 +167,7 @@ namespace RFReborn.Files
         public static void Walk(string root, Action<DirectoryInfo> onDirectory, Action<FileInfo> onFile)
         {
             Func<DirectoryInfo, bool> onDirFunc = null;
-            if (!(onDirectory is null))
+            if (onDirectory is { })
             {
                 onDirFunc = (DirectoryInfo di) =>
                 {
@@ -177,7 +177,7 @@ namespace RFReborn.Files
             }
 
             Func<FileInfo, bool> onFileFunc = null;
-            if (!(onFile is null))
+            if (onFile is { })
             {
                 onFileFunc = (FileInfo fi) =>
                 {
@@ -211,7 +211,7 @@ namespace RFReborn.Files
                 throw new ArgumentException();
             }
 
-            bool checkFiles = !(onFile is null);
+            bool checkFiles = onFile is { };
 
             dirs.Push(root);
             while (dirs.Count > 0)
@@ -254,7 +254,7 @@ namespace RFReborn.Files
                     // only go through files if we have a file handler
                     if (checkFiles)
                     {
-                        string[] files = null;
+                        string[] files;
                         try
                         {
                             files = Directory.GetFiles(currentDir);

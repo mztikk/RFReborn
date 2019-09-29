@@ -43,7 +43,7 @@ namespace RFReborn.Comparison
                 else if (prop.PropertyType.IsGenericType)
                 {
                     Type innerType = Nullable.GetUnderlyingType(prop.PropertyType);
-                    if (!(innerType is null) && innerType == tProp.PropertyType)
+                    if (innerType is { } && innerType == tProp.PropertyType)
                     {
                         match = true;
                     }
@@ -93,7 +93,7 @@ namespace RFReborn.Comparison
                 else if (prop.PropertyType.IsGenericType)
                 {
                     Type innerType = Nullable.GetUnderlyingType(prop.PropertyType);
-                    if (!(innerType is null) && innerType == tProp.PropertyType)
+                    if (innerType is { } && innerType == tProp.PropertyType)
                     {
                         match = true;
                     }
@@ -144,7 +144,7 @@ namespace RFReborn.Comparison
                 else if (prop.PropertyType.IsGenericType)
                 {
                     Type innerType = Nullable.GetUnderlyingType(prop.PropertyType);
-                    if (!(innerType is null) && innerType == tProp.PropertyType)
+                    if (innerType is { } && innerType == tProp.PropertyType)
                     {
                         match = true;
                     }
