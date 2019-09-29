@@ -5,7 +5,7 @@ namespace RFReborn.Files.Finders
 {
     public class FileFinder : IFileFinder
     {
-        public FileSearchOptions searchOptions;
+        public FileSearchOptions? searchOptions;
 
         public IEnumerable<FileInfo> Find(string root)
         {

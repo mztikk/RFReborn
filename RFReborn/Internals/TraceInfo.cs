@@ -12,7 +12,7 @@ namespace RFReborn.Internals
         /// <param name="check">Method delegate to use for checking against the current <see cref="StackFrame"/></param>
         /// <param name="skipFrames">Number of frames from which to start walking</param>
         /// <returns>The <see cref="StackFrame"/> that matched the <paramref name="check"/> or <see langword="null"/> if nothing was found.</returns>
-        public static StackFrame WalkStackTrace(CheckStackFrame check, int skipFrames = 1)
+        public static StackFrame? WalkStackTrace(CheckStackFrame check, int skipFrames = 1)
         {
             StackTrace stackTrace = new StackTrace(skipFrames);
             foreach (StackFrame frame in stackTrace.GetFrames())

@@ -8,9 +8,9 @@ namespace RFReborn.Files.Finders
     {
         public FileSearchOptions() : base(DynamicComparisonType.NonNull) { }
 
-        public string Extension { get; set; }
+        public string? Extension { get; set; }
 
-        public string FullName { get; set; }
+        public string? FullName { get; set; }
 
         public bool? IsReadOnly { get; set; }
 
@@ -24,6 +24,6 @@ namespace RFReborn.Files.Finders
 
         public long? Length { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace RFReborn.Extensions
         /// <param name="stringComparison"><see cref="StringComparison"/> to use.</param>
         /// <param name="actualKey">Will have the value of the actual key if it got matched with <see cref="StringComparison.OrdinalIgnoreCase"/> for example.</param>
         /// <returns>TRUE if the Dictionary contains an element with the specified key; otherwise, FALSE.</returns>
-        public static bool ContainsKey<T>(this Dictionary<string, T> dict, string key, StringComparison stringComparison, out string actualKey)
+        public static bool ContainsKey<T>(this Dictionary<string, T> dict, string key, StringComparison stringComparison, out string? actualKey)
         {
             foreach (string k in dict.Keys)
             {
