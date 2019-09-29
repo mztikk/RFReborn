@@ -5,7 +5,11 @@ namespace RFReborn.Comparison
 {
     public class DynamicComparer<T>
     {
-        protected DynamicComparisonType comparisonType = DynamicComparisonType.Full;
+        protected DynamicComparisonType comparisonType;
+
+        public DynamicComparer(DynamicComparisonType dynamicComparisonType) => comparisonType = dynamicComparisonType;
+
+        public DynamicComparer() : this(DynamicComparisonType.Full) { }
 
         public bool Compare(T t)
         {
