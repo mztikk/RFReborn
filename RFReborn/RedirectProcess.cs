@@ -69,5 +69,12 @@ namespace RFReborn
             OutputDataReceived += (sender, args) => _writer.WriteLine(args.Data);
             ErrorDataReceived += (sender, args) => _writer.WriteLine(args.Data);
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            _writer.Dispose();
+
+            base.Dispose(disposing);
+        }
     }
 }
