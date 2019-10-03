@@ -7,12 +7,13 @@
     <PackageProjectUrl>https://github.com/mztikk/RFReborn</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mztikk/RFReborn</RepositoryUrl>
     <Authors>mztikk</Authors>
-    <Version>1.0.3</Version>
+    <Version>1.1.0</Version>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>default</LangVersion>
     <Nullable>enable</Nullable>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
   </PropertyGroup>
 
 
