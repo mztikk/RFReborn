@@ -161,5 +161,29 @@ namespace RFReborn.Extensions
                 Buffer.MemoryCopy(rp, bp, randomBytes.Length, randomBytes.Length);
             }
         }
+
+        /// <summary>
+        /// Returns a random string constructed out of a <paramref name="charset"/> with a length of <paramref name="len"/>
+        /// </summary>
+        /// <param name="random">Random provider</param>
+        /// <param name="charset">Chars to use</param>
+        /// <param name="len">Length of constructed string</param>
+        public static string NextString(this System.Random random, ReadOnlySpan<char> charset, int len)
+        {
+            char* rtn = stackalloc char[len];
+            for (int i = 0; i < len; i++)
+            {
+                int rnd = random.Next(0, charset.Length);
+                rtn[i] = charset[rnd];
+            }
+
+            return new string(rtn);
+        }
+
+        /// <summary>
+        /// Returns a random string constructed out of all chars except for whitespace and a length between 1 and 31
+        /// </summary>
+        /// <param name="random">Random provider</param>
+        public static string NextString(this System.Random random) => NextString(random, StringR.Chars, random.Next(1, 32));
     }
 }
