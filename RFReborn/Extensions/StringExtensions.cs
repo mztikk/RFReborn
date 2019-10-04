@@ -43,7 +43,7 @@ namespace RFReborn.Extensions
         {
             fixed (char* ptr = str)
             {
-                ArrayExtensions.Reverse(ptr, str.Length);
+                PointerOperations.Reverse(ptr, str.Length);
             }
         }
 

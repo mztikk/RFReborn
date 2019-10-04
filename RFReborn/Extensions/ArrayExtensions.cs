@@ -58,22 +58,9 @@ namespace RFReborn.Extensions
         {
             fixed (T* ptr = array)
             {
-                Reverse(ptr, array.Length);
+                PointerOperations.Reverse(ptr, array.Length);
             }
         }
 
-        internal static unsafe void Reverse<T>(T* ptr, int len) where T : unmanaged
-        {
-            T* start = ptr;
-            T* end = start + len - 1;
-            while (start < end)
-            {
-                T tmp = *end;
-                *end = *start;
-                *start = tmp;
-                start++;
-                end--;
-            }
-        }
     }
 }

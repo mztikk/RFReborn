@@ -16,7 +16,7 @@ namespace RFReborn.Extensions
         {
             fixed (T* ptr = array)
             {
-                ArrayExtensions.Reverse(ptr, array.Length);
+                PointerOperations.Reverse(ptr, array.Length);
             }
         }
     }
