@@ -61,6 +61,5 @@ namespace RFReborn.Extensions
                 PointerOperations.Reverse(ptr, array.Length);
             }
         }
-
     }
 }
