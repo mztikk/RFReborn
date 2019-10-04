@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
+using RFReborn.Comparison;
 
 namespace RFReborn.Extensions
 {
@@ -19,5 +21,15 @@ namespace RFReborn.Extensions
                 PointerOperations.Reverse(ptr, span.Length);
             }
         }
+
+        /// <summary>
+        /// Checks if the specified <see cref="Span{T}"/> are equal in value.
+        /// </summary>
+        /// <typeparam name="T">Type.</typeparam>
+        /// <param name="left">First <see cref="Span{T}"/> to compare.</param>
+        /// <param name="right">Second <see cref="Span{T}"/> to compare.</param>
+        /// <returns>TRUE if all values are equal, FALSE otherwise.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool FastEquals<T>(this Span<T> left, Span<T> right) where T : unmanaged => FastCompare.Equals(left, right);
     }
 }
