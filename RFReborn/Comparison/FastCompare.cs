@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace RFReborn.Comparison
 {
@@ -57,6 +58,48 @@ namespace RFReborn.Comparison
                 return false;
             }
 
+            if (left.Length != right.Length)
+            {
+                return false;
+            }
+
+            fixed (void* lp = left, rp = right)
+            {
+                return Equals(lp, rp, left.Length * sizeof(T));
+            }
+        }
+
+        /// <summary>
+        /// Checks if the specified <see cref="Span{T}"/> are equal in value.
+        /// </summary>
+        /// <typeparam name="T">Type.</typeparam>
+        /// <param name="left">First <see cref="Span{T}"/> to compare.</param>
+        /// <param name="right">Second <see cref="Span{T}"/> to compare.</param>
+        /// <returns>TRUE if all values are equal, FALSE otherwise.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Equals<T>(Span<T> left, Span<T> right) where T : unmanaged
+        {
+            if (left.Length != right.Length)
+            {
+                return false;
+            }
+
+            fixed (void* lp = left, rp = right)
+            {
+                return Equals(lp, rp, left.Length * sizeof(T));
+            }
+        }
+
+        /// <summary>
+        /// Checks if the specified <see cref="ReadOnlySpan{T}"/> are equal in value.
+        /// </summary>
+        /// <typeparam name="T">Type.</typeparam>
+        /// <param name="left">First <see cref="ReadOnlySpan{T}"/> to compare.</param>
+        /// <param name="right">Second <see cref="ReadOnlySpan{T}"/> to compare.</param>
+        /// <returns>TRUE if all values are equal, FALSE otherwise.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Equals<T>(ReadOnlySpan<T> left, ReadOnlySpan<T> right) where T : unmanaged
+        {
             if (left.Length != right.Length)
             {
                 return false;
