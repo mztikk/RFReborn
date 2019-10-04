@@ -89,18 +89,6 @@ namespace RFReborn.Extensions
             }
         }
 
-        /// <summary>
-        /// Reverses the elements in a <see cref="string"/>.
-        /// </summary>
-        /// <param name="str"><see cref="string"/> to reverse</param>
-        public static unsafe void FastReverse(this string str)
-        {
-            fixed (char* ptr = str)
-            {
-                Reverse(ptr, str.Length);
-            }
-        }
-
         internal static unsafe void Reverse<T>(T* ptr, int len) where T : unmanaged
         {
             T* start = ptr;
