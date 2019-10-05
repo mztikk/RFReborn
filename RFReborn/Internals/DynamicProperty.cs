@@ -153,10 +153,9 @@ namespace RFReborn.Internals
         /// Gets a property by name
         /// </summary>
         /// <param name="t">Type of object</param>
-        /// <param name="obj">Object that has property</param>
         /// <param name="nameChain">Names of properties to walk</param>
         /// <param name="index">index to start in <paramref name="nameChain"/>, default 0</param>
-        public static object Get(Type t, object obj, string[] nameChain, int index = 0)
+        public static PropertyInfo Get(Type t, string[] nameChain, int index = 0)
         {
             const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance;
 
@@ -174,16 +173,25 @@ namespace RFReborn.Internals
 
                     if (name == last)
                     {
-                        return prop.GetValue(obj);
+                        return prop;
                     }
                     else
                     {
-                        return Get(prop.PropertyType, prop.GetValue(obj), nameChain, ++i);
+                        return Get(prop.PropertyType, nameChain, ++i);
                     }
                 }
             }
 
             throw new ArgumentException();
         }
+
+        /// <summary>
+        /// Gets a properties value by name
+        /// </summary>
+        /// <param name="t">Type of object</param>
+        /// <param name="obj">Object that has property</param>
+        /// <param name="nameChain">Names of properties to walk</param>
+        /// <param name="index">index to start in <paramref name="nameChain"/>, default 0</param>
+        public static object Get(Type t, object obj, string[] nameChain, int index = 0) => Get(t, nameChain, index).GetValue(obj);
     }
 }
