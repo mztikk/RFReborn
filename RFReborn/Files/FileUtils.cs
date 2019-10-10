@@ -383,5 +383,31 @@ namespace RFReborn.Files
                 }
             }
         }
+
+        /// <summary>
+        /// Copies all files and directories from <paramref name="source"/> to <paramref name="destination"/>
+        /// </summary>
+        /// <param name="source">Source to copy</param>
+        /// <param name="destination">Destination to copy to</param>
+        public static void Copy(this DirectoryInfo source, DirectoryInfo destination)
+        {
+            if (!destination.Exists)
+            {
+                destination.Create();
+            }
+
+            Walk(source.FullName,
+                (FileInfo fi) =>
+                {
+                    string relPath = Path.GetRelativePath(source.FullName, fi.FullName);
+                    string newPath = Path.Combine(destination.FullName, relPath);
+                    FileInfo newFile = new FileInfo(newPath);
+                    if (!newFile.Directory.Exists)
+                    {
+                        newFile.Directory.Create();
+                    }
+                    fi.CopyTo(newPath, false);
+                });
+        }
     }
 }
