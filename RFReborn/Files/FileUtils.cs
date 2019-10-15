@@ -409,5 +409,20 @@ namespace RFReborn.Files
                     fi.CopyTo(newPath, false);
                 });
         }
+
+        /// <summary>
+        /// Clears a <see cref="DirectoryInfo"/>, deleting all files inside
+        /// </summary>
+        /// <param name="directoryInfo"><see cref="DirectoryInfo"/> to clear</param>
+        public static void Clear(this DirectoryInfo directoryInfo)
+        {
+            if (!directoryInfo.Exists)
+            {
+                throw new ArgumentException();
+            }
+
+            Walk(directoryInfo.FullName,
+                (FileInfo fi) => fi.Delete());
+        }
     }
 }
