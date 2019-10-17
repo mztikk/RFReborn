@@ -209,7 +209,7 @@ namespace RFReborn.Random
                 }
 
                 // Can we fit the requested number of bytes in the buffer?
-                if (IsRandomPoolEnabled && _buffer.Length <= buffer.Length)
+                if (IsRandomPoolEnabled && buffer.Length <= _buffer.Length)
                 {
                     int count = buffer.Length;
 
