@@ -27,7 +27,7 @@ namespace RFReborn.Tests.AoBTests
         public static AoBTest ForSignature(Signature signature, long size, long index)
         {
             byte[] bytes = new byte[size];
-            InternalUtils.s_random.NextBytes(bytes);
+            InternalUtils.s_rng.NextBytes(bytes);
             Array.Copy(signature.Pattern, 0, bytes, index, signature.Pattern.LongLength);
 
             return new AoBTest(bytes, signature);
