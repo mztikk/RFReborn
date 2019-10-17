@@ -185,5 +185,42 @@ namespace RFReborn.Extensions
         /// </summary>
         /// <param name="random">Random provider</param>
         public static string NextString(this System.Random random) => NextString(random, StringR.Chars, random.Next(1, 32));
+
+        /// <summary>
+        /// Returns a random number within a specified range.
+        /// </summary>
+        /// <param name="random">Random provider</param>
+        /// <param name="minValue">The inclusive lower bound of the random number returned.</param>
+        /// <param name="maxValue">The exclusive upper bound of the random number returned. <paramref name="maxValue"/> must be greater than or equal to <paramref name="minValue"/>.</param>
+        /// <returns>
+        /// A 64-bit signed integer greater than or equal to <paramref name="minValue"/> and less than <paramref name="maxValue"/>; that is, the range of return values includes <paramref name="minValue"/> but not <paramref name="maxValue"/>. If <paramref name="minValue"/> equals <paramref name="maxValue"/>, <paramref name="minValue"/> is returned.
+        /// </returns>
+        /// <exception cref="T:System.ArgumentOutOfRangeException">
+        ///     <paramref name="minValue"/> is greater than <paramref name="maxValue"/>.
+        /// </exception>
+        public static long Next(this System.Random random, long minValue, long maxValue)
+        {
+            if (minValue > maxValue)
+            {
+                throw new ArgumentOutOfRangeException(nameof(minValue));
+            }
+
+            if (minValue == maxValue)
+            {
+                return minValue;
+            }
+
+            ulong uRange = (ulong)(maxValue - minValue);
+
+            ulong ulongRand;
+            do
+            {
+                byte[] buf = new byte[8];
+                random.NextBytes(buf);
+                ulongRand = (ulong)BitConverter.ToInt64(buf, 0);
+            } while (ulongRand > ulong.MaxValue - (((ulong.MaxValue % uRange) + 1) % uRange));
+
+            return (long)(ulongRand % uRange) + minValue;
+        }
     }
 }
