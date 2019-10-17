@@ -120,7 +120,7 @@ namespace RFReborn.AoB
         /// <returns>The zero-based index position of <paramref name="signature"/> if that <see cref="Signature"/> is found, or -1 if it is not.</returns>
         public static unsafe long FindSignature(byte[] searchRegion, Signature signature)
         {
-            int firstIndex = signature.Mask.IndexOf('x');
+            int firstIndex = signature.FirstByte;
             byte firstItem = signature.Pattern[firstIndex];
 
             fixed (byte* srp = searchRegion)
@@ -154,6 +154,7 @@ namespace RFReborn.AoB
                     sp++;
                 }
             }
+
             return -1;
         }
 
