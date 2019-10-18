@@ -21,7 +21,7 @@ namespace RFReborn.Tests.AoBTests
             long rndIndex = InternalUtils.s_rng.Next(0, bytes.Length - signature.Pattern.LongLength);
             Array.Copy(signature.Pattern, 0, bytes, rndIndex, signature.Pattern.LongLength);
 
-            return new AoBTest(bytes, signature);
+            return new AoBTest(bytes, signature, rndIndex);
         }
 
         public static AoBTest ForSignature(Signature signature, long size, long index)
@@ -30,7 +30,7 @@ namespace RFReborn.Tests.AoBTests
             InternalUtils.s_rng.NextBytes(bytes);
             Array.Copy(signature.Pattern, 0, bytes, index, signature.Pattern.LongLength);
 
-            return new AoBTest(bytes, signature);
+            return new AoBTest(bytes, signature, index);
         }
     }
 }

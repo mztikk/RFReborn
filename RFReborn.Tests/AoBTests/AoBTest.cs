@@ -9,12 +9,15 @@ namespace RFReborn.Tests.AoBTests
 
         public Signature Signature { get; set; }
 
+        public long Index { get; set; }
+
         public AoBTest() { }
 
-        public AoBTest(byte[] searchRegion, Signature signature)
+        public AoBTest(byte[] searchRegion, Signature signature, long index)
         {
             SearchRegion = searchRegion;
             Signature = signature;
+            Index = index;
         }
 
         public Stream GetSearchRegionAsStream() => new MemoryStream(SearchRegion);

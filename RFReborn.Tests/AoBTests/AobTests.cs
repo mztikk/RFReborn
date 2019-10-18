@@ -32,7 +32,7 @@ namespace RFReborn.Tests.AoBTests
         {
             foreach (AoBTest test in _tests)
             {
-                AssertFound(test.SearchRegion, test.Signature);
+                AssertFound(test.SearchRegion, test.Signature, test.Index);
             }
         }
 
@@ -41,20 +41,20 @@ namespace RFReborn.Tests.AoBTests
         {
             foreach (AoBTest test in _tests)
             {
-                AssertFound(test.GetSearchRegionAsStream(), test.Signature);
+                AssertFound(test.GetSearchRegionAsStream(), test.Signature, test.Index);
             }
         }
 
-        private void AssertFound(byte[] searchRegion, Signature signature)
+        private void AssertFound(byte[] searchRegion, Signature signature, long toFind)
         {
             long find = Scanner.FindSignature(searchRegion, signature);
-            Assert.AreNotEqual(-1, find);
+            Assert.AreEqual(toFind, find);
         }
 
-        private void AssertFound(Stream searchRegion, Signature signature)
+        private void AssertFound(Stream searchRegion, Signature signature, long toFind)
         {
             long find = Scanner.FindSignature(searchRegion, signature);
-            Assert.AreNotEqual(-1, find);
+            Assert.AreEqual(toFind, find);
         }
     }
 }
