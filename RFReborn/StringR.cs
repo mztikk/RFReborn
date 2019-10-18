@@ -59,7 +59,7 @@ namespace RFReborn
         /// <summary>
         /// All valid Hexadecimal characters
         /// </summary>
-        public const string Hex = Numbers + "ABCDEF";
+        public const string Hex = Numbers + "ABCDEFabcdef";
 
         /// <summary>
         /// All valid Hexadecimal characters as a key based Lookup Dictionary
