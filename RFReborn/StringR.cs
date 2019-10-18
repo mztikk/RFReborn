@@ -55,6 +55,11 @@ namespace RFReborn
         public const string Special = ".:-_,;#+*?=)(/&%$§!\"\\<>|@'´`~}][{";
 
         /// <summary>
+        /// All valid Hexadecimal characters
+        /// </summary>
+        public const string Hex = Numbers + "ABCDEF";
+
+        /// <summary>
         /// Gets the escaped unicode value string represantion of a char
         /// </summary>
         /// <param name="c"></param>
