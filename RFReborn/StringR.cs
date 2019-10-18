@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
+using RFReborn.Extensions;
 
 namespace RFReborn
 {
@@ -58,6 +60,11 @@ namespace RFReborn
         /// All valid Hexadecimal characters
         /// </summary>
         public const string Hex = Numbers + "ABCDEF";
+
+        /// <summary>
+        /// All valid Hexadecimal characters as a key based Lookup Dictionary
+        /// </summary>
+        public static readonly IReadOnlyDictionary<char, bool> s_hexLookup = new ReadOnlyDictionary<char, bool>(Hex.ToLookup());
 
         /// <summary>
         /// Gets the escaped unicode value string represantion of a char

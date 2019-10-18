@@ -91,5 +91,21 @@ namespace RFReborn.Extensions
 
             return highest.Key;
         }
+
+        /// <summary>
+        /// Creates a Lookup <see cref="Dictionary{TKey, TValue}"/> based on the <see cref="IEnumerable{T}"/> <paramref name="ienum"/>, items have to be unique.
+        /// </summary>
+        /// <typeparam name="T">Type of <see cref="IEnumerable{T}"/></typeparam>
+        /// <param name="ienum"><see cref="IEnumerable{T}"/> to convert</param>
+        public static IDictionary<T, bool> ToLookup<T>(this IEnumerable<T> ienum)
+        {
+            Dictionary<T, bool> rtn = new Dictionary<T, bool>();
+            foreach (T item in ienum)
+            {
+                rtn.Add(item, true);
+            }
+
+            return rtn;
+        }
     }
 }
