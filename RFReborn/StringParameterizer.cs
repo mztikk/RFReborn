@@ -21,7 +21,25 @@ namespace RFReborn
         /// Initializes a new instance of <see cref="StringParameterizer"/> with an <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey, TValue}"/> of <see cref="string"/> and <see cref="Func{TResult}"/>
         /// </summary>
         /// <param name="parameters">Parameters to initialize map with</param>
-        public StringParameterizer(IEnumerable<KeyValuePair<string, Func<string>>> parameters) => _parameterMap = new Dictionary<string, Func<string>>(parameters);
+        public StringParameterizer(IEnumerable<KeyValuePair<string, Func<string>>> parameters)
+        {
+            _parameterMap = new Dictionary<string, Func<string>>(parameters);
+            List<string> badKeys = new List<string>();
+            foreach (string key in _parameterMap.Keys)
+            {
+                if (!ParamIsEnclosed(key))
+                {
+                    badKeys.Add(key);
+                }
+            }
+
+            foreach (string key in badKeys)
+            {
+                Func<string> val = _parameterMap[key];
+                _parameterMap.Remove(key);
+                Add(key, val);
+            }
+        }
 
         /// <summary>
         /// Open Tag / start of a parameter / key
