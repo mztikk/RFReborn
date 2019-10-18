@@ -12,7 +12,7 @@ namespace RFReborn.AoB
         /// <summary>
         /// Size of buffer to be used when reading from streams.
         /// </summary>
-        private const int BufferSize = 4048;
+        private const long BufferSize = 4048;
 
         #region FindSig
         #region Overloads
@@ -98,15 +98,22 @@ namespace RFReborn.AoB
         /// <returns>The offset position of <paramref name="signature"/> if that <see cref="Signature"/> is found, or -1 if it is not.</returns>
         public static long FindSignature(Stream searchRegion, Signature signature)
         {
-            byte[] buffer = new byte[BufferSize];
+            byte[] buffer = new byte[Math.Max(BufferSize, signature.Length)];
             int readByteCount;
             while ((readByteCount = searchRegion.Read(buffer, 0, buffer.Length)) != 0)
             {
+                if (readByteCount < signature.Length)
+                {
+                    return -1;
+                }
+
                 long find = FindSignature(buffer, signature);
                 if (find != -1)
                 {
                     return searchRegion.Position - readByteCount + find;
                 }
+
+                searchRegion.Position -= signature.Length;
             }
 
             return -1;
@@ -201,7 +208,7 @@ namespace RFReborn.AoB
             fixed (byte* patternp = sig.Pattern)
             {
                 byte* pp = patternp;
-                byte* end = pp + sig.Pattern.Length;
+                byte* end = pp + sig.Length;
                 int i = sig.FirstByte;
                 pp += i;
 

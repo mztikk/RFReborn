@@ -40,7 +40,7 @@ namespace RFReborn.AoB
         /// <summary>
         /// Length of the Signature / Number of bytes
         /// </summary>
-        public int Length { get; }
+        public long Length { get; }
 
         #region Constructors
         /// <summary>
@@ -78,7 +78,7 @@ namespace RFReborn.AoB
             Sig = Standardize(signature);
             FirstWildcard = mask.IndexOf('?');
             FirstByte = mask.IndexOf('x');
-            Length = pattern.Length;
+            Length = pattern.LongLength;
         }
         #endregion Constructors
 
