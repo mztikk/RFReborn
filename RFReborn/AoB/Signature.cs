@@ -37,6 +37,11 @@ namespace RFReborn.AoB
         /// </summary>
         public int FirstByte { get; }
 
+        /// <summary>
+        /// Length of the Signature / Number of bytes
+        /// </summary>
+        public int Length { get; }
+
         #region Constructors
         /// <summary>
         /// Constructs a new instance of <see cref="Signature"/> using a byte pattern and mask, with the offset defaulting to 0.
@@ -73,6 +78,7 @@ namespace RFReborn.AoB
             Sig = Standardize(signature);
             FirstWildcard = mask.IndexOf('?');
             FirstByte = mask.IndexOf('x');
+            Length = pattern.Length;
         }
         #endregion Constructors
 
