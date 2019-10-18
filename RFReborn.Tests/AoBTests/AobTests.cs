@@ -14,6 +14,9 @@ namespace RFReborn.Tests.AoBTests
         {
             { AoBTestGenerator.ForSignature(new Signature("05010203")) },
             { AoBTestGenerator.ForSignature(new Signature("ff??aeff")) },
+            { AoBTestGenerator.ForSignature(new Signature("48 ?? C2 48 8D"), 5, 0) },
+            { AoBTestGenerator.ForSignature(new Signature("48 ?? C2 48 8D"), 6, 0) },
+            { AoBTestGenerator.ForSignature(new Signature("48 ?? C2 48 8D"), 6, 1) },
             { AoBTestGenerator.ForSignature(new Signature("ff??aeff"), BufferSize * 2, BufferSize - 3) },
             { AoBTestGenerator.ForSignature(new Signature("48 ?? C2 48 8D 0D B9 DC 63 02 FF C2 ?? 15 71 E6 63 ?? 8B 0C 81 8B C1"), BufferSize * 2, BufferSize - 23) },
             { AoBTestGenerator.ForSignature(new Signature("48 ?? C2 48 8D 0D B9 DC 63 02 FF C2 ?? 15 71 E6 63 ?? 8B 0C 81 8B C1"), BufferSize * 2, BufferSize - 22) },
@@ -25,6 +28,12 @@ namespace RFReborn.Tests.AoBTests
             { AoBTestGenerator.ForSignature(new Signature("48 63 C2 48 8D 0D B9 DC 63 02 FF C2 89 15 71 E6 63 02 8B 0C 81 8B C1 C1 E8 0B 33 C8 8B C1 25 AD 58 3A FF C1 E0 07 33 C8 8B C1 25 8C DF FF FF C1 E0 0F 33 C8 8B C1 C1 E8 12 33 C1 48 83 C4 28"), BufferSize * 2, BufferSize + 1) },
             { AoBTestGenerator.ForSignature(new Signature("48 63 C2 48 8D 0D B9 DC 63 02 FF C2 89 15 71 E6 63 02 8B 0C 81 8B C1 C1 E8 0B 33 C8 8B C1 25 AD 58 3A FF C1 E0 07 33 C8 8B C1 25 8C DF FF FF C1 E0 0F 33 C8 8B C1 C1 E8 12 33 C1 48 83 C4 28"), BufferSize * 2, BufferSize + 2) },
             { AoBTestGenerator.ForSignature(new Signature("48 63 C2 48 8D 0D B9 DC 63 02 FF C2 89 15 71 E6 63 02 8B 0C 81 8B C1 C1 E8 0B 33 C8 8B C1 25 AD 58 3A FF C1 E0 07 33 C8 8B C1 25 8C DF FF FF C1 E0 0F 33 C8 8B C1 C1 E8 12 33 C1 48 83 C4 28"), BufferSize * 2, BufferSize + 3) },
+        };
+
+        private readonly List<AoBTest> _fails = new List<AoBTest>()
+        {
+            {new AoBTest(new byte[]{0xFF }, new Signature("FFEE"), -1) },
+            {new AoBTest(new byte[]{0xFF, 0x00, 0xAE }, new Signature("FFEE"), -1) },
         };
 
         [TestMethod]
@@ -45,6 +54,15 @@ namespace RFReborn.Tests.AoBTests
             }
         }
 
+        [TestMethod]
+        public void SignatureNotInByteArray()
+        {
+            foreach (AoBTest test in _fails)
+            {
+                AssertNotFound(test.SearchRegion, test.Signature);
+            }
+        }
+
         private void AssertFound(byte[] searchRegion, Signature signature, long toFind)
         {
             long find = Scanner.FindSignature(searchRegion, signature);
@@ -55,6 +73,12 @@ namespace RFReborn.Tests.AoBTests
         {
             long find = Scanner.FindSignature(searchRegion, signature);
             Assert.AreEqual(toFind, find);
+        }
+
+        private void AssertNotFound(byte[] searchRegion, Signature signature)
+        {
+            long find = Scanner.FindSignature(searchRegion, signature);
+            Assert.AreEqual(-1, find);
         }
     }
 }
