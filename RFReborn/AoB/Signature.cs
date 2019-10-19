@@ -167,7 +167,7 @@ namespace RFReborn.AoB
 
             //var split = StringR.SplitN(signature, 2);
             //return string.Join(" ", split);
-            return StringR.InSplit(signature, 2, " ");
+            return StringR.InSplit(signature, 2, " ").ToUpperInvariant();
         }
         #endregion Converters
     }
