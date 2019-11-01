@@ -222,5 +222,46 @@ namespace RFReborn.Extensions
 
             return (long)(ulongRand % uRange) + minValue;
         }
+
+        /// <summary>
+        /// Randomizes the chars in a string based on the char, alpha chars will only be randomized to other alpha chars, numbers only to numbers etc.
+        /// </summary>
+        /// <param name="random">Random provider</param>
+        /// <param name="str">String to randomize</param>
+        /// <param name="alpha">Randomize alpha chars, default true</param>
+        /// <param name="numeric">Randomize numeric chars, default true</param>
+        /// <param name="special">Randomize special characters, default false</param>
+        public static void Randomize(this System.Random random, string str, bool alpha = true, bool numeric = true, bool special = false)
+        {
+            fixed (void* voidptr = str)
+            {
+                char* charptr = (char*)voidptr;
+                char* end = charptr + str.Length;
+                while (charptr < end)
+                {
+                    if (char.IsLetter(*charptr) && alpha)
+                    {
+                        if (char.IsUpper(*charptr))
+                        {
+                            *charptr = random.Choice(StringR.AlphabetUpper);
+                        }
+                        else if (char.IsLower(*charptr))
+                        {
+                            *charptr = random.Choice(StringR.AlphabetLower);
+                        }
+                    }
+                    else if (char.IsDigit(*charptr) && numeric)
+                    {
+                        *charptr = random.Choice(StringR.Numbers);
+                    }
+                    else if ((char.IsSymbol(*charptr) || char.IsPunctuation(*charptr) || char.IsSeparator(*charptr)) && special)
+                    {
+                        *charptr = random.Choice(StringR.Special);
+                    }
+
+                    charptr++;
+                }
+            }
+        }
     }
 }
