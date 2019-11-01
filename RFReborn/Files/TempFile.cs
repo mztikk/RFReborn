@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace RFReborn.Files
 {
@@ -11,16 +12,16 @@ namespace RFReborn.Files
         /// <summary>
         /// Temporary file
         /// </summary>
-        public FileInfo File { get; }
+        public FileInfo File { get; private set; }
 
         /// <summary>
         /// Constructs the temporary file from a stream
         /// </summary>
-        /// <param name="content"></param>
+        /// <param name="content">Content the temp file holds</param>
         public TempFile(Stream content)
         {
-            string name = Guid.NewGuid().ToString();
-            File = new FileInfo(name);
+            CreateFile();
+
             using (FileStream stream = File.OpenWrite())
             {
                 content.CopyTo(stream);
@@ -30,11 +31,11 @@ namespace RFReborn.Files
         /// <summary>
         /// Constructs the temporary file from a string
         /// </summary>
-        /// <param name="content"></param>
+        /// <param name="content">Content the temp file holds</param>
         public TempFile(string content)
         {
-            string name = Guid.NewGuid().ToString();
-            File = new FileInfo(name);
+            CreateFile();
+
             using (FileStream stream = File.OpenWrite())
             {
                 using (StreamWriter writer = new StreamWriter(stream))
@@ -42,6 +43,14 @@ namespace RFReborn.Files
                     writer.WriteLine(content);
                 }
             }
+        }
+
+        private TempFile() { }
+
+        private void CreateFile()
+        {
+            string name = Guid.NewGuid().ToString();
+            File = new FileInfo(name);
         }
 
         #region IDisposable Support
@@ -75,5 +84,44 @@ namespace RFReborn.Files
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);// TODO: uncomment the following line if the finalizer is overridden above.// GC.SuppressFinalize(this);
         #endregion
+
+        /// <summary>
+        /// Asynchronously creates the temp file
+        /// </summary>
+        /// <param name="content">Content the temp file holds</param>
+        /// <returns></returns>
+        public static async Task<TempFile> Create(Stream content)
+        {
+            TempFile tempFile = new TempFile();
+            tempFile.CreateFile();
+
+            using (FileStream stream = tempFile.File.OpenWrite())
+            {
+                await content.CopyToAsync(stream).ConfigureAwait(false);
+            }
+
+            return tempFile;
+        }
+
+        /// <summary>
+        /// Asynchronously creates the temp file
+        /// </summary>
+        /// <param name="content">Content the temp file holds</param>
+        /// <returns></returns>
+        public static async Task<TempFile> Create(string content)
+        {
+            TempFile tempFile = new TempFile();
+            tempFile.CreateFile();
+
+            using (FileStream stream = tempFile.File.OpenWrite())
+            {
+                using (StreamWriter writer = new StreamWriter(stream))
+                {
+                    await writer.WriteLineAsync(content).ConfigureAwait(false);
+                }
+            }
+
+            return tempFile;
+        }
     }
 }
