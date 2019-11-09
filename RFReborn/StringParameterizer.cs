@@ -82,7 +82,7 @@ namespace RFReborn
         {
             Regex formatterRegex = new Regex(string.Join("|", RegexHelper.Escape(_parameterMap.Keys)));
 
-            return formatterRegex.Replace(inputName, m => _parameterMap[m.Value].Invoke());
+            return formatterRegex.Replace(inputName, m => _parameterMap.ContainsKey(m.Value) ? _parameterMap[m.Value].Invoke() : m.Value);
         }
 
         private bool ParamIsEnclosed(string param) => param.StartsWith(OpenTag) && param.EndsWith(CloseTag);
