@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.CompilerServices;
 
 namespace RFReborn.Comparison
@@ -158,6 +159,86 @@ namespace RFReborn.Comparison
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Compares the the bytes in two streams for equality.
+        /// </summary>
+        /// <param name="left"><see cref="Stream"/> to compare.</param>
+        /// <param name="right"><see cref="Stream"/> to compare.</param>
+        /// <returns>TRUE if all bytes are equal in value, FALSE otherwise.</returns>
+        public static bool Equals(Stream left, Stream right)
+        {
+            if (left.Length != right.Length || left.Position != right.Position)
+            {
+                return false;
+            }
+
+            const int wantedBuffersize = InternalUtils.StreamBufferSize;
+            int bufferSize = (int)Math.Min(wantedBuffersize, left.Length);
+            byte[] leftBuffer = new byte[bufferSize];
+            byte[] rightBuffer = new byte[bufferSize];
+
+            long numBytesToRead = left.Length;
+            while (numBytesToRead > 0)
+            {
+                int leftRead = left.Read(leftBuffer, 0, bufferSize);
+                int rightRead = right.Read(rightBuffer, 0, bufferSize);
+
+                if (leftRead != rightRead)
+                {
+                    return false;
+                }
+
+                if (!Equals(leftBuffer, rightBuffer))
+                {
+                    return false;
+                }
+
+                numBytesToRead -= leftRead;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Compares the the bytes in two streams for inequality.
+        /// </summary>
+        /// <param name="left"><see cref="Stream"/> to compare.</param>
+        /// <param name="right"><see cref="Stream"/> to compare.</param>
+        /// <returns>FALSE if all bytes are equal in value, TRUE otherwise.</returns>
+        public static bool NotEquals(Stream left, Stream right)
+        {
+            if (left.Length != right.Length || left.Position != right.Position)
+            {
+                return true;
+            }
+
+            const int wantedBuffersize = InternalUtils.StreamBufferSize;
+            int bufferSize = (int)Math.Min(wantedBuffersize, left.Length);
+            byte[] leftBuffer = new byte[bufferSize];
+            byte[] rightBuffer = new byte[bufferSize];
+
+            long numBytesToRead = left.Length;
+            while (numBytesToRead > 0)
+            {
+                int leftRead = left.Read(leftBuffer, 0, bufferSize);
+                int rightRead = right.Read(rightBuffer, 0, bufferSize);
+
+                if (leftRead != rightRead)
+                {
+                    return true;
+                }
+
+                if (!Equals(leftBuffer, rightBuffer))
+                {
+                    return true;
+                }
+
+                numBytesToRead -= leftRead;
+            }
+
+            return false;
         }
     }
 }
