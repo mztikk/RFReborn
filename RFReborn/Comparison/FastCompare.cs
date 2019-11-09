@@ -162,7 +162,7 @@ namespace RFReborn.Comparison
         }
 
         /// <summary>
-        /// Compares the the bytes in two streams for equality.
+        /// Compares the bytes in two streams for equality.
         /// </summary>
         /// <param name="left"><see cref="Stream"/> to compare.</param>
         /// <param name="right"><see cref="Stream"/> to compare.</param>
@@ -202,7 +202,7 @@ namespace RFReborn.Comparison
         }
 
         /// <summary>
-        /// Compares the the bytes in two streams for inequality.
+        /// Compares the bytes in two streams for inequality.
         /// </summary>
         /// <param name="left"><see cref="Stream"/> to compare.</param>
         /// <param name="right"><see cref="Stream"/> to compare.</param>

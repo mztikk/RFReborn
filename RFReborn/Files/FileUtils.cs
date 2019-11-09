@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
+using RFReborn.Comparison;
 
 namespace RFReborn.Files
 {
@@ -408,6 +409,96 @@ namespace RFReborn.Files
                     }
                     fi.CopyTo(newPath, false);
                 });
+        }
+
+        /// <summary>
+        /// Copies files from <paramref name="source"/> <see cref="DirectoryInfo"/> to <paramref name="target"/> <see cref="DirectoryInfo"/>
+        /// </summary>
+        /// <param name="source">Source directory</param>
+        /// <param name="target">Target directory</param>
+        /// <param name="onlyDiffFiles">Copy only files that are different</param>
+        /// <returns>Relative path of copied files</returns>
+        public static IEnumerable<string> Copy(DirectoryInfo source, DirectoryInfo target, bool onlyDiffFiles)
+        {
+            if (!target.Exists)
+            {
+                target.Create();
+            }
+
+            IEnumerable<string> files = onlyDiffFiles ? GetDiffFiles(source, target) : Walk(source.FullName, FileSystemEnumeration.FilesOnly);
+            foreach (string file in files)
+            {
+                string filePath = Path.Combine(source.FullName, file);
+                string newFilePath = Path.Combine(target.FullName, file);
+                if (!File.Exists(newFilePath))
+                {
+                    Directory.CreateDirectory(Directory.GetParent(newFilePath).FullName);
+                    File.Create(newFilePath).Dispose();
+                }
+
+                File.Copy(filePath, newFilePath);
+                yield return file;
+            }
+        }
+
+        /// <summary>
+        /// Returns the relative path of all files which are different between the source and target <see cref="DirectoryInfo"/>
+        /// </summary>
+        /// <param name="source">Source path</param>
+        /// <param name="target">Target path</param>
+        /// <returns>Relative path of different files</returns>
+        public static IEnumerable<string> GetDiffFiles(DirectoryInfo source, DirectoryInfo target)
+        {
+            foreach (string sourceFile in Walk(source.FullName, FileSystemEnumeration.FilesOnly))
+            {
+                string relativePath = Path.GetRelativePath(source.FullName, sourceFile);
+                if (!target.Exists)
+                {
+                    yield return relativePath;
+                }
+                else
+                {
+                    string targetFile = Path.Combine(target.FullName, relativePath);
+                    if (!File.Exists(targetFile) || AreDifferent(targetFile, sourceFile))
+                    {
+                        yield return relativePath;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Compares two files for inequality
+        /// </summary>
+        /// <param name="left">First file to compare</param>
+        /// <param name="right">Second file to compare</param>
+        /// <returns><see langword="true"/> if files are different, <see langword="false"/> otherwise</returns>
+        public static bool AreDifferent(this FileInfo left, FileInfo right)
+        {
+            using (FileStream leftData = left.OpenRead())
+            {
+                using (FileStream rightData = right.OpenRead())
+                {
+                    return FastCompare.NotEquals(leftData, rightData);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Compares two files for inequality
+        /// </summary>
+        /// <param name="left">First file to compare</param>
+        /// <param name="right">Second file to compare</param>
+        /// <returns><see langword="true"/> if files are different, <see langword="false"/> otherwise</returns>
+        public static bool AreDifferent(string left, string right)
+        {
+            using (FileStream leftData = File.OpenRead(left))
+            {
+                using (FileStream rightData = File.OpenRead(right))
+                {
+                    return FastCompare.NotEquals(leftData, rightData);
+                }
+            }
         }
 
         /// <summary>
