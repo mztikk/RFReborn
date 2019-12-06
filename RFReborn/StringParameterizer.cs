@@ -52,6 +52,11 @@ namespace RFReborn
         public string CloseTag { get; set; } = "}";
 
         /// <summary>
+        /// Wildcard String which will match anything
+        /// </summary>
+        public string WildcardString { get; set; } = "<!%%%!>";
+
+        /// <summary>
         /// Attempts to add a new parameter key and a <see cref="Func{TResult}"/> to retrieve the value
         /// </summary>
         /// <param name="parameterKey">Parameter key</param>
@@ -74,13 +79,25 @@ namespace RFReborn
             set => _parameterMap[MakeParamFromKey(key)] = value;
         }
 
+        private Regex GetRegexFormatter()
+        {
+            string regex = string.Join("|", RegexHelper.Escape(_parameterMap.Keys));
+            regex = regex.Replace(WildcardString, ".*");
+            return new Regex(regex);
+        }
+
         /// <summary>
         /// Makes the formatted string by replacing all parameters with their values
         /// </summary>
         /// <param name="inputName">String to make</param>
         public string Make(string inputName)
         {
-            Regex formatterRegex = new Regex(string.Join("|", RegexHelper.Escape(_parameterMap.Keys)));
+            if (_parameterMap.Count == 0)
+            {
+                return inputName;
+            }
+
+            Regex formatterRegex = GetRegexFormatter();
 
             return formatterRegex.Replace(inputName, match => ParameterEvaluator(match.Value));
         }
@@ -92,7 +109,12 @@ namespace RFReborn
         /// <param name="evaluator">Custom evaluator to use before formatting parameters</param>
         public string Make(string inputName, Func<string, string?> evaluator)
         {
-            Regex formatterRegex = new Regex(string.Join("|", RegexHelper.Escape(_parameterMap.Keys)));
+            if (_parameterMap.Count == 0)
+            {
+                return inputName;
+            }
+
+            Regex formatterRegex = GetRegexFormatter();
 
             //return formatterRegex.Replace(inputName, m => _parameterMap.ContainsKey(m.Value) ? _parameterMap[m.Value].Invoke() : m.Value);
             return formatterRegex.Replace(inputName, match =>
