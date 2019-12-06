@@ -163,6 +163,21 @@ namespace RFReborn.Extensions
         }
 
         /// <summary>
+        /// Returns a random value of type T
+        /// </summary>
+        /// <typeparam name="T">Type of value</typeparam>
+        /// <param name="random">Random provider</param>
+        public static T Next<T>(this System.Random random) where T : unmanaged
+        {
+            byte[] buffer = new byte[sizeof(T)];
+            fixed (void* ptr = buffer)
+            {
+                random.NextBytes(buffer);
+                return *(T*)ptr;
+            }
+        }
+
+        /// <summary>
         /// Returns a random string constructed out of a <paramref name="charset"/> with a length of <paramref name="len"/>
         /// </summary>
         /// <param name="random">Random provider</param>
