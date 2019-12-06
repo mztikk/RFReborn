@@ -82,7 +82,29 @@ namespace RFReborn
         {
             Regex formatterRegex = new Regex(string.Join("|", RegexHelper.Escape(_parameterMap.Keys)));
 
-            return formatterRegex.Replace(inputName, m => _parameterMap.ContainsKey(m.Value) ? _parameterMap[m.Value].Invoke() : m.Value);
+            return formatterRegex.Replace(inputName, match => ParameterEvaluator(match.Value));
+        }
+
+        /// <summary>
+        /// Makes the formatted string by calling the evaluator on every parameter, if this returns null it will replace all parameters with their set values
+        /// </summary>
+        /// <param name="inputName">String to make</param>
+        /// <param name="evaluator">Custom evaluator to use before formatting parameters</param>
+        public string Make(string inputName, Func<string, string?> evaluator)
+        {
+            Regex formatterRegex = new Regex(string.Join("|", RegexHelper.Escape(_parameterMap.Keys)));
+
+            //return formatterRegex.Replace(inputName, m => _parameterMap.ContainsKey(m.Value) ? _parameterMap[m.Value].Invoke() : m.Value);
+            return formatterRegex.Replace(inputName, match =>
+            {
+                string? customEvaluator = evaluator(match.Value);
+                if (customEvaluator is null)
+                {
+                    return ParameterEvaluator(match.Value);
+                }
+
+                return customEvaluator;
+            });
         }
 
         private bool ParamIsEnclosed(string param) => param.StartsWith(OpenTag) && param.EndsWith(CloseTag);
@@ -96,5 +118,7 @@ namespace RFReborn
 
             return OpenTag + key + CloseTag;
         }
+
+        private string ParameterEvaluator(string parameterName) => _parameterMap.ContainsKey(parameterName) ? _parameterMap[parameterName].Invoke() : parameterName;
     }
 }
