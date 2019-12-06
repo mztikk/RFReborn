@@ -98,12 +98,12 @@ namespace RFReborn
             return formatterRegex.Replace(inputName, match =>
             {
                 string? customEvaluator = evaluator(match.Value);
-                if (customEvaluator is null)
+                if (customEvaluator is { })
                 {
-                    return ParameterEvaluator(match.Value);
+                    return customEvaluator;
                 }
 
-                return customEvaluator;
+                return ParameterEvaluator(match.Value);
             });
         }
 
