@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace RFReborn.Extensions
 {
@@ -68,5 +70,25 @@ namespace RFReborn.Extensions
         /// <param name="input">String to get substring from</param>
         /// <param name="startIndex">The zero-based starting character position of a substring in this instance.</param>
         public static string SafeSubstring(this string input, int startIndex) => input.SafeSubstring(startIndex, input.Length);
+
+        /// <summary>
+        /// Gets a stream from the string with UTF8 encoding
+        /// </summary>
+        /// <param name="s">String to get a stream from</param>
+        public static Stream GetStream(this string s) => s.GetStream(Encoding.UTF8);
+
+        /// <summary>
+        /// Gets a stream from the string with the specified encoding
+        /// </summary>
+        /// <param name="s">String to get a stream from</param>
+        /// <param name="encoding">Encoding to use</param>
+        public static Stream GetStream(this string s, Encoding encoding)
+        {
+            MemoryStream rtn = new MemoryStream();
+            byte[] bytes = encoding.GetBytes(s);
+            rtn.Write(bytes);
+            rtn.Position = 0;
+            return rtn;
+        }
     }
 }
