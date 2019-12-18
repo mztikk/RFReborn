@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
+using RFReborn.Extensions;
 using RFReborn.Helpers;
 
 namespace RFReborn
@@ -127,6 +130,65 @@ namespace RFReborn
 
                 return ParameterEvaluator(match.Value);
             });
+        }
+
+        /// <summary>
+        /// Makes the formatted string from a stream by calling the evaluator on every parameter, if this returns null it will replace all parameters with their set values
+        /// </summary>
+        /// <param name="input">Stream to make formatted string from</param>
+        /// <param name="evaluator">Custom evaluator to use before formatting parameters</param>
+
+        public string Make(Stream input, Func<string, string?> evaluator)
+        {
+            StreamReader reader = new StreamReader(input);
+            if (_parameterMap.Count == 0)
+            {
+                return reader.ReadToEnd();
+            }
+
+            StringBuilder sb = new StringBuilder();
+            StringBuilder appender = new StringBuilder();
+            int size = OpenTag.Length;
+            Span<char> buffer = new char[size];
+            Span<char> appendBuffer = new char[CloseTag.Length];
+            while (reader.Read(buffer) >= size)
+            {
+                if (buffer.FastEquals(OpenTag))
+                {
+                    appender.Clear();
+                    appender.Append(buffer);
+                    while (true)
+                    {
+                        int read = reader.Read(appendBuffer);
+                        if (read == 0)
+                        {
+                            sb.Append(appender);
+                            break;
+                        }
+
+                        appender.Append(appendBuffer);
+
+                        if (appendBuffer.FastEquals(CloseTag))
+                        {
+                            string value = appender.ToString();
+                            string? customEvaluator = evaluator(value);
+                            if (customEvaluator is { })
+                            {
+                                sb.Append(value);
+                            }
+
+                            sb.Append(ParameterEvaluator(value));
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    sb.Append(buffer);
+                }
+            }
+
+            return sb.ToString();
         }
 
         private bool ParamIsEnclosed(string param) => param.StartsWith(OpenTag) && param.EndsWith(CloseTag);

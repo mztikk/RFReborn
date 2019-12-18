@@ -30,5 +30,15 @@ namespace RFReborn.Tests.StringParameterizerTests
                 Assert.AreEqual(item.Right, make);
             }
         }
+
+        [TestMethod]
+        public void StreamParameterize()
+        {
+            foreach (Pair<string> item in _params)
+            {
+                string streamMake = _parameterizer.Make(item.Left.GetStream(), (string _) => null);
+                Assert.AreEqual(item.Right, streamMake);
+            }
+        }
     }
 }
