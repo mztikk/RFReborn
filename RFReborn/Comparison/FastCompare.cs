@@ -113,6 +113,27 @@ namespace RFReborn.Comparison
         }
 
         /// <summary>
+        /// Checks if the specified <see cref="Span{T}"/> and <see cref="ReadOnlySpan{T}"/> are equal in value.
+        /// </summary>
+        /// <typeparam name="T">Type.</typeparam>
+        /// <param name="left">First <see cref="Span{T}"/> to compare.</param>
+        /// <param name="right">Second <see cref="ReadOnlySpan{T}"/> to compare.</param>
+        /// <returns>TRUE if all values are equal, FALSE otherwise.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Equals<T>(Span<T> left, ReadOnlySpan<T> right) where T : unmanaged
+        {
+            if (left.Length != right.Length)
+            {
+                return false;
+            }
+
+            fixed (void* lp = left, rp = right)
+            {
+                return Equals(lp, rp, left.Length * sizeof(T));
+            }
+        }
+
+        /// <summary>
         /// Compares the specified number of bytes in memory at <paramref name="left"/> and <paramref name="right"/>.
         /// </summary>
         /// <param name="left">Pointer to memory to compare.</param>
