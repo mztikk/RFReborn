@@ -24,25 +24,7 @@ namespace RFReborn
         /// Initializes a new instance of <see cref="StringParameterizer"/> with an <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey, TValue}"/> of <see cref="string"/> and <see cref="Func{TResult}"/>
         /// </summary>
         /// <param name="parameters">Parameters to initialize map with</param>
-        public StringParameterizer(IEnumerable<KeyValuePair<string, Func<string>>> parameters)
-        {
-            _parameterMap = new Dictionary<string, Func<string>>(parameters);
-            List<string> badKeys = new List<string>();
-            foreach (string key in _parameterMap.Keys)
-            {
-                if (!ParamIsEnclosed(key))
-                {
-                    badKeys.Add(key);
-                }
-            }
-
-            foreach (string key in badKeys)
-            {
-                Func<string> val = _parameterMap[key];
-                _parameterMap.Remove(key);
-                Add(key, val);
-            }
-        }
+        public StringParameterizer(IEnumerable<KeyValuePair<string, Func<string>>> parameters) => _parameterMap = new Dictionary<string, Func<string>>(parameters);
 
         /// <summary>
         /// Open Tag / start of a parameter / key
@@ -64,14 +46,14 @@ namespace RFReborn
         /// </summary>
         /// <param name="parameterKey">Parameter key</param>
         /// <param name="parameterValue"><see cref="Func{TResult}"/> to retrieve the value</param>
-        public bool TryAdd(string parameterKey, Func<string> parameterValue) => _parameterMap.TryAdd(MakeParamFromKey(parameterKey), parameterValue);
+        public bool TryAdd(string parameterKey, Func<string> parameterValue) => _parameterMap.TryAdd(parameterKey, parameterValue);
 
         /// <summary>
         /// Adds a new parameter key and a <see cref="Func{TResult}"/> to retrieve the value
         /// </summary>
         /// <param name="parameterKey">Parameter key</param>
         /// <param name="parameterValue"><see cref="Func{TResult}"/> to retrieve the value</param>
-        public void Add(string parameterKey, Func<string> parameterValue) => _parameterMap.Add(MakeParamFromKey(parameterKey), parameterValue);
+        public void Add(string parameterKey, Func<string> parameterValue) => _parameterMap.Add(parameterKey, parameterValue);
 
         /// <summary>
         /// Sets the value associated with the specified key.
@@ -79,12 +61,12 @@ namespace RFReborn
         /// <param name="key">The key of the value to set.</param>
         public Func<string> this[string key]
         {
-            set => _parameterMap[MakeParamFromKey(key)] = value;
+            set => _parameterMap[key] = value;
         }
 
         private Regex GetRegexFormatter()
         {
-            string regex = string.Join("|", RegexHelper.Escape(_parameterMap.Keys));
+            string regex = string.Join("|", RegexHelper.Escape(GetTaggedKeys()));
             regex = regex.Replace(WildcardString, ".*");
             return new Regex(regex);
         }
@@ -102,7 +84,7 @@ namespace RFReborn
 
             Regex formatterRegex = GetRegexFormatter();
 
-            return formatterRegex.Replace(inputName, match => ParameterEvaluator(match.Value));
+            return formatterRegex.Replace(inputName, match => ParameterEvaluator(GetKeyFromParam(match.Value)));
         }
 
         /// <summary>
@@ -122,13 +104,15 @@ namespace RFReborn
             //return formatterRegex.Replace(inputName, m => _parameterMap.ContainsKey(m.Value) ? _parameterMap[m.Value].Invoke() : m.Value);
             return formatterRegex.Replace(inputName, match =>
             {
-                string? customEvaluator = evaluator(match.Value);
+                string key = GetKeyFromParam(match.Value);
+
+                string? customEvaluator = evaluator(key);
                 if (customEvaluator is { })
                 {
                     return customEvaluator;
                 }
 
-                return ParameterEvaluator(match.Value);
+                return ParameterEvaluator(key);
             });
         }
 
@@ -204,17 +188,19 @@ namespace RFReborn
             return sb.ToString();
         }
 
+        private IEnumerable<string> GetTaggedKeys()
+        {
+            foreach (string item in _parameterMap.Keys)
+            {
+                yield return MakeParamFromKey(item);
+            }
+        }
+
         private bool ParamIsEnclosed(string param) => param.StartsWith(OpenTag) && param.EndsWith(CloseTag);
 
-        private string MakeParamFromKey(string key)
-        {
-            if (ParamIsEnclosed(key))
-            {
-                return key;
-            }
+        private string MakeParamFromKey(string key) => OpenTag + key + CloseTag;
 
-            return OpenTag + key + CloseTag;
-        }
+        private string GetKeyFromParam(string param) => param.Substring(OpenTag.Length, param.Length - CloseTag.Length - OpenTag.Length);
 
         private string ParameterEvaluator(string parameterName) => _parameterMap.ContainsKey(parameterName) ? _parameterMap[parameterName].Invoke() : parameterName;
     }
