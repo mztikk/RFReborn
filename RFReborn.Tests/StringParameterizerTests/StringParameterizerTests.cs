@@ -21,12 +21,36 @@ namespace RFReborn.Tests.StringParameterizerTests
             {"{World}={Num}", "World!=1337" },
         };
 
+        private readonly StringParameterizer _parameterizer2 = new StringParameterizer();
+
+        private readonly List<Pair<string>> _params2 = new List<Pair<string>>()
+        {
+            {"Hello<-!World!->", "HelloWorld!" },
+            {"<-!World!->=<-!Num!->", "World!=1337" },
+        };
+
+        [TestInitialize]
+        public void Init()
+        {
+            _parameterizer2.OpenTag = "<-!";
+            _parameterizer2.CloseTag = "!->";
+
+            _parameterizer2.Add("World", () => "World!");
+            _parameterizer2.Add("Num", () => "1337");
+        }
+
         [TestMethod]
         public void StringParameterize()
         {
             foreach (Pair<string> item in _params)
             {
                 string make = _parameterizer.Make(item.Left);
+                Assert.AreEqual(item.Right, make);
+            }
+
+            foreach (Pair<string> item in _params2)
+            {
+                string make = _parameterizer2.Make(item.Left);
                 Assert.AreEqual(item.Right, make);
             }
         }
@@ -37,6 +61,12 @@ namespace RFReborn.Tests.StringParameterizerTests
             foreach (Pair<string> item in _params)
             {
                 string streamMake = _parameterizer.Make(item.Left.GetStream(), (string _) => null);
+                Assert.AreEqual(item.Right, streamMake);
+            }
+
+            foreach (Pair<string> item in _params2)
+            {
+                string streamMake = _parameterizer2.Make(item.Left.GetStream(), (string _) => null);
                 Assert.AreEqual(item.Right, streamMake);
             }
         }
