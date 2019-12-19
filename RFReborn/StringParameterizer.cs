@@ -151,40 +151,53 @@ namespace RFReborn
             int size = OpenTag.Length;
             Span<char> buffer = new char[size];
             Span<char> appendBuffer = new char[CloseTag.Length];
-            while (reader.Read(buffer) >= size)
+            while (true)
             {
-                if (buffer.FastEquals(OpenTag))
+                int read = reader.Read(buffer);
+                if (read == 0)
                 {
-                    appender.Clear();
-                    appender.Append(buffer);
-                    while (true)
+                    break;
+                }
+
+                if (read == size)
+                {
+                    if (buffer.FastEquals(OpenTag))
                     {
-                        int read = reader.Read(appendBuffer);
-                        if (read == 0)
+                        appender.Clear();
+                        appender.Append(buffer);
+                        while (true)
                         {
-                            sb.Append(appender);
-                            break;
-                        }
-
-                        appender.Append(appendBuffer);
-
-                        if (appendBuffer.FastEquals(CloseTag))
-                        {
-                            string value = appender.ToString();
-                            string? customEvaluator = evaluator(value);
-                            if (customEvaluator is { })
+                            int appendRead = reader.Read(appendBuffer);
+                            if (appendRead == 0)
                             {
-                                sb.Append(value);
+                                sb.Append(appender);
+                                break;
                             }
 
-                            sb.Append(ParameterEvaluator(value));
-                            break;
+                            appender.Append(appendBuffer);
+
+                            if (appendBuffer.FastEquals(CloseTag))
+                            {
+                                string value = appender.ToString();
+                                string? customEvaluator = evaluator(value);
+                                if (customEvaluator is { })
+                                {
+                                    sb.Append(value);
+                                }
+
+                                sb.Append(ParameterEvaluator(value));
+                                break;
+                            }
                         }
+                    }
+                    else
+                    {
+                        sb.Append(buffer);
                     }
                 }
                 else
                 {
-                    sb.Append(buffer);
+                    sb.Append(buffer.Slice(0, read));
                 }
             }
 
