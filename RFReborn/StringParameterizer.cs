@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using RFReborn.Extensions;
 using RFReborn.Helpers;
 
 namespace RFReborn
@@ -120,72 +119,12 @@ namespace RFReborn
         /// Makes the formatted string from a stream by calling the evaluator on every parameter, if this returns null it will replace all parameters with their set values
         /// </summary>
         /// <param name="input">Stream to make formatted string from</param>
+        /// <param name="target">Stream to write formatted string to</param>
         /// <param name="evaluator">Custom evaluator to use before formatting parameters</param>
 
-        public string Make(Stream input, Func<string, string?> evaluator)
+        public void Make(Stream input, Stream target, Func<string, string?> evaluator)
         {
-            StreamReader reader = new StreamReader(input);
-            if (_parameterMap.Count == 0)
-            {
-                return reader.ReadToEnd();
-            }
-
-            StringBuilder sb = new StringBuilder();
-            StringBuilder appender = new StringBuilder();
-            int size = OpenTag.Length;
-            Span<char> buffer = new char[size];
-            Span<char> appendBuffer = new char[CloseTag.Length];
-            while (true)
-            {
-                int read = reader.Read(buffer);
-                if (read == 0)
-                {
-                    break;
-                }
-
-                if (read == size)
-                {
-                    if (buffer.FastEquals(OpenTag))
-                    {
-                        appender.Clear();
-                        appender.Append(buffer);
-                        while (true)
-                        {
-                            int appendRead = reader.Read(appendBuffer);
-                            if (appendRead == 0)
-                            {
-                                sb.Append(appender);
-                                break;
-                            }
-
-                            appender.Append(appendBuffer);
-
-                            if (appendBuffer.FastEquals(CloseTag))
-                            {
-                                string value = appender.ToString();
-                                string? customEvaluator = evaluator(value);
-                                if (customEvaluator is { })
-                                {
-                                    sb.Append(value);
-                                }
-
-                                sb.Append(ParameterEvaluator(value));
-                                break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        sb.Append(buffer);
-                    }
-                }
-                else
-                {
-                    sb.Append(buffer.Slice(0, read));
-                }
-            }
-
-            return sb.ToString();
+            input.CopyTo(target);
         }
 
         private IEnumerable<string> GetTaggedKeys()
