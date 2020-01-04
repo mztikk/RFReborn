@@ -56,28 +56,28 @@ namespace RFReborn.Tests.StringParameterizerTests
             }
         }
 
-        [TestMethod]
-        public void StreamParameterize()
-        {
-            foreach (Pair<string> item in _params)
-            {
-                using (MemoryStream target = new MemoryStream())
-                {
-                    _parameterizer.Make(item.Left.GetStream(), target, (string _) => null);
-                    target.Position = 0;
-                    Assert.AreEqual(item.Right, new StreamReader(target).ReadToEnd()); ;
-                }
-            }
+        //[TestMethod]
+        //public void StreamParameterize()
+        //{
+        //    foreach (Pair<string> item in _params)
+        //    {
+        //        using (MemoryStream target = new MemoryStream())
+        //        {
+        //            _parameterizer.Make(item.Left.GetStream(), target, (string _) => null);
+        //            target.Position = 0;
+        //            Assert.AreEqual(item.Right, new StreamReader(target).ReadToEnd()); ;
+        //        }
+        //    }
 
-            foreach (Pair<string> item in _params2)
-            {
-                using (MemoryStream target = new MemoryStream())
-                {
-                    _parameterizer.Make(item.Left.GetStream(), target, (string _) => null);
-                    target.Position = 0;
-                    Assert.AreEqual(item.Right, new StreamReader(target).ReadToEnd());
-                }
-            }
-        }
+        //    foreach (Pair<string> item in _params2)
+        //    {
+        //        using (MemoryStream target = new MemoryStream())
+        //        {
+        //            _parameterizer.Make(item.Left.GetStream(), target, (string _) => null);
+        //            target.Position = 0;
+        //            Assert.AreEqual(item.Right, new StreamReader(target).ReadToEnd());
+        //        }
+        //    }
+        //}
     }
 }

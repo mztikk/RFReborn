@@ -115,17 +115,17 @@ namespace RFReborn
             });
         }
 
-        /// <summary>
-        /// Makes the formatted string from a stream by calling the evaluator on every parameter, if this returns null it will replace all parameters with their set values
-        /// </summary>
-        /// <param name="input">Stream to make formatted string from</param>
-        /// <param name="target">Stream to write formatted string to</param>
-        /// <param name="evaluator">Custom evaluator to use before formatting parameters</param>
+        ///// <summary>
+        ///// Makes the formatted string from a stream by calling the evaluator on every parameter, if this returns null it will replace all parameters with their set values
+        ///// </summary>
+        ///// <param name="input">Stream to make formatted string from</param>
+        ///// <param name="target">Stream to write formatted string to</param>
+        ///// <param name="evaluator">Custom evaluator to use before formatting parameters</param>
 
-        public void Make(Stream input, Stream target, Func<string, string?> evaluator)
-        {
-            input.CopyTo(target);
-        }
+        //public void Make(Stream input, Stream target, Func<string, string?> evaluator)
+        //{
+        //    input.CopyTo(target);
+        //}
 
         private IEnumerable<string> GetTaggedKeys()
         {
