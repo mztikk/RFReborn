@@ -269,5 +269,51 @@ namespace RFReborn
                 *sPC = char.ToUpperInvariant(*sPC);
             }
         }
+
+        /// <summary>
+        /// Checks if a given pattern matches a string
+        /// </summary>
+        /// <param name="input">input to check</param>
+        /// <param name="pattern">pattern to match</param>
+        /// <param name="wildcard">matches any sequence of characters</param>
+        /// <param name="singlewildcard">matches any single character</param>
+        /// <returns>returns <see langword="true"/> if pattern matches; <see langword="false"/> otherwise</returns>
+        public static bool WildcardMatch(string input, string pattern, char wildcard = '*', char singlewildcard = '?')
+        {
+            for (int i = 0, j = 0; i < input.Length; i++)
+            {
+                if (j == pattern.Length)
+                {
+                    return false;
+                }
+
+                char inputChar = input[i];
+                char patternChar = pattern[j];
+                if (patternChar == wildcard)
+                {
+                    if (j + 1 < pattern.Length && inputChar == pattern[j + 1])
+                    {
+                        j += 2;
+                    }
+
+                    continue;
+                }
+                if (patternChar == singlewildcard)
+                {
+                    j++;
+                    continue;
+                }
+
+                if (inputChar == patternChar)
+                {
+                    j++;
+                    continue;
+                }
+
+                return false;
+            }
+
+            return true;
+        }
     }
 }

@@ -90,5 +90,13 @@ namespace RFReborn.Extensions
             rtn.Position = 0;
             return rtn;
         }
+
+        /// <summary>
+        /// Checks if a given pattern matches a string
+        /// </summary>
+        /// <param name="input">input to check</param>
+        /// <param name="pattern">pattern to match</param>
+        /// <returns>returns <see langword="true"/> if pattern matches; <see langword="false"/> otherwise</returns>
+        public static bool WildcardMatch(this string input, string pattern) => StringR.WildcardMatch(input, pattern);
     }
 }
