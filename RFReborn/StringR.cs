@@ -280,7 +280,8 @@ namespace RFReborn
         /// <returns>returns <see langword="true"/> if pattern matches; <see langword="false"/> otherwise</returns>
         public static bool WildcardMatch(string input, string pattern, char wildcard = '*', char singlewildcard = '?')
         {
-            for (int i = 0, j = 0; i < input.Length; i++)
+            int i = 0, j = 0;
+            for (; i < input.Length; i++)
             {
                 if (j == pattern.Length)
                 {
@@ -291,22 +292,35 @@ namespace RFReborn
                 char patternChar = pattern[j];
                 if (patternChar == wildcard)
                 {
+                    // if we match a wildcard, check if next char is a normal match so we continue
                     if (j + 1 < pattern.Length && inputChar == pattern[j + 1])
                     {
+                        // advance pattern by 2 to also consume the current matching input char in pattern
                         j += 2;
                     }
-
-                    continue;
+                    // otherwise dont consume wildcard to match sequence
                 }
-                if (patternChar == singlewildcard)
+                else if (patternChar == singlewildcard)
+                {
+                    // match only single char and advance pattern
+                    j++;
+                }
+                else if (inputChar == patternChar)
                 {
                     j++;
                     continue;
                 }
-
-                if (inputChar == patternChar)
+                else
                 {
-                    j++;
+                    return false;
+                }
+            }
+
+            // consume all wildcards, if there is anyhting left after we didnt fully match
+            for (; j < pattern.Length; j++)
+            {
+                if (pattern[j] == wildcard)
+                {
                     continue;
                 }
 
