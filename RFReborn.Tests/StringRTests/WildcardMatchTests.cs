@@ -14,7 +14,9 @@ namespace RFReborn.Tests.StringRTests
             { "a", "*" },
             { "test", "*" },
             { "äöüd", "?*üd" },
-            { "abc", "abc" }
+            { "abc", "abc" },
+            { "longteststring", "long*" },
+            { "abcd", "abc?" },
         };
 
         private readonly List<Pair<string>> _negativeTests = new List<Pair<string>>()
@@ -23,7 +25,8 @@ namespace RFReborn.Tests.StringRTests
             { "123456", "???578" },
             { "plka", "" },
             { "abcd", "abc" },
-            { "abc", "abcd" }
+            { "abc", "abcd" },
+            { "longteststring", "long?" }
         };
 
         [TestMethod]
