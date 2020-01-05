@@ -70,6 +70,10 @@ namespace RFReborn
             ErrorDataReceived += (sender, args) => _writer.WriteLine(args.Data);
         }
 
+        /// <summary>
+        /// Disposes of the writer and underlying process
+        /// </summary>
+        /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
         {
             _writer.Dispose();
