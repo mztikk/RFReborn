@@ -278,7 +278,7 @@ namespace RFReborn
         /// <param name="wildcard">matches any sequence of characters</param>
         /// <param name="singlewildcard">matches any single character</param>
         /// <returns>returns <see langword="true"/> if pattern matches; <see langword="false"/> otherwise</returns>
-        public static bool WildcardMatch(string input, string pattern, char wildcard = '*', char singlewildcard = '?')
+        public static bool WildcardMatch(string input, string pattern, char wildcard, char singlewildcard)
         {
             int i = 0, j = 0;
             for (; i < input.Length; i++)
@@ -339,5 +339,13 @@ namespace RFReborn
 
             return true;
         }
+
+        /// <summary>
+        /// Checks if a given pattern matches a string, with * as a wildcard and ? as a single wildcard
+        /// </summary>
+        /// <param name="input">input to check</param>
+        /// <param name="pattern">pattern to match</param>
+        /// <returns>returns <see langword="true"/> if pattern matches; <see langword="false"/> otherwise</returns>
+        public static bool WildcardMatch(string input, string pattern) => WildcardMatch(input, pattern, '*', '?');
     }
 }
