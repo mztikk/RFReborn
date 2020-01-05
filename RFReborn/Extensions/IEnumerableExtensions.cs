@@ -29,7 +29,7 @@ namespace RFReborn.Extensions
                 return icoll.Count > 0;
             }
 
-            foreach (T item in ienum)
+            foreach (T _ in ienum)
             {
                 return true;
             }
