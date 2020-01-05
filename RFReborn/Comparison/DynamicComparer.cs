@@ -3,14 +3,32 @@ using System.Reflection;
 
 namespace RFReborn.Comparison
 {
+    /// <summary>
+    /// Dynamically compares itself with an object of type T by looping through its properties
+    /// </summary>
+    /// <typeparam name="T">Type of object</typeparam>
     public class DynamicComparer<T>
     {
+        /// <summary>
+        /// Type of comparison to use
+        /// </summary>
         protected DynamicComparisonType comparisonType;
 
+        /// <summary>
+        /// Constructs a new <see cref="DynamicComparer{T}"/> with a specified <see cref="DynamicComparisonType"/>
+        /// </summary>
+        /// <param name="dynamicComparisonType">Mode of comparison</param>
         public DynamicComparer(DynamicComparisonType dynamicComparisonType) => comparisonType = dynamicComparisonType;
 
+        /// <summary>
+        /// Constructs a new <see cref="DynamicComparer{T}"/> with a default value of <see cref="DynamicComparisonType.Full"/>
+        /// </summary>
         public DynamicComparer() : this(DynamicComparisonType.Full) { }
 
+        /// <summary>
+        /// Compare our properties with another object
+        /// </summary>
+        /// <param name="t">object to compare to</param>
         public bool Compare(T t) => comparisonType switch
         {
             DynamicComparisonType.Full => FullComparison(t),
