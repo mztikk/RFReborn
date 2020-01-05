@@ -90,7 +90,10 @@ namespace RFReborn.Random
         /// optional random buffer.
         /// </summary>
         /// <param name="enableRandomPool">set to <c>true</c> to enable the random pool buffer for increased performance.</param>
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
+        // Buffer will be initialized later through initbuffer call
         public CryptoRandom(bool enableRandomPool) => IsRandomPoolEnabled = enableRandomPool;
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
 
         private void InitBuffer()
         {
@@ -209,7 +212,10 @@ namespace RFReborn.Random
                 }
 
                 // Can we fit the requested number of bytes in the buffer?
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+                // buffer can not be null here due to inituffer call
                 if (IsRandomPoolEnabled && buffer.Length <= _buffer.Length)
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
                 {
                     int count = buffer.Length;
 
@@ -255,7 +261,10 @@ namespace RFReborn.Random
                 InitBuffer();
             }
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+            // buffer can not be null here due to inituffer call
             if (requiredBytes > _buffer.Length)
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
             {
                 throw new ArgumentOutOfRangeException(nameof(requiredBytes), "cannot be greater than random buffer");
             }
