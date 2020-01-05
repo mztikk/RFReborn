@@ -292,11 +292,21 @@ namespace RFReborn
                 char patternChar = pattern[j];
                 if (patternChar == wildcard)
                 {
-                    // if we match a wildcard, check if next char is a normal match so we continue
-                    if (j + 1 < pattern.Length && inputChar == pattern[j + 1])
+                    // if we can match next pattern char
+                    if (j + 1 < pattern.Length)
                     {
-                        // advance pattern by 2 to also consume the current matching input char in pattern
-                        j += 2;
+                        // if next char is also a wildcard consume current
+                        if (pattern[j + 1] == wildcard)
+                        {
+                            j++;
+                        }
+
+                        // if we match a wildcard, check if next char is a normal match so we continue
+                        if (inputChar == pattern[j + 1])
+                        {
+                            // advance pattern by 2 to also consume the current matching input char in pattern
+                            j += 2;
+                        }
                     }
                     // otherwise dont consume wildcard to match sequence
                 }
