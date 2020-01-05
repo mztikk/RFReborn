@@ -3,10 +3,21 @@ using System.IO;
 
 namespace RFReborn.Files.Finders
 {
+    /// <summary>
+    /// Provides methods to find files by comparing <see cref="FileInfo"/>
+    /// </summary>
     public class FileFinder : IFileFinder
     {
-        public FileSearchOptions? searchOptions;
+        /// <summary>
+        /// Search options to use when comparing files
+        /// </summary>
+        public FileSearchOptions? SearchOptions;
 
+        /// <summary>
+        /// Walks the <paramref name="root"/> path and finds all files matching our <see cref="SearchOptions"/>.
+        /// </summary>
+        /// <param name="root">Path where to start walking</param>
+        /// <returns><see cref="IEnumerable{T}"/> of empty <see cref="FileInfo"/></returns>
         public IEnumerable<FileInfo> Find(string root)
         {
             foreach (string filePath in FileUtils.Walk(root, FileSystemEnumeration.FilesOnly))
@@ -16,6 +27,7 @@ namespace RFReborn.Files.Finders
                 {
                     file = new FileInfo(filePath);
                 }
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch (FileNotFoundException)
                 {
                     continue;
@@ -24,8 +36,9 @@ namespace RFReborn.Files.Finders
                 {
                     continue;
                 }
+#pragma warning restore CA1031 // Do not catch general exception types
 
-                if (searchOptions?.Compare(file) == true)
+                if (SearchOptions?.Compare(file) == true)
                 {
                     yield return file;
                 }
