@@ -18,7 +18,10 @@ namespace RFReborn.Files
         /// Constructs the temporary file from a stream
         /// </summary>
         /// <param name="content">Content the temp file holds</param>
+// Not null since CreateFile call
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public TempFile(Stream content)
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         {
             CreateFile();
 
@@ -32,7 +35,10 @@ namespace RFReborn.Files
         /// Constructs the temporary file from a string
         /// </summary>
         /// <param name="content">Content the temp file holds</param>
+// Not null since CreateFile call
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public TempFile(string content)
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         {
             CreateFile();
 
@@ -45,7 +51,10 @@ namespace RFReborn.Files
             }
         }
 
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
+        // Private constructor for static create methods
         private TempFile() { }
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
 
         private void CreateFile()
         {
@@ -54,11 +63,15 @@ namespace RFReborn.Files
         }
 
         #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
+        private bool _disposedValue = false; // To detect redundant calls
 
+        /// <summary>
+        /// Disposes temporary file
+        /// </summary>
+        /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!_disposedValue)
             {
                 if (disposing)
                 {
@@ -68,7 +81,7 @@ namespace RFReborn.Files
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
                 // TODO: set large fields to null.
 
-                disposedValue = true;
+                _disposedValue = true;
             }
         }
 
@@ -80,8 +93,13 @@ namespace RFReborn.Files
         // }
 
         // This code added to correctly implement the disposable pattern.
+        /// <summary>
+        /// Disposes temporary file
+        /// </summary>
+#pragma warning disable CA1063 // Implement IDisposable Correctly; Wrong warning because there is no block body
         public void Dispose() =>
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+#pragma warning restore CA1063 // Implement IDisposable Correctly
+                              // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);// TODO: uncomment the following line if the finalizer is overridden above.// GC.SuppressFinalize(this);
         #endregion
 
@@ -89,7 +107,6 @@ namespace RFReborn.Files
         /// Asynchronously creates the temp file
         /// </summary>
         /// <param name="content">Content the temp file holds</param>
-        /// <returns></returns>
         public static async Task<TempFile> Create(Stream content)
         {
             TempFile tempFile = new TempFile();
