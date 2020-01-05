@@ -92,6 +92,14 @@ namespace RFReborn.Extensions
             throw new Exception($"Failed to get random item in range of 0 to {size} of {enumerable}");
         }
 
+        /// <summary>
+        /// Chooses a weighted random item inside of the provided <see cref="IList{T}"/> and returns it.
+        /// </summary>
+        /// <typeparam name="T">Type.</typeparam>
+        /// <param name="random">Random instance.</param>
+        /// <param name="choices">IList to choose random item from.</param>
+        /// <param name="weights">Weights to use</param>
+        /// <returns>Random item inside of Enumerable, default in case of a failure.>.</returns>
         public static T WeightedChoice<T>(this System.Random random, IList<T> choices, IList<double> weights)
         {
             double weightSum = 0d;
