@@ -328,7 +328,7 @@ namespace RFReborn.Files
             }
 
             bool enumFiles = fileSystemEnumeration == FileSystemEnumeration.FilesOnly || fileSystemEnumeration == FileSystemEnumeration.FilesAndDirectories;
-            bool enumDirs = fileSystemEnumeration == FileSystemEnumeration.DirectoriesOnly || fileSystemEnumeration == FileSystemEnumeration.DirectoriesOnly;
+            bool enumDirs = fileSystemEnumeration == FileSystemEnumeration.DirectoriesOnly || fileSystemEnumeration == FileSystemEnumeration.FilesAndDirectories;
 
             dirs.Push(root);
             while (dirs.Count > 0)
