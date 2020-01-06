@@ -277,8 +277,9 @@ namespace RFReborn
         /// <param name="pattern">pattern to match</param>
         /// <param name="wildcard">matches any sequence of characters</param>
         /// <param name="singlewildcard">matches any single character</param>
+        /// <param name="ignoreCasing">Case insensitive comparison</param>
         /// <returns>returns <see langword="true"/> if pattern matches; <see langword="false"/> otherwise</returns>
-        public static bool WildcardMatch(string input, string pattern, char wildcard, char singlewildcard)
+        public static bool WildcardMatch(string input, string pattern, char wildcard, char singlewildcard, bool ignoreCasing)
         {
             bool[,] lookup = new bool[input.Length + 1, pattern.Length + 1];
 
@@ -308,13 +309,31 @@ namespace RFReborn
                     {
                         lookup[i, j] = lookup[i, j - 1] || lookup[i - 1, j];
                     }
-                    else if (pattern[j - 1] == singlewildcard || input[i - 1] == pattern[j - 1])
+                    else if (pattern[j - 1] == singlewildcard)
                     {
                         lookup[i, j] = lookup[i - 1, j - 1];
                     }
                     else
                     {
-                        lookup[i, j] = false;
+                        if (ignoreCasing)
+                        {
+                            if (char.ToLower(input[i - 1]) == char.ToLower(pattern[j - 1]))
+                            {
+                                lookup[i, j] = lookup[i - 1, j - 1];
+                            }
+                            else
+                            {
+                                lookup[i, j] = false;
+                            }
+                        }
+                        else if (input[i - 1] == pattern[j - 1])
+                        {
+                            lookup[i, j] = lookup[i - 1, j - 1];
+                        }
+                        else
+                        {
+                            lookup[i, j] = false;
+                        }
                     }
                 }
             }
@@ -326,7 +345,16 @@ namespace RFReborn
         /// </summary>
         /// <param name="input">input to check</param>
         /// <param name="pattern">pattern to match</param>
+        /// <param name="ignoreCasing">Case insensitive comparison</param>
         /// <returns>returns <see langword="true"/> if pattern matches; <see langword="false"/> otherwise</returns>
-        public static bool WildcardMatch(string input, string pattern) => WildcardMatch(input, pattern, '*', '?');
+        public static bool WildcardMatch(string input, string pattern, bool ignoreCasing) => WildcardMatch(input, pattern, '*', '?', ignoreCasing);
+
+        /// <summary>
+        /// Checks if a given pattern matches a string, with * as a wildcard and ? as a single wildcard and case sensitive comparison
+        /// </summary>
+        /// <param name="input">input to check</param>
+        /// <param name="pattern">pattern to match</param>
+        /// <returns>returns <see langword="true"/> if pattern matches; <see langword="false"/> otherwise</returns>
+        public static bool WildcardMatch(string input, string pattern) => WildcardMatch(input, pattern, '*', '?', false);
     }
 }
