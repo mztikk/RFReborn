@@ -20,6 +20,16 @@ namespace RFReborn.Tests.StringRTests
             { "abcd", "***d" }
         };
 
+        private readonly List<Pair<string>> _positiveCasingTests = new List<Pair<string>>()
+        {
+            { "lonGteStstring", "*teststring" },
+            { "äöÜd", "?*üd" },
+            { "abc", "ABC" },
+            { "longteststring", "LONG*" },
+            { "aBcD", "abc?" },
+            { "abCD", "***d" }
+        };
+
         private readonly List<Pair<string>> _negativeTests = new List<Pair<string>>()
         {
             { "longteststring", "*test" },
@@ -42,6 +52,16 @@ namespace RFReborn.Tests.StringRTests
             foreach (Pair<string> negativeTest in _negativeTests)
             {
                 Assert.IsFalse(StringR.WildcardMatch(negativeTest.Left, negativeTest.Right));
+            }
+
+            foreach (Pair<string> positiveCasingTest in _positiveCasingTests)
+            {
+                Assert.IsTrue(StringR.WildcardMatch(positiveCasingTest.Left, positiveCasingTest.Right, true));
+            }
+
+            foreach (Pair<string> positiveCasingTest in _positiveCasingTests)
+            {
+                Assert.IsFalse(StringR.WildcardMatch(positiveCasingTest.Left, positiveCasingTest.Right, false));
             }
         }
     }
