@@ -50,7 +50,7 @@ namespace RFReborn.Routines
             }
             finally
             {
-                _lastRun = ForceMinute(DateTime.UtcNow, 2, true);
+                _lastRun = DateTime.UtcNow;
             }
         }
 
