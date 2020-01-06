@@ -9,18 +9,18 @@ namespace RFReborn.Routines
     /// </summary>
     public class RoutineManager
     {
-        private readonly IEnumerable<RoutineBase> _routines;
+        private readonly ICollection<RoutineBase> _routines;
 
         private readonly Timer _timer;
 
         /// <summary>
         /// Constructs a new <see cref="RoutineManager"/> with given <see cref="RoutineBase"/>s
         /// </summary>
-        /// <param name="enumerableRoutines"><see cref="RoutineBase"/>s to manage</param>
+        /// <param name="routineCollection"><see cref="RoutineBase"/>s to manage</param>
         /// <param name="interval">Interval between ticks</param>
-        public RoutineManager(IEnumerable<RoutineBase> enumerableRoutines, double interval)
+        public RoutineManager(ICollection<RoutineBase> routineCollection, double interval)
         {
-            _routines = enumerableRoutines;
+            _routines = routineCollection;
             _timer = new Timer();
             Interval = interval;
             _timer.AutoReset = true;
@@ -30,14 +30,14 @@ namespace RFReborn.Routines
         /// <summary>
         /// Constructs a new <see cref="RoutineManager"/> with given <see cref="RoutineBase"/>s and a default interval of 25
         /// </summary>
-        /// <param name="enumerableRoutines"><see cref="RoutineBase"/>s to manage</param>
-        public RoutineManager(IEnumerable<RoutineBase> enumerableRoutines) : this(enumerableRoutines, 25) { }
+        /// <param name="routineCollection"><see cref="RoutineBase"/>s to manage</param>
+        public RoutineManager(ICollection<RoutineBase> routineCollection) : this(routineCollection, 25) { }
 
         /// <summary>
-        /// Constructs a new <see cref="RoutineManager"/> with given <see cref="RoutineBase"/>s through <see cref="RoutineManager.RoutineManager(IEnumerable{RoutineBase})"/>
+        /// Constructs a new <see cref="RoutineManager"/> with given <see cref="RoutineBase"/>s through <see cref="RoutineManager.RoutineManager(ICollection{RoutineBase})"/>
         /// </summary>
         /// <param name="routines"><see cref="RoutineBase"/>s to manage</param>
-        public RoutineManager(params RoutineBase[] routines) : this(enumerableRoutines: routines) { }
+        public RoutineManager(params RoutineBase[] routines) : this(routineCollection: routines) { }
 
         /// <summary>
         /// Interval between ticks
@@ -47,6 +47,12 @@ namespace RFReborn.Routines
             get => _timer.Interval;
             set => _timer.Interval = value;
         }
+
+        /// <summary>
+        /// Adds a <see cref="RoutineBase"/> to manage
+        /// </summary>
+        /// <param name="routine"></param>
+        public void AddRoutine(RoutineBase routine) => _routines.Add(routine);
 
         private async Task Tick()
         {
