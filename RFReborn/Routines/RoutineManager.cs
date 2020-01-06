@@ -34,7 +34,7 @@ namespace RFReborn.Routines
         public RoutineManager(ICollection<RoutineBase> routineCollection) : this(routineCollection, 25) { }
 
         /// <summary>
-        /// Constructs a new <see cref="RoutineManager"/> with given <see cref="RoutineBase"/>s through <see cref="RoutineManager.RoutineManager(ICollection{RoutineBase})"/>
+        /// Constructs a new <see cref="RoutineManager"/> with given <see cref="RoutineBase"/>s through <see cref="RoutineManager(ICollection{RoutineBase})"/>
         /// </summary>
         /// <param name="routines"><see cref="RoutineBase"/>s to manage</param>
         public RoutineManager(params RoutineBase[] routines) : this(routineCollection: routines) { }
