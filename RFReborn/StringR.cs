@@ -280,64 +280,45 @@ namespace RFReborn
         /// <returns>returns <see langword="true"/> if pattern matches; <see langword="false"/> otherwise</returns>
         public static bool WildcardMatch(string input, string pattern, char wildcard, char singlewildcard)
         {
-            int i = 0, j = 0;
-            for (; i < input.Length; i++)
-            {
-                if (j == pattern.Length)
-                {
-                    return false;
-                }
+            bool[,] lookup = new bool[input.Length + 1, pattern.Length + 1];
 
-                char inputChar = input[i];
-                char patternChar = pattern[j];
-                if (patternChar == wildcard)
+            for (int i = 0; i < input.Length + 1; i++)
+            {
+                for (int j = 0; j < pattern.Length + 1; j++)
                 {
-                    // if we can match next pattern char
-                    if (j + 1 < pattern.Length)
+                    lookup[i, j] = false;
+                }
+            }
+
+            lookup[0, 0] = true;
+
+            for (int j = 1; j <= pattern.Length; j++)
+            {
+                if (pattern[j - 1] == wildcard)
+                {
+                    lookup[0, j] = lookup[0, j - 1];
+                }
+            }
+
+            for (int i = 1; i <= input.Length; i++)
+            {
+                for (int j = 1; j <= pattern.Length; j++)
+                {
+                    if (pattern[j - 1] == wildcard)
                     {
-                        // if next char is also a wildcard consume current
-                        if (pattern[j + 1] == wildcard)
-                        {
-                            j++;
-                        }
-
-                        // if we match a wildcard, check if next char is a normal match so we continue
-                        if (inputChar == pattern[j + 1])
-                        {
-                            // advance pattern by 2 to also consume the current matching input char in pattern
-                            j += 2;
-                        }
+                        lookup[i, j] = lookup[i, j - 1] || lookup[i - 1, j];
                     }
-                    // otherwise dont consume wildcard to match sequence
-                }
-                else if (patternChar == singlewildcard)
-                {
-                    // match only single char and advance pattern
-                    j++;
-                }
-                else if (inputChar == patternChar)
-                {
-                    j++;
-                    continue;
-                }
-                else
-                {
-                    return false;
+                    else if (pattern[j - 1] == singlewildcard || input[i - 1] == pattern[j - 1])
+                    {
+                        lookup[i, j] = lookup[i - 1, j - 1];
+                    }
+                    else
+                    {
+                        lookup[i, j] = false;
+                    }
                 }
             }
-
-            // consume all wildcards, if there is anyhting left after we didnt fully match
-            for (; j < pattern.Length; j++)
-            {
-                if (pattern[j] == wildcard)
-                {
-                    continue;
-                }
-
-                return false;
-            }
-
-            return true;
+            return lookup[input.Length, pattern.Length];
         }
 
         /// <summary>
