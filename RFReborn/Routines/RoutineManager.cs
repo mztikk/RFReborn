@@ -23,6 +23,7 @@ namespace RFReborn.Routines
             _routines = enumerableRoutines;
             _timer = new Timer();
             Interval = interval;
+            _timer.AutoReset = true;
             _timer.Elapsed += OnTimer;
         }
 
