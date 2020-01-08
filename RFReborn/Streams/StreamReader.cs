@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
-namespace RFReborn.Stream
+namespace RFReborn.Streams
 {
     public class StreamReader
     {
+        public StreamReader(Stream stream)
+        {
 
+        }
     }
 }
