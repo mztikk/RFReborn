@@ -12,7 +12,7 @@ namespace RFReborn.Extensions
         /// <summary>
         /// Executes a <see cref="Func{T, TResult}"/> until it returns true or exceeds the retry count
         /// </summary>
-        /// <param name="func"><see cref="Func{T, TResult}"/> to execute/param>
+        /// <param name="func"><see cref="Func{T, TResult}"/> to execute</param>
         /// <param name="retries">Maximum number of retries</param>
         /// <param name="delayBetweenRetries">Delay between retries</param>
         public static async Task TryTilTrue(this Func<Task<bool>> func, int retries, int delayBetweenRetries)
@@ -32,7 +32,7 @@ namespace RFReborn.Extensions
         /// <summary>
         /// Executes a <see cref="Func{T, TResult}"/> until it returns true or exceeds the retry count
         /// </summary>
-        /// <param name="func"><see cref="Func{T, TResult}"/> to execute/param>
+        /// <param name="func"><see cref="Func{T, TResult}"/> to execute</param>
         /// <param name="retries">Maximum number of retries</param>
         /// <param name="delayBetweenRetries">Delay between retries</param>
         public static void TryTilTrue(this Func<bool> func, int retries, int delayBetweenRetries)
@@ -52,7 +52,7 @@ namespace RFReborn.Extensions
         /// <summary>
         /// Executes a <see cref="Func{T, TResult}"/> until it returns true or exceeds the retry count
         /// </summary>
-        /// <param name="func"><see cref="Func{T, TResult}"/> to execute/param>
+        /// <param name="func"><see cref="Func{T, TResult}"/> to execute</param>
         /// <param name="retries">Maximum number of retries</param>
         /// <param name="delayBetweenRetries">Delay between retries</param>
         public static async Task TryTilTrueAsync(this Func<bool> func, int retries, int delayBetweenRetries)
