@@ -24,8 +24,8 @@ namespace RFReborn.Extensions
                     break;
                 }
 
-                await Task.Delay(delayBetweenRetries).ConfigureAwait(false);
                 retries--;
+                await Task.Delay(delayBetweenRetries).ConfigureAwait(false);
             }
         }
 
@@ -44,8 +44,8 @@ namespace RFReborn.Extensions
                     break;
                 }
 
-                Thread.Sleep(delayBetweenRetries);
                 retries--;
+                Thread.Sleep(delayBetweenRetries);
             }
         }
 
@@ -64,8 +64,8 @@ namespace RFReborn.Extensions
                     break;
                 }
 
-                await Task.Delay(delayBetweenRetries).ConfigureAwait(false);
                 retries--;
+                await Task.Delay(delayBetweenRetries).ConfigureAwait(false);
             }
         }
     }
