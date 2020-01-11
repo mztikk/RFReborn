@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RFReborn.Helpers
+namespace RFReborn.Disposable
 {
     /// <summary>
     /// Wrapper around <see cref="IDisposable"/> which calls a <see cref="Action"/> on being disposed
