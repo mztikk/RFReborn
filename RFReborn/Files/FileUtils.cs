@@ -415,6 +415,7 @@ namespace RFReborn.Files
                     if (StringR.WildcardMatch(test, pattern))
                     {
                         yield return file;
+                        break;
                     }
                 }
             }
