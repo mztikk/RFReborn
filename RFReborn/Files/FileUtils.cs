@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
+using RFReborn.AoB;
 using RFReborn.Comparison;
 
 namespace RFReborn.Files
@@ -400,6 +401,62 @@ namespace RFReborn.Files
         }
 
         /// <summary>
+        /// Finds files by walking the root and wildcard matching the path and alt path with a given mask
+        /// </summary>
+        /// <param name="root">Root path to start walking</param>
+        /// <param name="mask">Wildcard mask to match filepath</param>
+        public static IEnumerable<string> FindFilesByMatch(string root, string mask)
+        {
+            foreach (string file in Walk(root, FileSystemEnumeration.FilesOnly))
+            {
+                if (StringR.WildcardMatch(file, mask) || StringR.WildcardMatch(GetAltPath(file), mask))
+                {
+                    yield return file;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Finds files by walking the root and matching the <see cref="Signature"/>
+        /// </summary>
+        /// <param name="root">Root path to start walking</param>
+        /// <param name="signature"><see cref="Signature"/> to match</param>
+        /// <param name="continueOnException">If <see langword="true"/> continues on exception, if <see langword="false"/> throws them. May happen when reading from files</param>
+        public static IEnumerable<string> FindFilesBySignature(string root, Signature signature, bool continueOnException = true)
+        {
+            foreach (string file in Walk(root, FileSystemEnumeration.FilesOnly))
+            {
+                bool flag = false;
+                try
+                {
+                    using (FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    {
+                        if (Scanner.FindSignature(fs, signature) != -1)
+                        {
+                            flag = true;
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    if (continueOnException)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        throw e;
+                    }
+                }
+
+                if (flag)
+                {
+                    yield return file;
+                }
+            }
+        }
+
+        /// <summary>
         /// Copies all files and directories from <paramref name="source"/> to <paramref name="destination"/>
         /// </summary>
         /// <param name="source">Source to copy</param>
@@ -530,5 +587,11 @@ namespace RFReborn.Files
             Walk(directoryInfo.FullName,
                 (FileInfo fi) => fi.Delete());
         }
+
+        /// <summary>
+        /// Replaces all instances of <see cref="Path.DirectorySeparatorChar"/> with <see cref="Path.AltDirectorySeparatorChar"/>
+        /// </summary>
+        /// <param name="path">path to get alt path from</param>
+        public static string GetAltPath(string path) => path.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
     }
 }
