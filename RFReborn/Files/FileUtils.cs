@@ -404,14 +404,18 @@ namespace RFReborn.Files
         /// Finds files by walking the root and wildcard matching the path and alt path with a given mask
         /// </summary>
         /// <param name="root">Root path to start walking</param>
-        /// <param name="mask">Wildcard mask to match filepath</param>
-        public static IEnumerable<string> FindFilesByMatch(string root, string mask)
+        /// <param name="pattern">Wildcard mask to match filepath</param>
+        public static IEnumerable<string> FindFilesByMatch(string root, string pattern)
         {
             foreach (string file in Walk(root, FileSystemEnumeration.FilesOnly))
             {
-                if (StringR.WildcardMatch(file, mask) || StringR.WildcardMatch(GetAltPath(file), mask))
+                string[] tests = new string[] { Path.GetFileName(file), file, GetAltPath(file) };
+                foreach (string test in tests)
                 {
-                    yield return file;
+                    if (StringR.WildcardMatch(test, pattern))
+                    {
+                        yield return file;
+                    }
                 }
             }
         }
