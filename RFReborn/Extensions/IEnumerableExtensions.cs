@@ -107,5 +107,20 @@ namespace RFReborn.Extensions
 
             return rtn;
         }
+
+        /// <summary>
+        /// Calls a <see cref="Func{T, TResult}"/> on every item in a <see cref="IEnumerable{T}"/> and yields the result of the call instead of the original value
+        /// </summary>
+        /// <typeparam name="T">Type of <see cref="IEnumerable{T}"/></typeparam>
+        /// <typeparam name="TResult">Type of <see cref="Func{T, TResult}"/> Result</typeparam>
+        /// <param name="ienum"><see cref="IEnumerable{T}"/> to iteratre</param>
+        /// <param name="func"><see cref="Func{T, TResult}"/> to call</param>
+        public static IEnumerable<TResult> Call<T, TResult>(this IEnumerable<T> ienum, Func<T, TResult> func)
+        {
+            foreach (T item in ienum)
+            {
+                yield return func(item);
+            }
+        }
     }
 }
