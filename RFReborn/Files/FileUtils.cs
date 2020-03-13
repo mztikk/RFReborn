@@ -618,6 +618,34 @@ namespace RFReborn.Files
         }
 
         /// <summary>
+        /// Makes path of a file to a new base destination relative from a base origin
+        /// <para/>
+        /// For example: C:\testdir as origin and D:\newdir\diffsub\ as destination and C:\testdir\subdir\abc\bin.exe as file would translate to D:\newdir\diffsub\subdir\abc\bin.exe
+        /// </summary>
+        /// <param name="baseOrigin">Base Origin</param>
+        /// <param name="baseDestination">Base Destination</param>
+        /// <param name="file">File to make new path</param>
+        public static string MakePath(string baseOrigin, string baseDestination, string file)
+        {
+            string relPath = Path.GetRelativePath(baseOrigin, file);
+            return Path.Combine(baseDestination, relPath);
+        }
+
+        /// <summary>
+        /// Makes path of a file to a new base destination relative from a base origin
+        /// <para/>
+        /// For example: C:\testdir as origin and D:\newdir\diffsub\ as destination and C:\testdir\subdir\abc\bin.exe as file would translate to D:\newdir\diffsub\subdir\abc\bin.exe
+        /// </summary>
+        /// <param name="baseOrigin">Base Origin</param>
+        /// <param name="baseDestination">Base Destination</param>
+        /// <param name="file">File to make new path</param>
+        public static string MakePath(DirectoryInfo baseOrigin, DirectoryInfo baseDestination, string file)
+        {
+            string relPath = Path.GetRelativePath(baseOrigin.FullName, file);
+            return Path.Combine(baseDestination.FullName, relPath);
+        }
+
+        /// <summary>
         /// Copies a file from <paramref name="file"/> based on <paramref name="baseOrigin"/> <see cref="DirectoryInfo"/> relative path to <paramref name="destination"/>
         /// </summary>
         /// <param name="baseOrigin">Base Origin for relative path</param>
