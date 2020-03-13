@@ -792,6 +792,40 @@ namespace RFReborn.Files
         }
 
         /// <summary>
+        /// Compares two files for equality
+        /// </summary>
+        /// <param name="left">First file to compare</param>
+        /// <param name="right">Second file to compare</param>
+        /// <returns><see langword="true"/> if files are equal, <see langword="false"/> otherwise</returns>
+        public static bool AreEqual(this FileInfo left, FileInfo right)
+        {
+            using (FileStream leftData = left.OpenRead())
+            {
+                using (FileStream rightData = right.OpenRead())
+                {
+                    return FastCompare.Equals(leftData, rightData);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Compares two files for equality
+        /// </summary>
+        /// <param name="left">First file to compare</param>
+        /// <param name="right">Second file to compare</param>
+        /// <returns><see langword="true"/> if files are equal, <see langword="false"/> otherwise</returns>
+        public static bool AreEqual(string left, string right)
+        {
+            using (FileStream leftData = File.OpenRead(left))
+            {
+                using (FileStream rightData = File.OpenRead(right))
+                {
+                    return FastCompare.Equals(leftData, rightData);
+                }
+            }
+        }
+
+        /// <summary>
         /// Clears a <see cref="DirectoryInfo"/>, deleting all files inside
         /// </summary>
         /// <param name="directoryInfo"><see cref="DirectoryInfo"/> to clear</param>
