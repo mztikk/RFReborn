@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using RFReborn.AoB;
 using RFReborn.Comparison;
+using RFReborn.Extensions;
 
 namespace RFReborn.Files
 {
@@ -196,6 +197,114 @@ namespace RFReborn.Files
         }
 
         /// <summary>
+        /// Walks a path, invoking <paramref name="onDirectory"/> on every Directory and <paramref name="onFile"/> on every File found.
+        /// </summary>
+        /// <param name="root">Path where to start walking</param>
+        /// <param name="onDirectory">
+        /// <para>Method that takes a <see cref="string"/> as parameter, used to perform operations on a Directory.</para>
+        /// <para>If this returns false it will skip walking this path.</para>
+        /// </param>
+        /// <param name="onFile">
+        /// <para>Method that takes a <see cref="string"/> as parameter, used to perform operations on a File.</para>
+        /// <para>If this returns false it will skip evaluating the rest of the files in the current directory.</para>
+        /// </param>
+        public static void Walk(string root, Func<string, bool>? onDirectory, Func<string, bool>? onFile)
+        {
+            // Data structure to hold names of subfolders to be
+            // examined for files.
+            Stack<string> dirs = new Stack<string>(InitialCapacity);
+            if (!Directory.Exists(root))
+            {
+                throw new ArgumentException();
+            }
+
+            bool checkFiles = onFile is { };
+
+            dirs.Push(NormalizePath(root));
+            while (dirs.Count > 0)
+            {
+                string currentDir = dirs.Pop();
+
+                if (onDirectory?.Invoke(currentDir) != false)
+                {
+                    string[] subDirs;
+                    try
+                    {
+                        subDirs = Directory.GetDirectories(currentDir);
+                    }
+                    // An UnauthorizedAccessException exception will be thrown if we do not have
+                    // discovery permission on a folder or file. It may or may not be acceptable
+                    // to ignore the exception and continue enumerating the remaining files and
+                    // folders. It is also possible (but unlikely) that a DirectoryNotFound exception
+                    // will be raised. This will happen if currentDir has been deleted by
+                    // another application or thread after our call to Directory.Exists. The
+                    // choice of which exceptions to catch depends entirely on the specific task
+                    // you are intending to perform and also on how much you know with certainty
+                    // about the systems on which this code will run.
+#pragma warning disable CA1031 // Do not catch general exception types
+                    catch (UnauthorizedAccessException)
+                    {
+                        continue;
+                    }
+                    catch (DirectoryNotFoundException)
+                    {
+                        continue;
+                    }
+#pragma warning restore CA1031 // Do not catch general exception types
+
+                    // Push the subdirectories onto the stack for traversal.
+                    // This could also be done before handing the files.
+                    foreach (string str in subDirs.Call(NormalizePath))
+                    {
+                        dirs.Push(str);
+                    }
+
+                    // only go through files if we have a file handler
+                    if (checkFiles)
+                    {
+                        string[] files;
+                        try
+                        {
+                            files = Directory.GetFiles(currentDir);
+                        }
+#pragma warning disable CA1031 // Do not catch general exception types
+                        catch (UnauthorizedAccessException)
+                        {
+                            continue;
+                        }
+                        catch (DirectoryNotFoundException)
+                        {
+                            continue;
+                        }
+#pragma warning restore CA1031 // Do not catch general exception types
+
+                        // Perform the required action on each file here.
+                        foreach (string file in files.Call(NormalizePath))
+                        {
+                            try
+                            {
+                                // this is definitely not null due to onFile is {} check and we're in true branch
+                                if (!onFile!.Invoke(file))
+                                {
+                                    break;
+                                }
+                            }
+#pragma warning disable CA1031 // Do not catch general exception types
+                            catch (FileNotFoundException)
+                            {
+                                // If file was deleted by a separate application
+                                // or thread since the call to TraverseTree()
+                                // then just continue.
+                                continue;
+                            }
+#pragma warning restore CA1031 // Do not catch general exception types
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Walks a path, invoking <paramref name="onDirectory"/> on every <see cref="DirectoryInfo"/> and <paramref name="onFile"/> on every <see cref="FileInfo"/> found.
         /// </summary>
         /// <param name="root">Path where to start walking</param>
@@ -331,7 +440,7 @@ namespace RFReborn.Files
             bool enumFiles = fileSystemEnumeration == FileSystemEnumeration.FilesOnly || fileSystemEnumeration == FileSystemEnumeration.FilesAndDirectories;
             bool enumDirs = fileSystemEnumeration == FileSystemEnumeration.DirectoriesOnly || fileSystemEnumeration == FileSystemEnumeration.FilesAndDirectories;
 
-            dirs.Push(root);
+            dirs.Push(NormalizePath(root));
             while (dirs.Count > 0)
             {
                 string currentDir = dirs.Pop();
@@ -368,7 +477,7 @@ namespace RFReborn.Files
 
                 // Push the subdirectories onto the stack for traversal.
                 // This could also be done before handing the files.
-                foreach (string str in subDirs)
+                foreach (string str in subDirs.Call(NormalizePath))
                 {
                     dirs.Push(str);
                 }
@@ -392,7 +501,7 @@ namespace RFReborn.Files
                     }
 #pragma warning restore CA1031 // Do not catch general exception types
 
-                    foreach (string file in files)
+                    foreach (string file in files.Call(NormalizePath))
                     {
                         yield return file;
                     }
@@ -459,6 +568,69 @@ namespace RFReborn.Files
                     yield return file;
                 }
             }
+        }
+
+        /// <summary>
+        /// Copies all files from <paramref name="files"/> based on <paramref name="baseOrigin"/> <see cref="DirectoryInfo"/> relative path to <paramref name="destination"/>
+        /// </summary>
+        /// <param name="baseOrigin">Base Origin for relative path</param>
+        /// <param name="destination">Destination to copy to</param>
+        /// <param name="files">Files to copy</param>
+        /// <param name="overwrite">Overwrite files</param>
+        public static void Copy(DirectoryInfo baseOrigin, DirectoryInfo destination, IEnumerable<FileInfo> files, bool overwrite = true)
+        {
+            if (!destination.Exists)
+            {
+                destination.Create();
+            }
+
+            foreach (FileInfo file in files)
+            {
+                if (!file.Exists)
+                {
+                    throw new ArgumentException();
+                }
+
+                string relPath = Path.GetRelativePath(baseOrigin.FullName, file.FullName);
+                string newPath = Path.Combine(destination.FullName, relPath);
+                FileInfo newFile = new FileInfo(newPath);
+                if (!newFile.Directory.Exists)
+                {
+                    newFile.Directory.Create();
+                }
+
+                file.CopyTo(newPath, overwrite);
+            }
+        }
+
+        /// <summary>
+        /// Copies a file from <paramref name="file"/> based on <paramref name="baseOrigin"/> <see cref="DirectoryInfo"/> relative path to <paramref name="destination"/>
+        /// </summary>
+        /// <param name="baseOrigin">Base Origin for relative path</param>
+        /// <param name="destination">Destination to copy to</param>
+        /// <param name="file">File to copy</param>
+        /// <param name="overwrite">Overwrite files</param>
+        public static void Copy(DirectoryInfo baseOrigin, DirectoryInfo destination, FileInfo file, bool overwrite = true)
+        {
+            if (!destination.Exists)
+            {
+                destination.Create();
+            }
+
+            if (!file.Exists)
+            {
+                throw new ArgumentException();
+            }
+
+            string relPath = Path.GetRelativePath(baseOrigin.FullName, file.FullName);
+            string newPath = Path.Combine(destination.FullName, relPath);
+            FileInfo newFile = new FileInfo(newPath);
+            if (!newFile.Directory.Exists)
+            {
+                newFile.Directory.Create();
+            }
+
+            file.CopyTo(newPath, overwrite);
         }
 
         /// <summary>
@@ -598,5 +770,7 @@ namespace RFReborn.Files
         /// </summary>
         /// <param name="path">path to get alt path from</param>
         public static string GetAltPath(string path) => path.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+
+        private static string NormalizePath(string path) => path.Replace('\\', '/');
     }
 }
