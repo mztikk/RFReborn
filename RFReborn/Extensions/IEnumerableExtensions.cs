@@ -122,5 +122,19 @@ namespace RFReborn.Extensions
                 yield return func(item);
             }
         }
+
+        /// <summary>
+        /// Calls a <see cref="Action{T}"/> on every item in a <see cref="IEnumerable{T}"/>
+        /// </summary>
+        /// <typeparam name="T">Type of <see cref="IEnumerable{T}"/></typeparam>
+        /// <param name="ienum"><see cref="IEnumerable{T}"/> to iteratre</param>
+        /// <param name="action"><see cref="Action{T}"/> to call</param>
+        public static void Call<T>(this IEnumerable<T> ienum, Action<T> action)
+        {
+            foreach (T item in ienum)
+            {
+                action(item);
+            }
+        }
     }
 }
