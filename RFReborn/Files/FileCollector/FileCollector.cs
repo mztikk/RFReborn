@@ -32,7 +32,7 @@ namespace RFReborn.Files.FileCollector
                 {
                     foreach (ICollectingModule module in _modules)
                     {
-                        if (module.Skip(dir))
+                        if (module.Skip(dir) || !module.Take(dir))
                         {
                             return false;
                         }
@@ -44,7 +44,7 @@ namespace RFReborn.Files.FileCollector
                 {
                     foreach (ICollectingModule module in _modules)
                     {
-                        if (module.Skip(file))
+                        if (module.Skip(file) || !module.Take(file))
                         {
                             return false;
                         }
