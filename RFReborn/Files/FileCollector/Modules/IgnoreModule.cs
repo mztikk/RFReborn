@@ -21,4 +21,21 @@ namespace RFReborn.Files.FileCollector.Modules
         /// <inheritdoc />
         public bool Take(string path) => !IgnoreHelper.IsIgnored(path, _ignorePatterns);
     }
+
+    /// <summary>
+    /// Extensions class for IgnoreModule and FileCollector
+    /// </summary>
+    public static class IgnoreModuleExtensions
+    {
+        /// <summary>
+        /// Adds a new <see cref="IgnoreModule"/> to a <see cref="FileCollector"/> with given patterns
+        /// </summary>
+        /// <param name="fileCollector">FileCollector to add module to</param>
+        /// <param name="ignorePatterns">patterns to use</param>
+        public static FileCollector AddIgnoreModule(this FileCollector fileCollector, IEnumerable<string> ignorePatterns)
+        {
+            fileCollector.AddModule(new IgnoreModule(ignorePatterns));
+            return fileCollector;
+        }
+    }
 }
