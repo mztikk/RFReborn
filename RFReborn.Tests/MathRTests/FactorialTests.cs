@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -27,6 +28,13 @@ namespace RFReborn.Tests.MathRTests
                 AssertEqual(factorial.Key, factorial.Value);
             }
         }
+
+        [DataRow(-1)]
+        [DataRow(-100)]
+        [DataRow(-1000)]
+        [DataRow(-5845)]
+        [DataTestMethod]
+        public void SmallerThanZeroException(int n) => Assert.ThrowsException<ArgumentOutOfRangeException>(() => MathR.Factorial(n));
 
         private void AssertEqual(int n, BigInteger factorial) => Assert.AreEqual(factorial, MathR.Factorial(n));
     }
