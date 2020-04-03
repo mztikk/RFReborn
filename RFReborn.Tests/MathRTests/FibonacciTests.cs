@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -27,6 +28,18 @@ namespace RFReborn.Tests.MathRTests
             {
                 AssertEqual(fibonacci.Key, fibonacci.Value);
             }
+        }
+
+        [DataRow(-1)]
+        [DataRow(-100)]
+        [DataRow(-1000)]
+        [DataRow(-5845)]
+        [DataTestMethod]
+        public void SmallerThanZeroException(int n)
+        {
+            Action action = () => MathR.Fibonacci(n);
+            Assert.ThrowsException<ArgumentOutOfRangeException>(action);
+            AssertExtensions.ThrowsExceptionMessage<ArgumentOutOfRangeException>(action, "N can't be smaller than zero. (Parameter 'n')");
         }
 
         private void AssertEqual(int n, BigInteger fibonacci) => Assert.AreEqual(fibonacci, MathR.Fibonacci(n));
