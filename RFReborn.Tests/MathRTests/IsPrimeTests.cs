@@ -8,7 +8,7 @@ namespace RFReborn.Tests.MathRTests
     {
         private readonly List<int> _primes = new List<int>() { 2, 3, 5, 7, 11, 13, 17, 6701, 492876863, 982451653 };
 
-        private readonly List<int> _nonPrimes = new List<int>() { 4, 6, 8, 12, 7828, 492876860 };
+        private readonly List<int> _nonPrimes = new List<int>() {-123, -5, 0, 1, 4, 6, 8, 12, 7828, 492876860 };
 
         [TestMethod]
         public void IsPrime()
