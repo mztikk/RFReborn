@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace RFReborn.Tests.MathRTests
@@ -25,6 +26,18 @@ namespace RFReborn.Tests.MathRTests
             {
                 AssertEquals(prime.Key, prime.Value);
             }
+        }
+
+        [DataRow(-1)]
+        [DataRow(-100)]
+        [DataRow(-1000)]
+        [DataRow(-5845)]
+        [DataTestMethod]
+        public void SmallerThanZeroException(int n)
+        {
+            Action action = () => MathR.NthPrime(n);
+            Assert.ThrowsException<ArgumentOutOfRangeException>(action);
+            AssertExtensions.ThrowsExceptionMessage<ArgumentOutOfRangeException>(action, "N can't be smaller than zero. (Parameter 'n')");
         }
 
         private void AssertEquals(int n, long prime) => Assert.AreEqual(prime, MathR.NthPrime(n));
