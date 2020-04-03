@@ -90,9 +90,9 @@ namespace RFReborn
                 return n == 2;
             }
 
-            double sqrt = Math.Sqrt(n) + 0.5;
+            double boundary = Math.Ceiling(Math.Sqrt(n));
 
-            for (int i = 3; i <= sqrt; i += 2)
+            for (int i = 3; i <= boundary; i += 2)
             {
                 if (n % i == 0)
                 {
