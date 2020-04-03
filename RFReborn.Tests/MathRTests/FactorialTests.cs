@@ -34,7 +34,12 @@ namespace RFReborn.Tests.MathRTests
         [DataRow(-1000)]
         [DataRow(-5845)]
         [DataTestMethod]
-        public void SmallerThanZeroException(int n) => Assert.ThrowsException<ArgumentOutOfRangeException>(() => MathR.Factorial(n));
+        public void SmallerThanZeroException(int n)
+        {
+            Action action = () => MathR.Factorial(n);
+            Assert.ThrowsException<ArgumentOutOfRangeException>(action);
+            AssertExtensions.ThrowsExceptionMessage<ArgumentOutOfRangeException>(action, "N can't be smaller than zero. (Parameter 'n')");
+        }
 
         private void AssertEqual(int n, BigInteger factorial) => Assert.AreEqual(factorial, MathR.Factorial(n));
     }
