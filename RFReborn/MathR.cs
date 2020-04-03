@@ -110,9 +110,9 @@ namespace RFReborn
         /// <returns>prime number.</returns>
         public static long NthPrime(int n)
         {
-            if (n < 0)
+            if (n < 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(n), "N can't be smaller than zero.");
+                throw new ArgumentOutOfRangeException(nameof(n), "N can't be smaller than one.");
             }
 
             if (n == 1)
