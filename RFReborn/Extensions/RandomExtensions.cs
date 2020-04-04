@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace RFReborn.Extensions
 {
     /// <summary>
-    /// Extends <see cref="System.Random"/>.
+    /// Extends <see cref="Random"/>.
     /// </summary>
     public static unsafe class RandomExtensions
     {
@@ -16,7 +16,7 @@ namespace RFReborn.Extensions
         /// <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
         /// <returns>A <see cref="double"/> greater than or equal to minValue and less than maxValue; that is, the range of return values includes minValue but not <paramref name="maxValue"/>. If <paramref name="minValue"/> equals <paramref name="maxValue"/>, <paramref name="minValue"/> is returned.</returns>
         /// <exception cref="ArgumentException"><paramref name="minValue"/> is greater than <paramref name="maxValue"/>.</exception>
-        public static double NextDouble(this System.Random random, double minValue, double maxValue)
+        public static double NextDouble(this Random random, double minValue, double maxValue)
         {
             if (minValue > maxValue)
             {
@@ -37,7 +37,7 @@ namespace RFReborn.Extensions
         /// <param name="maxValue">The exclusive upper bound of the random number to be generated. maxValue must be greater than or equal to 0.</param>
         /// <returns>A <see cref="double"/> that is greater than or equal to 0, and less than maxValue; that is, the range of return values ordinarily includes 0 but not maxValue. However, if maxValue equals 0, maxValue is returned.</returns>
         /// <exception cref="ArgumentException"><paramref name="maxValue"/> is less than 0.</exception>
-        public static double NextDouble(this System.Random random, double maxValue)
+        public static double NextDouble(this Random random, double maxValue)
         {
             if (maxValue < 0)
             {
@@ -54,7 +54,7 @@ namespace RFReborn.Extensions
         /// <param name="random">Random instance.</param>
         /// <param name="list">List to choose random item from.</param>
         /// <returns>Random item inside of list, default in case of a failure.</returns>
-        public static T Choice<T>(this System.Random random, IList<T> list)
+        public static T Choice<T>(this Random random, IList<T> list)
         {
             if (list.Count == 0)
             {
@@ -71,7 +71,7 @@ namespace RFReborn.Extensions
         /// <param name="random">Random instance.</param>
         /// <param name="enumerable">Enumerable to choose random item from.</param>
         /// <returns>Random item inside of Enumerable, default in case of a failure.>.</returns>
-        public static T Choice<T>(this System.Random random, IEnumerable<T> enumerable)
+        public static T Choice<T>(this Random random, IEnumerable<T> enumerable)
         {
             int size = enumerable.Count();
             int i = 0;
@@ -100,7 +100,7 @@ namespace RFReborn.Extensions
         /// <param name="choices">IList to choose random item from.</param>
         /// <param name="weights">Weights to use</param>
         /// <returns>Random item inside of Enumerable, default in case of a failure.>.</returns>
-        public static T WeightedChoice<T>(this System.Random random, IList<T> choices, IList<double> weights)
+        public static T WeightedChoice<T>(this Random random, IList<T> choices, IList<double> weights)
         {
             double weightSum = 0d;
             for (int i = 0; i < choices.Count; i++)
@@ -130,7 +130,7 @@ namespace RFReborn.Extensions
         /// <exception cref="T:System.ArgumentNullException">
         ///     <paramref name="buffer"/> is null.
         /// </exception>
-        public static void NextInts(this System.Random random, int[] buffer)
+        public static void NextInts(this Random random, int[] buffer)
         {
             if (buffer == null)
             {
@@ -154,7 +154,7 @@ namespace RFReborn.Extensions
         /// <exception cref="T:System.ArgumentNullException">
         ///     <paramref name="buffer"/> is null.
         /// </exception>
-        public static void NextT<T>(this System.Random random, T[] buffer) where T : unmanaged
+        public static void NextT<T>(this Random random, T[] buffer) where T : unmanaged
         {
             if (buffer == null)
             {
@@ -175,7 +175,7 @@ namespace RFReborn.Extensions
         /// </summary>
         /// <typeparam name="T">Type of value</typeparam>
         /// <param name="random">Random provider</param>
-        public static T Next<T>(this System.Random random) where T : unmanaged
+        public static T Next<T>(this Random random) where T : unmanaged
         {
             byte[] buffer = new byte[sizeof(T)];
             fixed (void* ptr = buffer)
@@ -191,7 +191,7 @@ namespace RFReborn.Extensions
         /// <param name="random">Random provider</param>
         /// <param name="charset">Chars to use</param>
         /// <param name="len">Length of constructed string</param>
-        public static string NextString(this System.Random random, ReadOnlySpan<char> charset, int len)
+        public static string NextString(this Random random, ReadOnlySpan<char> charset, int len)
         {
             char* rtn = stackalloc char[len];
             for (int i = 0; i < len; i++)
@@ -207,7 +207,7 @@ namespace RFReborn.Extensions
         /// Returns a random string constructed out of all chars except for whitespace and a length between 1 and 31
         /// </summary>
         /// <param name="random">Random provider</param>
-        public static string NextString(this System.Random random) => NextString(random, StringR.Chars, random.Next(1, 32));
+        public static string NextString(this Random random) => NextString(random, StringR.Chars, random.Next(1, 32));
 
         /// <summary>
         /// Returns a random number within a specified range.
@@ -221,7 +221,7 @@ namespace RFReborn.Extensions
         /// <exception cref="T:System.ArgumentOutOfRangeException">
         ///     <paramref name="minValue"/> is greater than <paramref name="maxValue"/>.
         /// </exception>
-        public static long Next(this System.Random random, long minValue, long maxValue)
+        public static long Next(this Random random, long minValue, long maxValue)
         {
             if (minValue > maxValue)
             {
@@ -254,7 +254,7 @@ namespace RFReborn.Extensions
         /// <param name="alpha">Randomize alpha chars, default true</param>
         /// <param name="numeric">Randomize numeric chars, default true</param>
         /// <param name="special">Randomize special characters, default false</param>
-        public static void Randomize(this System.Random random, string str, bool alpha = true, bool numeric = true, bool special = false)
+        public static void Randomize(this Random random, string str, bool alpha = true, bool numeric = true, bool special = false)
         {
             fixed (void* voidptr = str)
             {

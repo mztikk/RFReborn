@@ -41,7 +41,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 
-namespace RFReborn.Random
+namespace RFReborn.RandomR
 {
     /// <summary>
     /// A random number generator based on the RNGCryptoServiceProvider.
@@ -50,7 +50,7 @@ namespace RFReborn.Random
     /// an optional (enabled by default) random buffer which provides a significant speed boost as
     /// it greatly reduces the amount of calls into unmanaged land.
     /// </summary>
-    public class CryptoRandom : System.Random
+    public class CryptoRandom : Random
     {
         private readonly RNGCryptoServiceProvider _rng = new RNGCryptoServiceProvider();
 
@@ -76,7 +76,7 @@ namespace RFReborn.Random
         /// <summary>
         /// Initializes a new instance of the <see cref="CryptoRandom"/> class.
         /// This method will disregard whatever value is passed as seed and it's only implemented
-        /// in order to be fully backwards compatible with <see cref="System.Random"/>.
+        /// in order to be fully backwards compatible with <see cref="Random"/>.
         /// Using this overload will enable the random buffer pool.
         /// </summary>
         /// <param name="ignoredSeed">The ignored seed.</param>

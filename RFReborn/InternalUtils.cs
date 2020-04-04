@@ -1,4 +1,4 @@
-﻿using RFReborn.Random;
+﻿using RFReborn.RandomR;
 
 namespace RFReborn
 {
