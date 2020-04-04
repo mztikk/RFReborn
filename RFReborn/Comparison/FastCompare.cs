@@ -64,10 +64,7 @@ namespace RFReborn.Comparison
                 return false;
             }
 
-            fixed (void* lp = left, rp = right)
-            {
-                return Equals(lp, rp, left.Length * sizeof(T));
-            }
+            return Equals(left, right, left.Length);
         }
 
         /// <summary>
