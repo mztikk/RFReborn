@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RFReborn.Comparison;
 using RFReborn.Pairs;
@@ -12,14 +13,14 @@ namespace RFReborn.Tests.FastCompareTests
         private readonly List<Pair<byte[]>> _equalBytePairs = new List<Pair<byte[]>>() {
             { new byte[] { 1, 5, 6, 123, 255 },new byte[] { 1, 5, 6, 123, 255 }},
             { new byte[] { 65, 35, 76, 23, 255 },new byte[] { 65, 35, 76, 23, 255 }},
-            { new byte[] { 00, 00, 00, 00, 00 },new byte[] { 00, 00, 00, 00, 00 }}
+            { new byte[] { 00, 00, 00, 00, 00 },new byte[] { 00, 00, 00, 00, 00 }},
         };
 
         private readonly List<Pair<byte[]>> _diffBytePairs = new List<Pair<byte[]>>() {
             { new byte[] { 65, 35, 76, 23, 255 },new byte[] { 65, 35, 76, 23 }},
             { new byte[] { 65, 35, 76, 23 },new byte[] { 65, 35, 76, 23, 255 }},
             { new byte[] { 65, 35, 76, 23, 255 },new byte[] { 1, 5, 6, 123, 255 }},
-            { new byte[] { 00, 00, 00, 00, 00 },new byte[] { 00, 00, 00, 00, 01 }}
+            { new byte[] { 00, 00, 00, 00, 00 },new byte[] { 00, 00, 00, 00, 01 }},
         };
 
         [TestMethod]
@@ -92,8 +93,52 @@ namespace RFReborn.Tests.FastCompareTests
         }
         #endregion Int Tests
 
-        private void AssertEquals<T>(T[] left, T[] right) where T : unmanaged => Assert.IsTrue(FastCompare.Equals(left, right));
+        [TestMethod]
+        public void NullArray()
+        {
+            byte[] b1 = null;
+            byte[] b2 = null;
+            byte[] b3 = new byte[] { 0xFF };
+            // both are null should be true since theyre equal
+            Assert.IsTrue(FastCompare.Equals(b1, b2));
+            Assert.IsTrue(FastCompare.Equals(b1, b2, 15));
 
-        private void AssertDiff<T>(T[] left, T[] right) where T : unmanaged => Assert.IsFalse(FastCompare.Equals(left, right));
+            // one is null should be false
+            Assert.IsFalse(FastCompare.Equals(b1, b3));
+            Assert.IsFalse(FastCompare.Equals(b1, b3, 15));
+            Assert.IsFalse(FastCompare.Equals(b3, b1));
+            Assert.IsFalse(FastCompare.Equals(b3, b1, 15));
+        }
+
+        [TestMethod]
+        public void DifferentLengthArray()
+        {
+            byte[] b1 = new byte[] { 0xFF };
+            byte[] b2 = new byte[] { 0xFF, 0xAE };
+
+            Assert.IsFalse(FastCompare.Equals(b1, b2));
+            Assert.IsFalse(FastCompare.Equals(b1, b2, len: 2));
+            Assert.IsFalse(FastCompare.Equals(b1, b2, len: 10));
+
+            Assert.IsTrue(FastCompare.Equals(b1, b2, len: 1));
+            Assert.IsTrue(FastCompare.Equals(b2, b1, len: 1));
+        }
+
+        private void AssertEquals<T>(T[] left, T[] right) where T : unmanaged
+        {
+            Assert.IsTrue(FastCompare.Equals(left, right));
+            Assert.IsTrue(FastCompare.Equals(left, right, left.Length));
+            Assert.IsTrue(FastCompare.Equals(left.AsSpan(), right.AsSpan()));
+            Assert.IsTrue(FastCompare.Equals(new ReadOnlySpan<T>(left), new ReadOnlySpan<T>(right)));
+            Assert.IsTrue(FastCompare.Equals(left.AsSpan(), new ReadOnlySpan<T>(right)));
+        }
+
+        private void AssertDiff<T>(T[] left, T[] right) where T : unmanaged
+        {
+            Assert.IsFalse(FastCompare.Equals(left, right));
+            Assert.IsFalse(FastCompare.Equals(left.AsSpan(), right.AsSpan()));
+            Assert.IsFalse(FastCompare.Equals(new ReadOnlySpan<T>(left), new ReadOnlySpan<T>(right)));
+            Assert.IsFalse(FastCompare.Equals(left.AsSpan(), new ReadOnlySpan<T>(right)));
+        }
     }
 }
