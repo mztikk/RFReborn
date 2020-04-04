@@ -12,12 +12,19 @@ namespace RFReborn.Tests.FastCompareTests
 
 ", @"
 
-" } };
+" },
+            {null, null },
+            {"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam", "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam" },
+        };
 
         private readonly List<Pair<string>> _diff = new List<Pair<string>>() { { "test", "test1" }, { @"
 
 ", @"
-" } };
+" },
+            {null, "" },
+            {"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam", "maid des ,rtile gnicspidas rutetesnoc ,tema tis rolod muspi meroL" },
+            {"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam", "Lorem ipsum dolor sit amet, consetetur,tema tis rolod muspi meroL" }
+        };
 
         [TestMethod]
         public void StringEquals()
