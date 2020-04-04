@@ -71,6 +71,38 @@ namespace RFReborn.Comparison
         }
 
         /// <summary>
+        /// Checks if the specified arrays are equal in value up to a specified length.
+        /// </summary>
+        /// <typeparam name="T">Type.</typeparam>
+        /// <param name="left">First array to compare.</param>
+        /// <param name="right">Second array to compare.</param>
+        /// <param name="len">length to use, can't be bigger than either array</param>
+        /// <returns>TRUE if all values are equal, FALSE otherwise.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Equals<T>(T[] left, T[] right, long len) where T : unmanaged
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (left is null || right is null)
+            {
+                return false;
+            }
+
+            if (len > left.Length || len > right.Length)
+            {
+                return false;
+            }
+
+            fixed (void* lp = left, rp = right)
+            {
+                return Equals(lp, rp, len * sizeof(T));
+            }
+        }
+
+        /// <summary>
         /// Checks if the specified <see cref="Span{T}"/> are equal in value.
         /// </summary>
         /// <typeparam name="T">Type.</typeparam>
