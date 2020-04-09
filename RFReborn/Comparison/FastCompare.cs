@@ -219,21 +219,13 @@ namespace RFReborn.Comparison
         /// <returns>TRUE if all bytes are equal in value, FALSE otherwise.</returns>
         public static bool Equals(Stream left, Stream right)
         {
-            if (left.Length != right.Length || left.Position != right.Position)
-            {
-                return false;
-            }
-
             const int wantedBuffersize = InternalUtils.StreamBufferSize;
-            int bufferSize = (int)Math.Min(wantedBuffersize, left.Length);
-            byte[] leftBuffer = new byte[bufferSize];
-            byte[] rightBuffer = new byte[bufferSize];
-
-            long numBytesToRead = left.Length;
-            while (numBytesToRead > 0)
+            byte[] leftBuffer = new byte[wantedBuffersize];
+            byte[] rightBuffer = new byte[wantedBuffersize];
+            int leftRead;
+            while ((leftRead = left.Read(leftBuffer, 0, wantedBuffersize)) > 0)
             {
-                int leftRead = left.Read(leftBuffer, 0, bufferSize);
-                int rightRead = right.Read(rightBuffer, 0, bufferSize);
+                int rightRead = right.Read(rightBuffer, 0, wantedBuffersize);
 
                 if (leftRead != rightRead)
                 {
@@ -244,8 +236,39 @@ namespace RFReborn.Comparison
                 {
                     return false;
                 }
+            }
 
-                numBytesToRead -= leftRead;
+            return true;
+        }
+
+        /// <summary>
+        /// Compares the bytes in two streams for equality.
+        /// </summary>
+        /// <param name="left"><see cref="Stream"/> to compare.</param>
+        /// <param name="right"><see cref="Stream"/> to compare.</param>
+        /// <param name="length">number of bytes to compare</param>
+        /// <returns>TRUE if all bytes are equal in value, FALSE otherwise.</returns>
+        public static bool Equals(Stream left, Stream right, int length)
+        {
+            const int wantedBuffersize = InternalUtils.StreamBufferSize;
+            byte[] leftBuffer = new byte[wantedBuffersize];
+            byte[] rightBuffer = new byte[wantedBuffersize];
+            while (length > 0)
+            {
+                int leftRead = left.Read(leftBuffer, 0, wantedBuffersize);
+                int rightRead = right.Read(rightBuffer, 0, wantedBuffersize);
+
+                if (leftRead != rightRead)
+                {
+                    return false;
+                }
+
+                if (!Equals(leftBuffer, rightBuffer, leftRead))
+                {
+                    return false;
+                }
+
+                length -= leftRead;
             }
 
             return true;
