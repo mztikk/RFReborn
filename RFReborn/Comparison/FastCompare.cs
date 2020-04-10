@@ -282,21 +282,14 @@ namespace RFReborn.Comparison
         /// <returns>FALSE if all bytes are equal in value, TRUE otherwise.</returns>
         public static bool NotEquals(Stream left, Stream right)
         {
-            if (left.Length != right.Length || left.Position != right.Position)
-            {
-                return true;
-            }
-
             const int wantedBuffersize = InternalUtils.StreamBufferSize;
-            int bufferSize = (int)Math.Min(wantedBuffersize, left.Length);
-            byte[] leftBuffer = new byte[bufferSize];
-            byte[] rightBuffer = new byte[bufferSize];
+            byte[] leftBuffer = new byte[wantedBuffersize];
+            byte[] rightBuffer = new byte[wantedBuffersize];
 
-            long numBytesToRead = left.Length;
-            while (numBytesToRead > 0)
+            int leftRead;
+            while ((leftRead = left.Read(leftBuffer, 0, wantedBuffersize)) > 0)
             {
-                int leftRead = left.Read(leftBuffer, 0, bufferSize);
-                int rightRead = right.Read(rightBuffer, 0, bufferSize);
+                int rightRead = right.Read(rightBuffer, 0, wantedBuffersize);
 
                 if (leftRead != rightRead)
                 {
@@ -307,8 +300,6 @@ namespace RFReborn.Comparison
                 {
                     return true;
                 }
-
-                numBytesToRead -= leftRead;
             }
 
             return false;
