@@ -36,6 +36,28 @@ namespace RFReborn.Tests.FastCompareTests
         }
 
         [TestMethod]
+        public void SmallEqualArrays()
+        {
+            Random r = new Random(Seed);
+            byte[] left = new byte[15];
+            byte[] right = new byte[10];
+
+            r.NextBytes(left);
+            Array.Copy(left, right, right.Length);
+
+            using (MemoryStream leftstream = new MemoryStream(left))
+            {
+                using (MemoryStream rightstream = new MemoryStream(right))
+                {
+                    Assert.IsFalse(FastCompare.Equals(leftstream, rightstream));
+                    leftstream.Seek(0, SeekOrigin.Begin);
+                    rightstream.Seek(0, SeekOrigin.Begin);
+                    Assert.IsTrue(FastCompare.Equals(leftstream, rightstream, right.Length));
+                }
+            }
+        }
+
+        [TestMethod]
         public void StreamDifferent()
         {
             Random r = new Random(Seed);
