@@ -29,24 +29,18 @@ namespace RFReborn.Extensions
         /// <returns>The zero-based indices of the occurrences of <paramref name="needle"/> in the entire <paramref name="haystack"/>, if found; otherwise, an empty list.</returns>
         public static IEnumerable<int> IndicesOf<T>(this T[] haystack, T needle) where T : unmanaged
         {
-            List<int> indices = new List<int>();
-
             int i = 0;
-            int end = haystack.Length;
-            while (i < end)
+            while (i < haystack.Length)
             {
-                //var index = haystack.FastIndexOf(needle, i);
                 int index = Array.IndexOf(haystack, needle, i);
                 if (index == -1)
                 {
                     break;
                 }
 
+                yield return index;
                 i = index + 1;
-                indices.Add(index);
             }
-
-            return indices;
         }
 
         /// <summary>
