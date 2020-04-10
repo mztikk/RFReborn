@@ -251,12 +251,13 @@ namespace RFReborn.Comparison
         public static bool Equals(Stream left, Stream right, int length)
         {
             const int wantedBuffersize = InternalUtils.StreamBufferSize;
-            byte[] leftBuffer = new byte[wantedBuffersize];
-            byte[] rightBuffer = new byte[wantedBuffersize];
+            int bufferSize = Math.Min(wantedBuffersize, length);
+            byte[] leftBuffer = new byte[bufferSize];
+            byte[] rightBuffer = new byte[bufferSize];
             while (length > 0)
             {
-                int leftRead = left.Read(leftBuffer, 0, wantedBuffersize);
-                int rightRead = right.Read(rightBuffer, 0, wantedBuffersize);
+                int leftRead = left.Read(leftBuffer, 0, bufferSize);
+                int rightRead = right.Read(rightBuffer, 0, bufferSize);
 
                 if (leftRead != rightRead)
                 {
