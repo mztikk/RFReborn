@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RFReborn.Extensions;
+using System;
 using System.IO;
 using System.Runtime.CompilerServices;
 
@@ -120,7 +121,7 @@ namespace RFReborn.AoB
         /// <param name="searchRegion">The region to be searched.</param>
         /// <param name="signature">The <see cref="Signature"/> to search for.</param>
         /// <returns>The zero-based index position of <paramref name="signature"/> if that <see cref="Signature"/> is found, or -1 if it is not.</returns>
-        public static unsafe long FindSignature(byte[] searchRegion, Signature signature)
+        public static unsafe long FindSignature(Span<byte> searchRegion, Signature signature)
         {
             int firstIndex = signature.FirstByte;
             byte firstItem = signature.Pattern[firstIndex];
@@ -134,7 +135,7 @@ namespace RFReborn.AoB
 
                 while (sp <= end)
                 {
-                    int find = Array.IndexOf(searchRegion, firstItem, i);
+                    int find = searchRegion.IndexOf(firstItem, i);
                     if (find == -1)
                     {
                         return -1;
@@ -169,7 +170,7 @@ namespace RFReborn.AoB
         /// <param name="mask">mask for the pattern.</param>
         /// <returns>TRUE if it matches; FALSE otherwise.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool CheckMask(int index, byte[] searchRegion, byte[] pattern, string mask)
+        private static bool CheckMask(int index, Span<byte> searchRegion, byte[] pattern, string mask)
         {
             for (int i = 0; i < pattern.Length; i++)
             {
