@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RFReborn.AoB;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace RFReborn.Tests.AoBTests
 {
@@ -60,6 +61,20 @@ namespace RFReborn.Tests.AoBTests
             foreach (AoBTest test in _fails)
             {
                 AssertNotFound(test.SearchRegion, test.Signature);
+            }
+        }
+
+        [TestMethod]
+        public void MultipleSignatures()
+        {
+            byte[] bytes = new byte[] { 0xff, 0xe1, 0xcd, 0xff, 0xe1, 0xcd, 0xff, 0xff, 0xe1, 0xcd };
+            Signature sig = new Signature("E1 CD");
+            long[] indices = new long[] { 1, 4, 8 };
+            long[] foundIndices = Scanner.FindSignatures(bytes, sig).ToArray();
+            Assert.AreEqual(indices.Length, foundIndices.Length);
+            for (int i = 0; i < foundIndices.Length; i++)
+            {
+                Assert.AreEqual(indices[i], foundIndices[i]);
             }
         }
 

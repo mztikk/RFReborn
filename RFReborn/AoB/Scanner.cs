@@ -1,5 +1,6 @@
 ﻿using RFReborn.Extensions;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 
@@ -159,6 +160,32 @@ namespace RFReborn.AoB
             }
 
             return -1;
+        }
+
+        /// <summary>
+        /// Searches for a given <see cref="Signature"/> inside of a byte array.
+        /// </summary>
+        /// <param name="searchRegion">The region to be searched.</param>
+        /// <param name="signature">The <see cref="Signature"/> to search for.</param>
+        /// <returns>The zero-based index position of <paramref name="signature"/> if that <see cref="Signature"/> is found, or -1 if it is not.</returns>
+        public static IEnumerable<long> FindSignatures(Memory<byte> searchRegion, Signature signature)
+        {
+            Memory<byte> s = searchRegion;
+            int len = searchRegion.Length;
+            while (s.Length > 0)
+            {
+                long find = FindSignature(s.Span, signature);
+                if (find != -1)
+                {
+                    // add diff of original length and sliced length to index
+                    yield return find + (len - s.Length);
+                    s = s.Slice((int)find + 1);
+                }
+                else
+                {
+                    break;
+                }
+            }
         }
 
         /// <summary>
