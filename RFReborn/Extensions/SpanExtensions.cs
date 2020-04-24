@@ -52,6 +52,15 @@ namespace RFReborn.Extensions
         /// <param name="startIndex">The zero-based starting index of the search.</param>
         /// <returns>The zero-based index of the first occurrence of <paramref name="value"/> within the range of elements in <paramref name="span"/> that extends from <paramref name="startIndex"/> to the last element, if found; otherwise, -1.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int IndexOf<T>(this Span<T> span, T value, int startIndex) where T : IEquatable<T> => span.Slice(startIndex).IndexOf(value);
+        public static int IndexOf<T>(this Span<T> span, T value, int startIndex) where T : IEquatable<T>
+        {
+            int find = span.Slice(startIndex).IndexOf(value);
+            if (find != -1)
+            {
+                return find + startIndex;
+            }
+
+            return find;
+        }
     }
 }
