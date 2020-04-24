@@ -1,6 +1,6 @@
-﻿using System;
+﻿using RFReborn.Comparison;
+using System;
 using System.Runtime.CompilerServices;
-using RFReborn.Comparison;
 
 namespace RFReborn.Extensions
 {
@@ -41,5 +41,17 @@ namespace RFReborn.Extensions
         /// <returns>TRUE if all values are equal, FALSE otherwise.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool FastEquals<T>(this Span<T> left, ReadOnlySpan<T> right) where T : unmanaged => FastCompare.Equals(left, right);
+
+        /// <summary>
+        /// Searches for the specified object in a range of elements of a <see cref="Span{T}"/>, and returns the index of its first occurrence.
+        /// The range extends from a specified index to the end of the <see cref="Span{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of the <see cref="Span{T}"/>.</typeparam>
+        /// <param name="span">The <see cref="Span{T}"/> to search.</param>
+        /// <param name="value">The object/value to locate</param>
+        /// <param name="startIndex">The zero-based starting index of the search.</param>
+        /// <returns>The zero-based index of the first occurrence of <paramref name="value"/> within the range of elements in <paramref name="span"/> that extends from <paramref name="startIndex"/> to the last element, if found; otherwise, -1.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int IndexOf<T>(this Span<T> span, T value, int startIndex) where T : IEquatable<T> => span.Slice(startIndex).IndexOf(value);
     }
 }
