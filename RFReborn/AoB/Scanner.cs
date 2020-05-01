@@ -175,16 +175,14 @@ namespace RFReborn.AoB
             while (s.Length > 0)
             {
                 long find = FindSignature(s.Span, signature);
-                if (find != -1)
-                {
-                    // add diff of original length and sliced length to index
-                    yield return find + (len - s.Length);
-                    s = s.Slice((int)find + 1);
-                }
-                else
+                if (find == -1)
                 {
                     break;
                 }
+
+                // add diff of original length and sliced length to index
+                yield return find + (len - s.Length);
+                s = s.Slice((int)find + 1);
             }
         }
 
