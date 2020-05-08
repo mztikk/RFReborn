@@ -551,16 +551,9 @@ namespace RFReborn.Files
                         }
                     }
                 }
-                catch (Exception e)
+                catch (Exception) when (continueOnException)
                 {
-                    if (continueOnException)
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    continue;
                 }
 
                 if (flag)
