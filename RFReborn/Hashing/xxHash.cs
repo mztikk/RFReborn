@@ -6,7 +6,7 @@ namespace RFReborn.Hashing
 #pragma warning disable IDE1006 // Naming Styles
 #pragma warning disable S101 // Types should be named in camel case
     /// <summary>
-    /// xxHash is an extremely fast non-cryptographic hash algorithm, working at speeds close to RAM limits. It is proposed in two flavors, 32 and 64 bits. 
+    /// xxHash is an extremely fast non-cryptographic hash algorithm, working at speeds close to RAM limits. It is proposed in two flavors, 32 and 64 bits.
     /// </summary>
     public static unsafe class xxHash
 #pragma warning restore S101 // Types should be named in camel case
