@@ -559,7 +559,7 @@ namespace RFReborn.Files
                     }
                     else
                     {
-                        throw e;
+                        throw;
                     }
                 }
 
