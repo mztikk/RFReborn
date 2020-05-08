@@ -1,10 +1,10 @@
-﻿using System;
+﻿using RFReborn.AoB;
+using RFReborn.Comparison;
+using RFReborn.Extensions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
-using RFReborn.AoB;
-using RFReborn.Comparison;
-using RFReborn.Extensions;
 
 namespace RFReborn.Files
 {
@@ -328,7 +328,7 @@ namespace RFReborn.Files
 
             bool checkFiles = onFile is { };
 
-            dirs.Push(root);
+            dirs.Push(NormalizePath(root));
             while (dirs.Count > 0)
             {
                 string currentDir = dirs.Pop();
@@ -363,7 +363,7 @@ namespace RFReborn.Files
 
                     // Push the subdirectories onto the stack for traversal.
                     // This could also be done before handing the files.
-                    foreach (string str in subDirs)
+                    foreach (string str in subDirs.Call(NormalizePath))
                     {
                         dirs.Push(str);
                     }
@@ -388,7 +388,7 @@ namespace RFReborn.Files
 #pragma warning restore CA1031 // Do not catch general exception types
 
                         // Perform the required action on each file here.
-                        foreach (string file in files)
+                        foreach (string file in files.Call(NormalizePath))
                         {
                             try
                             {
