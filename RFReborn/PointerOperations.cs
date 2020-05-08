@@ -1,7 +1,10 @@
-﻿namespace RFReborn
+﻿using System.Runtime.CompilerServices;
+
+namespace RFReborn
 {
     internal static class PointerOperations
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static unsafe void Reverse<T>(T* ptr, int len) where T : unmanaged
         {
             T* start = ptr;

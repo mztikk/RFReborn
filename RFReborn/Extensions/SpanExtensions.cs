@@ -10,10 +10,11 @@ namespace RFReborn.Extensions
     public static class SpanExtensions
     {
         /// <summary>
-        /// Reverses the elements in a span of unmanaged type. 
+        /// Reverses the elements in a span of unmanaged type.
         /// </summary>
         /// <typeparam name="T">Type</typeparam>
         /// <param name="span">Span to reverse</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe void FastReverse<T>(this Span<T> span) where T : unmanaged
         {
             fixed (T* ptr = span)
