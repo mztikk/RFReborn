@@ -109,16 +109,32 @@ namespace RFReborn.Comparison
         /// <param name="right">Second <see cref="Span{T}"/> to compare.</param>
         /// <returns>TRUE if all values are equal, FALSE otherwise.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe bool Equals<T>(Span<T> left, Span<T> right) where T : unmanaged
+        public static unsafe bool Equals<T>(Span<T> left, Span<T> right) where T : unmanaged => Equals(left, right, left.Length);
+
+        /// <summary>
+        /// Checks if the specified <see cref="Span{T}"/> are equal in value.
+        /// </summary>
+        /// <typeparam name="T">Type.</typeparam>
+        /// <param name="left">First <see cref="Span{T}"/> to compare.</param>
+        /// <param name="right">Second <see cref="Span{T}"/> to compare.</param>
+        /// <param name="len">length to use, can't be bigger than either array</param>
+        /// <returns>TRUE if all values are equal, FALSE otherwise.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe bool Equals<T>(Span<T> left, Span<T> right, long len) where T : unmanaged
         {
             if (left.Length != right.Length)
             {
                 return false;
             }
 
+            if (len > left.Length || len > right.Length)
+            {
+                return false;
+            }
+
             fixed (void* lp = left, rp = right)
             {
-                return Equals(lp, rp, left.Length * sizeof(T));
+                return Equals(lp, rp, len * sizeof(T));
             }
         }
 
@@ -237,7 +253,7 @@ namespace RFReborn.Comparison
                         return false;
                     }
 
-                    if (!Equals(leftBuffer, rightBuffer))
+                    if (!Equals(leftBuffer, rightBuffer, leftRead))
                     {
                         return false;
                     }
@@ -304,27 +320,36 @@ namespace RFReborn.Comparison
         {
             const int wantedBuffersize = InternalUtils.StreamBufferSize;
             int bufferSize = Math.Min(wantedBuffersize, length);
-            byte[] leftBuffer = new byte[bufferSize];
-            byte[] rightBuffer = new byte[bufferSize];
-            while (length > 0)
+            ArrayPool<byte> pool = ArrayPool<byte>.Shared;
+            byte[] leftBuffer = pool.Rent(bufferSize);
+            byte[] rightBuffer = pool.Rent(bufferSize);
+            try
             {
-                int leftRead = left.Read(leftBuffer, 0, bufferSize);
-                int rightRead = right.Read(rightBuffer, 0, bufferSize);
-
-                if (leftRead != rightRead)
+                while (length > 0)
                 {
-                    return false;
+                    int leftRead = left.Read(leftBuffer, 0, bufferSize);
+                    int rightRead = right.Read(rightBuffer, 0, bufferSize);
+
+                    if (leftRead != rightRead)
+                    {
+                        return false;
+                    }
+
+                    if (!Equals(leftBuffer, rightBuffer, leftRead))
+                    {
+                        return false;
+                    }
+
+                    length -= leftRead;
                 }
 
-                if (!Equals(leftBuffer, rightBuffer, leftRead))
-                {
-                    return false;
-                }
-
-                length -= leftRead;
+                return true;
             }
-
-            return true;
+            finally
+            {
+                pool.Return(leftBuffer);
+                pool.Return(rightBuffer);
+            }
         }
 
         /// <summary>
@@ -336,26 +361,35 @@ namespace RFReborn.Comparison
         public static bool NotEquals(Stream left, Stream right)
         {
             const int wantedBuffersize = InternalUtils.StreamBufferSize;
-            byte[] leftBuffer = new byte[wantedBuffersize];
-            byte[] rightBuffer = new byte[wantedBuffersize];
+            ArrayPool<byte> pool = ArrayPool<byte>.Shared;
+            byte[] leftBuffer = pool.Rent(wantedBuffersize);
+            byte[] rightBuffer = pool.Rent(wantedBuffersize);
 
-            int leftRead;
-            while ((leftRead = left.Read(leftBuffer, 0, wantedBuffersize)) > 0)
+            try
             {
-                int rightRead = right.Read(rightBuffer, 0, wantedBuffersize);
-
-                if (leftRead != rightRead)
+                int leftRead;
+                while ((leftRead = left.Read(leftBuffer, 0, wantedBuffersize)) > 0)
                 {
-                    return true;
+                    int rightRead = right.Read(rightBuffer, 0, wantedBuffersize);
+
+                    if (leftRead != rightRead)
+                    {
+                        return true;
+                    }
+
+                    if (!Equals(leftBuffer, rightBuffer, leftRead))
+                    {
+                        return true;
+                    }
                 }
 
-                if (!Equals(leftBuffer, rightBuffer))
-                {
-                    return true;
-                }
+                return false;
             }
-
-            return false;
+            finally
+            {
+                pool.Return(leftBuffer);
+                pool.Return(rightBuffer);
+            }
         }
     }
 }
