@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RFReborn.Comparison;
+using System;
 using System.IO;
 using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RFReborn.Comparison;
+using System.Threading.Tasks;
 
 namespace RFReborn.Tests.FastCompareTests
 {
@@ -33,6 +34,25 @@ namespace RFReborn.Tests.FastCompareTests
             AssertEqual(loremipsumbytes, loremipsumbytes);
             AssertEqual(loremipsumreversebytes, loremipsumreversebytes);
             AssertDiff(loremipsumbytes, loremipsumreversebytes);
+        }
+
+        [TestMethod]
+        public async Task StreamEqualsAsync()
+        {
+            byte[] zerobytes = new byte[9001];
+            Array.Fill<byte>(zerobytes, 0);
+
+            byte[] onebytes = new byte[9001];
+            Array.Fill<byte>(onebytes, 1);
+
+            await AssertEqualAsync(zerobytes, zerobytes).ConfigureAwait(false);
+            await AssertEqualAsync(onebytes, onebytes).ConfigureAwait(false);
+
+            byte[] loremipsumbytes = Encoding.UTF8.GetBytes(LoremIpsum);
+            byte[] loremipsumreversebytes = Encoding.UTF8.GetBytes(LoremIpsumReverse);
+
+            await AssertEqualAsync(loremipsumbytes, loremipsumbytes).ConfigureAwait(false);
+            await AssertEqualAsync(loremipsumreversebytes, loremipsumreversebytes).ConfigureAwait(false);
         }
 
         [TestMethod]
@@ -169,6 +189,17 @@ namespace RFReborn.Tests.FastCompareTests
             }
         }
 
+        private async Task AssertEqualAsync(byte[] left, byte[] right)
+        {
+            using (MemoryStream leftstream = new MemoryStream(left))
+            {
+                using (MemoryStream rightstream = new MemoryStream(right))
+                {
+                    await AssertEqualAsync(leftstream, rightstream).ConfigureAwait(false);
+                }
+            }
+        }
+
         private void AssertDiff(byte[] left, byte[] right)
         {
             using (MemoryStream leftstream = new MemoryStream(left))
@@ -181,6 +212,7 @@ namespace RFReborn.Tests.FastCompareTests
         }
 
         private static void AssertEqual(Stream left, Stream right) => Assert.IsTrue(FastCompare.Equals(left, right));
+        private static async Task AssertEqualAsync(Stream left, Stream right) => Assert.IsTrue(await FastCompare.EqualsAsync(left, right).ConfigureAwait(false));
         private static void AssertDiff(Stream left, Stream right) => Assert.IsTrue(FastCompare.NotEquals(left, right));
         private static void AssertEqual(Stream left, Stream right, int len) => Assert.IsTrue(FastCompare.Equals(left, right, len));
     }
