@@ -44,7 +44,7 @@ namespace RFReborn.Extensions
         }
 
         /// <summary>
-        /// Reverses the elements in an array of unmanaged type. 
+        /// Reverses the elements in an array of unmanaged type.
         /// </summary>
         /// <typeparam name="T">Type</typeparam>
         /// <param name="array">Array to reverse</param>
