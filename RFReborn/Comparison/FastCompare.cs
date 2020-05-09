@@ -241,19 +241,21 @@ namespace RFReborn.Comparison
             ArrayPool<byte> pool = ArrayPool<byte>.Shared;
             byte[] leftBuffer = pool.Rent(wantedBuffersize);
             byte[] rightBuffer = pool.Rent(wantedBuffersize);
+            Span<byte> leftSpan = leftBuffer.AsSpan();
+            Span<byte> rightSpan = rightBuffer.AsSpan();
             try
             {
                 int leftRead;
-                while ((leftRead = left.Read(leftBuffer, 0, wantedBuffersize)) > 0)
+                while ((leftRead = left.Read(leftSpan)) > 0)
                 {
-                    int rightRead = right.Read(rightBuffer, 0, wantedBuffersize);
+                    int rightRead = right.Read(rightSpan);
 
                     if (leftRead != rightRead)
                     {
                         return false;
                     }
 
-                    if (!Equals(leftBuffer, rightBuffer, leftRead))
+                    if (!Equals(leftSpan, rightSpan, leftRead))
                     {
                         return false;
                     }
