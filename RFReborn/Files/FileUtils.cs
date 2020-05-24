@@ -78,6 +78,7 @@ namespace RFReborn.Files
             return false;
         }
 
+        #region Count
         /// <summary>
         /// Counts the number of <see cref="DirectoryInfo"/> inside the <paramref name="root"/> path.
         /// </summary>
@@ -121,7 +122,9 @@ namespace RFReborn.Files
             // folderCount has to be decreased by 1 because walk calls OnDirectory for the root dir
             return (fileCount, --folderCount);
         }
+        #endregion Count
 
+        #region Walk - Delegate
         /// <summary>
         /// Walks a path, invoking <paramref name="onDirectory"/> on every <see cref="DirectoryInfo"/> found.
         /// </summary>
@@ -413,7 +416,9 @@ namespace RFReborn.Files
                 }
             }
         }
+        #endregion Walk - Delegate
 
+        #region Walk - Enumerable
         /// <summary>
         /// Enumerates the tree of a root path, returning files and directories
         /// </summary>
@@ -508,6 +513,7 @@ namespace RFReborn.Files
                 }
             }
         }
+        #endregion Walk - Enumerable
 
         /// <summary>
         /// Finds files by walking the root and wildcard matching the path and alt path with a given mask
@@ -540,14 +546,14 @@ namespace RFReborn.Files
         {
             foreach (string file in Walk(root, FileSystemEnumeration.FilesOnly))
             {
-                bool flag = false;
+                bool findFlag = false;
                 try
                 {
                     using (FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
                         if (Scanner.FindSignature(fs, signature) != -1)
                         {
-                            flag = true;
+                            findFlag = true;
                         }
                     }
                 }
@@ -556,7 +562,7 @@ namespace RFReborn.Files
                     continue;
                 }
 
-                if (flag)
+                if (findFlag)
                 {
                     yield return file;
                 }
