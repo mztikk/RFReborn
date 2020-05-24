@@ -282,14 +282,6 @@ namespace RFReborn
         {
             bool[,] lookup = new bool[input.Length + 1, pattern.Length + 1];
 
-            for (int i = 0; i < input.Length + 1; i++)
-            {
-                for (int j = 0; j < pattern.Length + 1; j++)
-                {
-                    lookup[i, j] = false;
-                }
-            }
-
             lookup[0, 0] = true;
 
             for (int j = 1; j <= pattern.Length; j++)
