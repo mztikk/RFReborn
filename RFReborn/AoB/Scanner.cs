@@ -102,24 +102,31 @@ namespace RFReborn.AoB
             ArrayPool<byte> pool = ArrayPool<byte>.Shared;
             byte[] buffer = pool.Rent(wantedBuffersize);
 
-            int readByteCount;
-            while ((readByteCount = searchRegion.Read(buffer, 0, buffer.Length)) != 0)
+            try
             {
-                if (readByteCount < signature.Length)
+                int readByteCount;
+                while ((readByteCount = searchRegion.Read(buffer, 0, buffer.Length)) != 0)
                 {
-                    return -1;
+                    if (readByteCount < signature.Length)
+                    {
+                        return -1;
+                    }
+
+                    long find = FindSignature(buffer, signature);
+                    if (find != -1)
+                    {
+                        return searchRegion.Position - readByteCount + find;
+                    }
+
+                    searchRegion.Position -= signature.Length;
                 }
 
-                long find = FindSignature(buffer, signature);
-                if (find != -1)
-                {
-                    return searchRegion.Position - readByteCount + find;
-                }
-
-                searchRegion.Position -= signature.Length;
+                return -1;
             }
-
-            return -1;
+            finally
+            {
+                pool.Return(buffer);
+            }
         }
 
         /// <summary>
