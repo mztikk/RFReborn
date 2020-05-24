@@ -1,5 +1,6 @@
 ﻿using RFReborn.Extensions;
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -95,7 +96,12 @@ namespace RFReborn.AoB
         /// <returns>The offset position of <paramref name="signature"/> if that <see cref="Signature"/> is found, or -1 if it is not.</returns>
         public static long FindSignature(Stream searchRegion, Signature signature)
         {
-            byte[] buffer = new byte[Math.Max(InternalUtils.StreamBufferSize, signature.Length)];
+            //byte[] buffer = new byte[Math.Max(InternalUtils.StreamBufferSize, signature.Length)];
+
+            int wantedBuffersize = (int)Math.Max(InternalUtils.StreamBufferSize, signature.Length);
+            ArrayPool<byte> pool = ArrayPool<byte>.Shared;
+            byte[] buffer = pool.Rent(wantedBuffersize);
+
             int readByteCount;
             while ((readByteCount = searchRegion.Read(buffer, 0, buffer.Length)) != 0)
             {
