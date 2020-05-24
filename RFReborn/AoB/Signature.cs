@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace RFReborn.AoB
 {
@@ -101,7 +102,6 @@ namespace RFReborn.AoB
             }
 
             string[] split = StringR.SplitN(signature, 2);
-            //var split = signature.Split(' ');
             byte[] bytes = new byte[split.Length];
             char* mask = stackalloc char[split.Length];
             for (int i = 0; i < split.Length; i++)
@@ -113,7 +113,7 @@ namespace RFReborn.AoB
                 }
                 else
                 {
-                    bytes[i] = Convert.ToByte(new string(new[] { split[i][0], split[i][1] }), 16);
+                    bytes[i] = (byte)int.Parse(split[i], NumberStyles.HexNumber);
                     mask[i] = 'x';
                 }
             }
