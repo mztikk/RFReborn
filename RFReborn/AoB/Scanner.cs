@@ -105,13 +105,8 @@ namespace RFReborn.AoB
             try
             {
                 int readByteCount;
-                while ((readByteCount = searchRegion.Read(buffer, 0, buffer.Length)) != 0)
+                while ((readByteCount = searchRegion.Read(buffer, 0, buffer.Length)) >= signature.Length)
                 {
-                    if (readByteCount < signature.Length)
-                    {
-                        return -1;
-                    }
-
                     long find = FindSignature(buffer, signature);
                     if (find != -1)
                     {
