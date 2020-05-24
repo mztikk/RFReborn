@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 
 namespace RFReborn.Tests.StringRTests
@@ -28,6 +29,17 @@ namespace RFReborn.Tests.StringRTests
                 }
             }
         }
+
+        [TestMethod]
+        public void ThrowOnZeroOrLess()
+        {
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => StringR.SplitN("", 0));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => StringR.SplitN("", -1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => StringR.SplitN("", -10));
+        }
+
+        [TestMethod]
+        public void ThrowOnNull() => Assert.ThrowsException<ArgumentNullException>(() => StringR.SplitN(null, 0));
 
         private class SplitNCase
         {
