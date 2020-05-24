@@ -1,8 +1,8 @@
-﻿using System;
+﻿using RFReborn.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
-using RFReborn.Extensions;
 
 namespace RFReborn
 {
@@ -162,11 +162,10 @@ namespace RFReborn
                 throw new ArgumentOutOfRangeException(nameof(n) + " must a positive integer and greater than zero.");
             }
 
-            string[] rtn = new string[(int)Math.Ceiling((double)str.Length / n)];
+            string[] rtn = new string[(long)Math.Ceiling((double)str.Length / n)];
 
-            fixed (void* vp = str)
+            fixed (char* p = str)
             {
-                char* p = (char*)vp;
                 int i = 0;
                 int j = 0;
                 while (i < str.Length)
