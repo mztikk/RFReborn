@@ -328,6 +328,7 @@ namespace RFReborn
                     }
                 }
             }
+
             return lookup[input.Length, pattern.Length];
         }
 
