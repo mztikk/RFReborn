@@ -1,6 +1,6 @@
-﻿using System;
-using RFReborn.AoB;
+﻿using RFReborn.AoB;
 using RFReborn.Extensions;
+using System;
 
 namespace RFReborn.Tests.AoBTests
 {
@@ -16,12 +16,8 @@ namespace RFReborn.Tests.AoBTests
 
         public static AoBTest ForSignature(Signature signature, long size)
         {
-            byte[] bytes = new byte[size];
-            InternalUtils.s_rng.NextBytes(bytes);
-            long rndIndex = InternalUtils.s_rng.Next(0, bytes.Length - signature.Pattern.LongLength);
-            Array.Copy(signature.Pattern, 0, bytes, rndIndex, signature.Pattern.LongLength);
-
-            return new AoBTest(bytes, signature, rndIndex);
+            long rndIndex = InternalUtils.s_rng.Next(0, size - signature.Pattern.LongLength);
+            return ForSignature(signature, size, rndIndex);
         }
 
         public static AoBTest ForSignature(Signature signature, long size, long index)
