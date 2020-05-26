@@ -111,7 +111,7 @@ namespace RFReborn.AoB
                         return searchRegion.Position - readByteCount + find;
                     }
 
-                    searchRegion.Position -= signature.Length;
+                    searchRegion.Position -= signature.Length - 1;
                 }
 
                 return -1;
