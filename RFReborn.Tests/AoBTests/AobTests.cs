@@ -38,6 +38,7 @@ namespace RFReborn.Tests.AoBTests
         {
             {new AoBTest(new byte[]{0xFF }, new Signature("FFEE"), -1) },
             {new AoBTest(new byte[]{0xFF, 0x00, 0xAE }, new Signature("FFEE"), -1) },
+            {new AoBTest(new byte[]{0xFF, 0x00, 0xAE, 0xFF }, new Signature("FFEE"), -1) },
         };
 
         [TestMethod]
@@ -68,6 +69,15 @@ namespace RFReborn.Tests.AoBTests
         }
 
         [TestMethod]
+        public void SignatureNotInStream()
+        {
+            foreach (AoBTest test in _fails)
+            {
+                AssertNotFound(test.GetSearchRegionAsStream(), test.Signature);
+            }
+        }
+
+        [TestMethod]
         public void MultipleSignatures()
         {
             byte[] bytes = new byte[] { 0xff, 0xe1, 0xcd, 0xff, 0xe1, 0xcd, 0xff, 0xff, 0xe1, 0xcd };
@@ -94,6 +104,12 @@ namespace RFReborn.Tests.AoBTests
         }
 
         private void AssertNotFound(byte[] searchRegion, Signature signature)
+        {
+            long find = Scanner.FindSignature(searchRegion, signature);
+            Assert.AreEqual(-1, find);
+        }
+
+        private void AssertNotFound(Stream searchRegion, Signature signature)
         {
             long find = Scanner.FindSignature(searchRegion, signature);
             Assert.AreEqual(-1, find);
