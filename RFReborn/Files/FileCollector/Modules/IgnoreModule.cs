@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace RFReborn.Files.FileCollector.Modules
 {
     /// <summary>
     /// <see cref="ICollectingModule"/> implementation for ignore wildcard patterns
     /// </summary>
+    [Obsolete("IgnoreModule is deprecated, use ListModule instead.")]
     public class IgnoreModule : ICollectingModule
     {
         private readonly IEnumerable<string> _ignorePatterns;
@@ -32,6 +34,7 @@ namespace RFReborn.Files.FileCollector.Modules
         /// </summary>
         /// <param name="fileCollector">FileCollector to add module to</param>
         /// <param name="ignorePatterns">patterns to use</param>
+        [Obsolete("IgnoreModule is deprecated, use ListModule instead.")]
         public static FileCollector AddIgnoreModule(this FileCollector fileCollector, IEnumerable<string> ignorePatterns)
         {
             fileCollector.AddModule(new IgnoreModule(ignorePatterns));
