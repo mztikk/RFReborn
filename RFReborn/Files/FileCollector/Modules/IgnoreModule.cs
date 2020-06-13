@@ -16,10 +16,10 @@ namespace RFReborn.Files.FileCollector.Modules
         public IgnoreModule(IEnumerable<string> ignorePatterns) => _ignorePatterns = ignorePatterns;
 
         /// <inheritdoc />
-        public bool Skip(string path) => IgnoreHelper.IsIgnored(path, _ignorePatterns);
+        public bool Skip(string path) => WildcardHelper.IsMatch(path, _ignorePatterns);
 
         /// <inheritdoc />
-        public bool Take(string path) => !IgnoreHelper.IsIgnored(path, _ignorePatterns);
+        public bool Take(string path) => !WildcardHelper.IsMatch(path, _ignorePatterns);
     }
 
     /// <summary>

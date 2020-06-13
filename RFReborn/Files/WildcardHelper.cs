@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 
 namespace RFReborn.Files
 {
     /// <summary>
-    /// Class that provides methods to ignore paths based on wildcard matching patterns
+    /// Class that provides methods to match paths based on wildcard matching patterns
     /// </summary>
-    [Obsolete("IgnoreHelper is deprecated, use WildcardHelper instead")]
-    public static class IgnoreHelper
+    public static class WildcardHelper
     {
         /// <summary>
-        /// Check if the path is ignored by the given pattern
+        /// Check if the path matches the given pattern
         /// </summary>
         /// <param name="path">path to check</param>
         /// <param name="pattern">pattern to use</param>
-        public static bool IsIgnored(string path, string pattern)
+        public static bool IsMatch(string path, string pattern)
         {
             if (StringR.WildcardMatch(path, pattern))
             {
@@ -27,15 +25,15 @@ namespace RFReborn.Files
         }
 
         /// <summary>
-        /// Check if the path is ignored by any of the given patterns
+        /// Check if the path matches any of the given patterns
         /// </summary>
         /// <param name="path">path to check</param>
         /// <param name="patterns">patterns to use</param>
-        public static bool IsIgnored(string path, IEnumerable<string> patterns)
+        public static bool IsMatch(string path, IEnumerable<string> patterns)
         {
             foreach (string pattern in patterns)
             {
-                if (IsIgnored(path, pattern))
+                if (IsMatch(path, pattern))
                 {
                     return true;
                 }
@@ -45,7 +43,7 @@ namespace RFReborn.Files
         }
 
         /// <summary>
-        /// Reads all ignore patterns from a file and yields them as an <see cref="IEnumerable{T}"/>
+        /// Reads all wildcard patterns from a file and yields them as an <see cref="IEnumerable{T}"/>
         /// </summary>
         /// <param name="file">file to read</param>
         /// <remarks>
@@ -53,7 +51,7 @@ namespace RFReborn.Files
         /// <para/>
         /// Empty lines are skipped
         /// </remarks>
-        public static IEnumerable<string> GetIgnorePatternsFromFile(string file)
+        public static IEnumerable<string> GetWildcardPatternsFromFile(string file)
         {
             foreach (string line in File.ReadAllLines(file))
             {
