@@ -99,7 +99,7 @@ namespace RFReborn.Files
 #pragma warning disable CA1063 // Implement IDisposable Correctly; Wrong warning because there is no block body
         public void Dispose() =>
 #pragma warning restore CA1063 // Implement IDisposable Correctly
-                              // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);// TODO: uncomment the following line if the finalizer is overridden above.// GC.SuppressFinalize(this);
         #endregion
 

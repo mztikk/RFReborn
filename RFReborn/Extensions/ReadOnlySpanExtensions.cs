@@ -10,7 +10,7 @@ namespace RFReborn.Extensions
     public static class ReadOnlySpanExtensions
     {
         /// <summary>
-        /// Reverses the elements in a span of unmanaged type. 
+        /// Reverses the elements in a span of unmanaged type.
         /// </summary>
         /// <typeparam name="T">Type</typeparam>
         /// <param name="span">Span to reverse</param>

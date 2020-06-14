@@ -1,6 +1,6 @@
-﻿using RFReborn.Files.FileCollector.Modules;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using RFReborn.Files.FileCollector.Modules;
 
 namespace RFReborn.Files.FileCollector
 {

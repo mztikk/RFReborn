@@ -1,6 +1,6 @@
-﻿using RFReborn.Comparison;
-using System;
+﻿using System;
 using System.Runtime.CompilerServices;
+using RFReborn.Comparison;
 
 namespace RFReborn.Extensions
 {

@@ -1,6 +1,6 @@
-﻿using RFReborn.AoB;
+﻿using System;
+using RFReborn.AoB;
 using RFReborn.Extensions;
-using System;
 
 namespace RFReborn.Tests.AoBTests
 {

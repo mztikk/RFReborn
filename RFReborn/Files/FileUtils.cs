@@ -1,10 +1,10 @@
-﻿using RFReborn.AoB;
-using RFReborn.Comparison;
-using RFReborn.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
+using RFReborn.AoB;
+using RFReborn.Comparison;
+using RFReborn.Extensions;
 
 namespace RFReborn.Files
 {

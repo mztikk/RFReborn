@@ -1,8 +1,8 @@
-﻿using RFReborn.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
+using RFReborn.Extensions;
 
 namespace RFReborn
 {
