@@ -139,7 +139,7 @@ namespace RFReborn
 
         private string MakeParamFromKey(string key) => OpenTag + key + CloseTag;
 
-        private string GetKeyFromParam(string param) => param.Substring(OpenTag.Length, param.Length - CloseTag.Length - OpenTag.Length);
+        private string GetKeyFromParam(string param) => param[OpenTag.Length..^CloseTag.Length];
 
         private string ParameterEvaluator(string parameterName) => _parameterMap.ContainsKey(parameterName) ? _parameterMap[parameterName].Invoke() : parameterName;
     }
