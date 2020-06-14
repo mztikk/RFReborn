@@ -37,7 +37,7 @@ namespace RFReborn.Tests.MathRTests
         [DataTestMethod]
         public void SmallerThanZeroException(int n)
         {
-            Action action = () => MathR.Fibonacci(n);
+            void action() => MathR.Fibonacci(n);
             Assert.ThrowsException<ArgumentOutOfRangeException>(action);
             AssertExtensions.ThrowsExceptionMessage<ArgumentOutOfRangeException>(action, "N can't be smaller than zero. (Parameter 'n')");
         }

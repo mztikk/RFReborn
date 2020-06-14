@@ -78,7 +78,7 @@ namespace RFReborn.Internals
         {
             const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance;
 
-            string last = nameChain[nameChain.Length - 1];
+            string last = nameChain[^1];
             for (int i = index; i < nameChain.Length; i++)
             {
                 foreach (PropertyInfo prop in t.GetProperties(bindingFlags))
@@ -159,7 +159,7 @@ namespace RFReborn.Internals
         {
             const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance;
 
-            string last = nameChain[nameChain.Length - 1];
+            string last = nameChain[^1];
             for (int i = index; i < nameChain.Length; i++)
             {
                 foreach (PropertyInfo prop in t.GetProperties(bindingFlags))

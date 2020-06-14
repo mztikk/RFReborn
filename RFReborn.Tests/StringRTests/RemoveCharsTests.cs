@@ -18,8 +18,8 @@ namespace RFReborn.Tests.StringRTests
             }
         }
 
-        private void AssertRemoved(string toTest, char[] toRemove) => Assert.IsFalse(contains(StringR.RemoveChars(toTest, toRemove), toRemove));
+        private void AssertRemoved(string toTest, char[] toRemove) => Assert.IsFalse(Contains(StringR.RemoveChars(toTest, toRemove), toRemove));
 
-        private static bool contains(string str, char[] chrs) => str.IndexOfAny(chrs) > 0;
+        private static bool Contains(string str, char[] chrs) => str.IndexOfAny(chrs) > 0;
     }
 }

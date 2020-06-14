@@ -15,9 +15,9 @@ namespace RFReborn.Tests.ArithmeticMeanTests
         [TestMethod]
         public void ArithmeticMeanSbyte()
         {
-            foreach ((sbyte[] array, sbyte mean) test in _tests)
+            foreach ((sbyte[] array, sbyte mean) in _tests)
             {
-                AssertIsMean(test.array, test.mean);
+                AssertIsMean(array, mean);
             }
         }
 
@@ -35,9 +35,9 @@ namespace RFReborn.Tests.ArithmeticMeanTests
         [TestMethod]
         public void ArithmeticMeanByte()
         {
-            foreach ((byte[] array, byte mean) test in _tests)
+            foreach ((byte[] array, byte mean) in _tests)
             {
-                AssertIsMean(test.array, test.mean);
+                AssertIsMean(array, mean);
             }
         }
 
@@ -56,9 +56,9 @@ namespace RFReborn.Tests.ArithmeticMeanTests
         [TestMethod]
         public void ArithmeticMeanShort()
         {
-            foreach ((short[] array, short mean) test in _tests)
+            foreach ((short[] array, short mean) in _tests)
             {
-                AssertIsMean(test.array, test.mean);
+                AssertIsMean(array, mean);
             }
         }
 
@@ -77,9 +77,9 @@ namespace RFReborn.Tests.ArithmeticMeanTests
         [TestMethod]
         public void ArithmeticMeanUshort()
         {
-            foreach ((ushort[] array, ushort mean) test in _tests)
+            foreach ((ushort[] array, ushort mean) in _tests)
             {
-                AssertIsMean(test.array, test.mean);
+                AssertIsMean(array, mean);
             }
         }
 
@@ -98,9 +98,9 @@ namespace RFReborn.Tests.ArithmeticMeanTests
         [TestMethod]
         public void ArithmeticMeanInt()
         {
-            foreach ((int[] array, int mean) test in _tests)
+            foreach ((int[] array, int mean) in _tests)
             {
-                AssertIsMean(test.array, test.mean);
+                AssertIsMean(array, mean);
             }
         }
 
@@ -119,9 +119,9 @@ namespace RFReborn.Tests.ArithmeticMeanTests
         [TestMethod]
         public void ArithmeticMeanUint()
         {
-            foreach ((uint[] array, uint mean) test in _tests)
+            foreach ((uint[] array, uint mean) in _tests)
             {
-                AssertIsMean(test.array, test.mean);
+                AssertIsMean(array, mean);
             }
         }
 
@@ -140,9 +140,9 @@ namespace RFReborn.Tests.ArithmeticMeanTests
         [TestMethod]
         public void ArithmeticMeanLong()
         {
-            foreach ((long[] array, long mean) test in _tests)
+            foreach ((long[] array, long mean) in _tests)
             {
-                AssertIsMean(test.array, test.mean);
+                AssertIsMean(array, mean);
             }
         }
 
@@ -161,9 +161,9 @@ namespace RFReborn.Tests.ArithmeticMeanTests
         [TestMethod]
         public void ArithmeticMeanUlong()
         {
-            foreach ((ulong[] array, ulong mean) test in _tests)
+            foreach ((ulong[] array, ulong mean) in _tests)
             {
-                AssertIsMean(test.array, test.mean);
+                AssertIsMean(array, mean);
             }
         }
 

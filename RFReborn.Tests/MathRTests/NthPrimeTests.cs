@@ -36,7 +36,7 @@ namespace RFReborn.Tests.MathRTests
         [DataTestMethod]
         public void SmallerThanOneException(int n)
         {
-            Action action = () => MathR.NthPrime(n);
+            void action() => MathR.NthPrime(n);
             Assert.ThrowsException<ArgumentOutOfRangeException>(action);
             AssertExtensions.ThrowsExceptionMessage<ArgumentOutOfRangeException>(action, "N can't be smaller than one. (Parameter 'n')");
         }
