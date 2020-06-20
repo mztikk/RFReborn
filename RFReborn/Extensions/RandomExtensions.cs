@@ -200,7 +200,7 @@ namespace RFReborn.Extensions
                 rtn[i] = charset[rnd];
             }
 
-            return new string(rtn);
+            return new string(rtn, 0, len);
         }
 
         /// <summary>
