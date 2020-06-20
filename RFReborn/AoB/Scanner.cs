@@ -99,13 +99,14 @@ namespace RFReborn.AoB
             int wantedBuffersize = (int)Math.Max(InternalUtils.StreamBufferSize, signature.Length);
             ArrayPool<byte> pool = ArrayPool<byte>.Shared;
             byte[] buffer = pool.Rent(wantedBuffersize);
+            Span<byte> bufferSpan = buffer.AsSpan();
 
             try
             {
                 int readByteCount;
-                while ((readByteCount = searchRegion.Read(buffer, 0, buffer.Length)) >= signature.Length)
+                while ((readByteCount = searchRegion.Read(bufferSpan)) >= signature.Length)
                 {
-                    long find = FindSignature(buffer, signature);
+                    long find = FindSignature(bufferSpan.Slice(0, readByteCount), signature);
                     if (find != -1)
                     {
                         return searchRegion.Position - readByteCount + find;
