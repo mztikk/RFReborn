@@ -55,7 +55,8 @@ namespace RFReborn.Tests.AoBTests
         {
             foreach (AoBTest test in _tests)
             {
-                AssertFound(test.GetSearchRegionAsStream(), test.Signature, test.Index);
+                using Stream stream = test.GetSearchRegionAsStream();
+                AssertFound(stream, test.Signature, test.Index);
             }
         }
 
@@ -73,7 +74,8 @@ namespace RFReborn.Tests.AoBTests
         {
             foreach (AoBTest test in _fails)
             {
-                AssertNotFound(test.GetSearchRegionAsStream(), test.Signature);
+                using Stream stream = test.GetSearchRegionAsStream();
+                AssertNotFound(stream, test.Signature);
             }
         }
 
