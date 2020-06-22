@@ -404,6 +404,7 @@ namespace RFReborn
         {
             if (input is null)
             {
+                result = 0;
                 return false;
             }
 
