@@ -348,5 +348,66 @@ namespace RFReborn
         /// <param name="pattern">pattern to match</param>
         /// <returns>returns <see langword="true"/> if pattern matches; <see langword="false"/> otherwise</returns>
         public static bool WildcardMatch(string input, string pattern) => WildcardMatch(input, pattern, '*', '?', false);
+
+        private static readonly string[] s_byteSizeDescriptors = new string[] { "byte", "kb", "mb", "gb", "tb", "pb", "eb", "zb", "yb" };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static (long, string) GetDescriptorIndexAndNumString(string input)
+        {
+            string[] matchers = s_byteSizeDescriptors;
+            int match = 0;
+            string numString = input;
+            for (int i = 0; i < matchers.Length; i++)
+            {
+                if (input.EndsWith(matchers[i], StringComparison.OrdinalIgnoreCase))
+                {
+                    match = i;
+                    numString = input.Substring(0, input.Length - matchers[i].Length);
+                    break;
+                }
+            }
+
+            return (match, numString);
+        }
+
+        /// <summary>
+        /// Turns a string containing a byte size description (e.g. 50kb, 100mb) into its byte value
+        /// </summary>
+        /// <param name="input">Input to convert</param>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="input"/> is not parsable as a number with a size descriptor at the end</exception>
+        /// <returns>The converted/parsed number</returns>
+        public static long StringToByteSize(string input)
+        {
+            (long match, string numString) = GetDescriptorIndexAndNumString(input);
+
+            if (!long.TryParse(numString, out long num))
+            {
+                throw new ArgumentException(input, nameof(input));
+            }
+
+            long conversion = (long)Math.Pow(1000, match);
+            return num * conversion;
+        }
+
+        /// <summary>
+        /// Turns a string containing a byte size description (e.g. 50kb, 100mb) into its byte value
+        /// </summary>
+        /// <param name="input">Input to convert</param>
+        /// <param name="result"></param>
+        /// <returns><see langword="true"/> if <paramref name="input"/> was converted successfully; <see langword="false"/> otherwise.</returns>
+        public static bool StringToByteSize(string input, out long result)
+        {
+            (long match, string numString) = GetDescriptorIndexAndNumString(input);
+
+            if (!long.TryParse(numString, out long num))
+            {
+                result = 0;
+                return false;
+            }
+
+            long conversion = (long)Math.Pow(1000, match);
+            result = num * conversion;
+            return true;
+        }
     }
 }
