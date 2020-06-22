@@ -376,8 +376,13 @@ namespace RFReborn
         /// <param name="input">Input to convert</param>
         /// <exception cref="ArgumentException">Thrown when <paramref name="input"/> is not parsable as a number with a size descriptor at the end</exception>
         /// <returns>The converted/parsed number</returns>
-        public static long StringToByteSize(string input)
+        public static long StringToByteSize(string? input)
         {
+            if (input is null)
+            {
+                throw new ArgumentNullException(nameof(input));
+            }
+
             (long match, string numString) = GetDescriptorIndexAndNumString(input);
 
             if (!long.TryParse(numString, out long num))
@@ -395,8 +400,13 @@ namespace RFReborn
         /// <param name="input">Input to convert</param>
         /// <param name="result"></param>
         /// <returns><see langword="true"/> if <paramref name="input"/> was converted successfully; <see langword="false"/> otherwise.</returns>
-        public static bool StringToByteSize(string input, out long result)
+        public static bool StringToByteSize(string? input, out long result)
         {
+            if (input is null)
+            {
+                return false;
+            }
+
             (long match, string numString) = GetDescriptorIndexAndNumString(input);
 
             if (!long.TryParse(numString, out long num))
