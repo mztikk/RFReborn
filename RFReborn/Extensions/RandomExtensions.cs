@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
+using System.IO;
 
 namespace RFReborn.Extensions
 {
@@ -284,6 +286,34 @@ namespace RFReborn.Extensions
 
                     charptr++;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Writes <paramref name="n"/> number of bytes to a <see cref="Stream"/> <paramref name="stream"/>
+        /// </summary>
+        /// <param name="random"><see cref="Random"/> provider</param>
+        /// <param name="stream"><see cref="Stream"/> to write bytes to</param>
+        /// <param name="n">Number of bytes to write</param>
+        public static void NextBytes(this Random random, Stream stream, int n)
+        {
+            int wantedBuffersize = Math.Min(InternalUtils.StreamBufferSize, n);
+            ArrayPool<byte> pool = ArrayPool<byte>.Shared;
+            byte[] buffer = pool.Rent(wantedBuffersize);
+
+            long total = 0;
+            try
+            {
+                while (total < n)
+                {
+                    random.NextBytes(buffer);
+                    stream.Write(buffer);
+                    total += buffer.Length;
+                }
+            }
+            finally
+            {
+                pool.Return(buffer);
             }
         }
     }
