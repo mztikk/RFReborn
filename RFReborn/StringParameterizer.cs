@@ -39,6 +39,11 @@ namespace RFReborn
         public string WildcardString { get; set; } = "<!%%%!>";
 
         /// <summary>
+        /// String that represents a Timestamp begin, default "Timestamp"
+        /// </summary>
+        public string Timestamp { get; set; } = "Timestamp";
+
+        /// <summary>
         /// Attempts to add a new parameter key and a <see cref="Func{TResult}"/> to retrieve the value
         /// </summary>
         /// <param name="parameterKey">Parameter key</param>
@@ -51,6 +56,13 @@ namespace RFReborn
         /// <param name="parameterKey">Parameter key</param>
         /// <param name="parameterValue"><see cref="Func{TResult}"/> to retrieve the value</param>
         public void Add(string parameterKey, Func<string> parameterValue) => _parameterMap.Add(parameterKey, parameterValue);
+
+        /// <summary>
+        /// Adds a new parameter key and a value
+        /// </summary>
+        /// <param name="parameterKey">Parameter key</param>
+        /// <param name="parameterValue">Value to set</param>
+        public void Add(string parameterKey, string parameterValue) => Add(parameterKey, () => parameterValue);
 
         /// <summary>
         /// Sets the value associated with the specified key.
@@ -74,11 +86,6 @@ namespace RFReborn
         /// <param name="inputName">String to make</param>
         public string Make(string inputName)
         {
-            if (_parameterMap.Count == 0)
-            {
-                return inputName;
-            }
-
             Regex formatterRegex = GetRegexFormatter();
 
             return formatterRegex.Replace(inputName, match => ParameterEvaluator(GetKeyFromParam(match.Value)));
@@ -91,14 +98,8 @@ namespace RFReborn
         /// <param name="evaluator">Custom evaluator to use before formatting parameters</param>
         public string Make(string inputName, Func<string, string?> evaluator)
         {
-            if (_parameterMap.Count == 0)
-            {
-                return inputName;
-            }
-
             Regex formatterRegex = GetRegexFormatter();
 
-            //return formatterRegex.Replace(inputName, m => _parameterMap.ContainsKey(m.Value) ? _parameterMap[m.Value].Invoke() : m.Value);
             return formatterRegex.Replace(inputName, match =>
             {
                 string key = GetKeyFromParam(match.Value);
@@ -113,21 +114,20 @@ namespace RFReborn
             });
         }
 
-        ///// <summary>
-        ///// Makes the formatted string from a stream by calling the evaluator on every parameter, if this returns null it will replace all parameters with their set values
-        ///// </summary>
-        ///// <param name="input">Stream to make formatted string from</param>
-        ///// <param name="target">Stream to write formatted string to</param>
-        ///// <param name="evaluator">Custom evaluator to use before formatting parameters</param>
+        private IEnumerable<string> GetKeys()
+        {
+            // Cheat the timestamp matcher in
+            yield return $"{Timestamp} {WildcardString}";
 
-        //public void Make(Stream input, Stream target, Func<string, string?> evaluator)
-        //{
-        //    input.CopyTo(target);
-        //}
+            foreach (string item in _parameterMap.Keys)
+            {
+                yield return item;
+            }
+        }
 
         private IEnumerable<string> GetTaggedKeys()
         {
-            foreach (string item in _parameterMap.Keys)
+            foreach (string item in GetKeys())
             {
                 yield return MakeParamFromKey(item);
             }
@@ -139,6 +139,17 @@ namespace RFReborn
 
         private string GetKeyFromParam(string param) => param[OpenTag.Length..^CloseTag.Length];
 
-        private string ParameterEvaluator(string parameterName) => _parameterMap.ContainsKey(parameterName) ? _parameterMap[parameterName].Invoke() : parameterName;
+        private string ParameterEvaluator(string parameterName)
+        {
+            // Check for timestamp begin and format accordingly
+            if (parameterName.StartsWith($"{Timestamp} "))
+            {
+                string dateTimeFormat = parameterName.Substring(10, parameterName.Length - 10);
+                return DateTime.Now.ToString(dateTimeFormat);
+            }
+
+            // If the param map contains the param invoke its func, default just return param
+            return (_parameterMap.ContainsKey(parameterName)) ? _parameterMap[parameterName].Invoke() : parameterName;
+        }
     }
 }
