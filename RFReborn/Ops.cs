@@ -108,6 +108,7 @@ namespace RFReborn
         /// <param name="startLength">Minimum/Starting length of the generated strings.</param>
         /// <param name="maxLength">Maximum length of the genereated strings.</param>
         /// <returns>The string that matched the <paramref name="checkFunc"/> or <see cref="string.Empty"/> otherwise.</returns>
+        [Obsolete]
         public static string BruteForce(string charset, Func<string, bool> checkFunc, int startLength = 1, int maxLength = 6) => BruteForce(charset.ToCharArray(), checkFunc, startLength, maxLength);
 
         /// <summary>
@@ -118,6 +119,7 @@ namespace RFReborn
         /// <param name="startLength">Minimum/Starting length of the generated strings.</param>
         /// <param name="maxLength">Maximum length of the genereated strings.</param>
         /// <returns>The string that matched the <paramref name="checkFunc"/> or <see cref="string.Empty"/> otherwise.</returns>
+        [Obsolete]
         public static string BruteForce(IList<char> charset, Func<string, bool> checkFunc, int startLength = 1, int maxLength = 6)
         {
             string found = string.Empty;
