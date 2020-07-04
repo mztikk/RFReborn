@@ -44,6 +44,11 @@ namespace RFReborn
         public string Timestamp { get; set; } = "Timestamp";
 
         /// <summary>
+        /// <see cref="Func{TResult}"/> that returns a <see cref="DateTime"/> which is used when formatting a timestamp, default returns <see cref="DateTime.Now"/>
+        /// </summary>
+        public Func<DateTime> DateTimeFactory { get; set; } = () => DateTime.Now;
+
+        /// <summary>
         /// Attempts to add a new parameter key and a <see cref="Func{TResult}"/> to retrieve the value
         /// </summary>
         /// <param name="parameterKey">Parameter key</param>
@@ -145,7 +150,7 @@ namespace RFReborn
             if (parameterName.StartsWith($"{Timestamp} "))
             {
                 string dateTimeFormat = parameterName.Substring(10, parameterName.Length - 10);
-                return DateTime.Now.ToString(dateTimeFormat);
+                return DateTimeFactory().ToString(dateTimeFormat);
             }
 
             // If the param map contains the param invoke its func, default just return param
