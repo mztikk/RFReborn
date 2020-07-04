@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace RFReborn.Tests.MathRTests
@@ -7,26 +6,16 @@ namespace RFReborn.Tests.MathRTests
     [TestClass]
     public class NthPrimeTests
     {
-        private readonly List<KeyValuePair<int, long>> _primes = new List<KeyValuePair<int, long>>()
-        {
-            new KeyValuePair<int, long>(1, 2),
-            new KeyValuePair<int, long>(2, 3),
-            new KeyValuePair<int, long>(3, 5),
-            new KeyValuePair<int, long>(4, 7),
-            new KeyValuePair<int, long>(10, 29),
-            new KeyValuePair<int, long>(17, 59),
-            new KeyValuePair<int, long>(46, 199),
-            new KeyValuePair<int, long>(981, 7727)
-        };
-
-        [TestMethod]
-        public void NthPrime()
-        {
-            foreach (KeyValuePair<int, long> prime in _primes)
-            {
-                AssertEquals(prime.Key, prime.Value);
-            }
-        }
+        [DataTestMethod]
+        [DataRow(1, 2)]
+        [DataRow(2, 3)]
+        [DataRow(3, 5)]
+        [DataRow(4, 7)]
+        [DataRow(10, 29)]
+        [DataRow(17, 59)]
+        [DataRow(46, 199)]
+        [DataRow(981, 7727)]
+        public void NthPrime(int n, long prime) => AssertEquals(n, prime);
 
         [DataRow(0)]
         [DataRow(-1)]
