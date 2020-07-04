@@ -159,7 +159,7 @@ namespace RFReborn
 
             if (n <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(n) + " must a positive integer and greater than zero.");
+                throw new ArgumentOutOfRangeException(nameof(n), "Must be a positive integer and greater than zero.");
             }
 
             string[] rtn = new string[(long)Math.Ceiling((double)str.Length / n)];
