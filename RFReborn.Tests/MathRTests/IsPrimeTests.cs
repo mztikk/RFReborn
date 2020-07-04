@@ -1,28 +1,46 @@
-﻿using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace RFReborn.Tests.MathRTests
 {
     [TestClass]
     public class IsPrimeTests
     {
-        private readonly List<int> _primes = new List<int>() { 2, 3, 5, 7, 11, 13, 17, 19, 23, 6701, 492876863, 982451653 };
+        [DataTestMethod]
+        [DataRow(2)]
+        [DataRow(3)]
+        [DataRow(5)]
+        [DataRow(7)]
+        [DataRow(11)]
+        [DataRow(13)]
+        [DataRow(17)]
+        [DataRow(19)]
+        [DataRow(23)]
+        [DataRow(6701)]
+        [DataRow(492876863)]
+        [DataRow(982451653)]
+        public void IsPrime(int prime) => AssertIsPrime(prime);
 
-        private readonly List<int> _nonPrimes = new List<int>() { -123, -5, 0, 1, 4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20, 21, 22, 7828, 492876860 };
-
-        [TestMethod]
-        public void IsPrime()
-        {
-            foreach (int prime in _primes)
-            {
-                AssertIsPrime(prime);
-            }
-
-            foreach (int nonPrime in _nonPrimes)
-            {
-                AssertIsNotPrime(nonPrime);
-            }
-        }
+        [DataTestMethod]
+        [DataRow(-123)]
+        [DataRow(-5)]
+        [DataRow(0)]
+        [DataRow(1)]
+        [DataRow(4)]
+        [DataRow(6)]
+        [DataRow(8)]
+        [DataRow(9)]
+        [DataRow(10)]
+        [DataRow(12)]
+        [DataRow(14)]
+        [DataRow(15)]
+        [DataRow(16)]
+        [DataRow(18)]
+        [DataRow(20)]
+        [DataRow(21)]
+        [DataRow(22)]
+        [DataRow(7828)]
+        [DataRow(492876860)]
+        public void IsNotPrime(int prime) => AssertIsNotPrime(prime);
 
         private void AssertIsPrime(int n) => Assert.IsTrue(MathR.IsPrime(n));
 
