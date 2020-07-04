@@ -149,7 +149,8 @@ namespace RFReborn
             // Check for timestamp begin and format accordingly
             if (parameterName.StartsWith($"{Timestamp} "))
             {
-                string dateTimeFormat = parameterName.Substring(10, parameterName.Length - 10);
+                int len = Timestamp.Length + 1;
+                string dateTimeFormat = parameterName.Substring(len, parameterName.Length - len);
                 return DateTimeFactory().ToString(dateTimeFormat);
             }
 
