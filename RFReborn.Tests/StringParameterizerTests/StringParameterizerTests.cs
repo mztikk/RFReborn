@@ -55,6 +55,14 @@ namespace RFReborn.Tests.StringParameterizerTests
             }
         }
 
+        [DataTestMethod]
+        [DataRow("HH")]
+        [DataRow("hh")]
+        [DataRow("hhmm")]
+        [DataRow("HHmm")]
+        [DataRow("yyyyMMdd")]
+        public void TimestampHours(string timestamp) => Assert.AreEqual(DateTime.Now.ToString(timestamp), _parameterizer.Make($"{{{_parameterizer.Timestamp} {timestamp}}}"));
+
         //[TestMethod]
         //public void StreamParameterize()
         //{
