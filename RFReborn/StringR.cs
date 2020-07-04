@@ -154,7 +154,7 @@ namespace RFReborn
         {
             if (str is null)
             {
-                throw new ArgumentNullException(nameof(str) + " can't be null.");
+                throw new ArgumentNullException(nameof(str));
             }
 
             if (n <= 0)
