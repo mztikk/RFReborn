@@ -376,7 +376,7 @@ namespace RFReborn
         /// <param name="input">Input to convert</param>
         /// <exception cref="ArgumentException">Thrown when <paramref name="input"/> is not parsable as a number with a size descriptor at the end</exception>
         /// <returns>The converted/parsed number</returns>
-        public static long StringToByteSize(string? input)
+        public static long StringToByteSize(string input)
         {
             if (input is null)
             {
