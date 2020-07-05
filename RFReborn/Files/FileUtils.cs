@@ -762,6 +762,15 @@ namespace RFReborn.Files
         }
 
         /// <summary>
+        /// Copies a file to a destination
+        /// </summary>
+        /// <param name="source">Source file to copy</param>
+        /// <param name="destination">Destination to copy to</param>
+        /// <param name="overwrite">Allow overwriting of destination file or not</param>
+        /// <exception cref="IOException">If the destination already exists and overwriting is not allowed</exception>
+        public static void Copy(FileInfo source, FileInfo destination, bool overwrite = true) => CopyTo(source, destination, overwrite);
+
+        /// <summary>
         /// Compares two files for inequality
         /// </summary>
         /// <param name="left">First file to compare</param>
