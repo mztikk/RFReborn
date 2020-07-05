@@ -613,7 +613,7 @@ namespace RFReborn.Files
         public static string MakePath(DirectoryInfo baseOrigin, DirectoryInfo baseDestination, FileInfo file)
         {
             string relPath = Path.GetRelativePath(baseOrigin.FullName, file.FullName);
-            return Path.Combine(baseDestination.FullName, relPath);
+            return NormalizePath(Path.Combine(baseDestination.FullName, relPath));
         }
 
         /// <summary>
@@ -627,7 +627,7 @@ namespace RFReborn.Files
         public static string MakePath(string baseOrigin, string baseDestination, string file)
         {
             string relPath = Path.GetRelativePath(baseOrigin, file);
-            return Path.Combine(baseDestination, relPath);
+            return NormalizePath(Path.Combine(baseDestination, relPath));
         }
 
         /// <summary>
@@ -641,7 +641,7 @@ namespace RFReborn.Files
         public static string MakePath(DirectoryInfo baseOrigin, DirectoryInfo baseDestination, string file)
         {
             string relPath = Path.GetRelativePath(baseOrigin.FullName, file);
-            return Path.Combine(baseDestination.FullName, relPath);
+            return NormalizePath(Path.Combine(baseDestination.FullName, relPath));
         }
 
         /// <summary>
@@ -671,7 +671,10 @@ namespace RFReborn.Files
                 newFile.Directory.Create();
             }
 
-            file.CopyTo(newPath, overwrite);
+            using var srcstream = new FileStream(file.FullName, FileMode.Open, FileAccess.Read, FileShare.Read);
+            using var deststream = new FileStream(newFile.FullName, overwrite ? FileMode.Create : FileMode.CreateNew, FileAccess.Write, FileShare.Read);
+            srcstream.CopyTo(deststream);
+            //file.CopyTo(newPath, overwrite);
         }
 
         /// <summary>
