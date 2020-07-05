@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -598,7 +599,8 @@ namespace RFReborn.Files
                     newFile.Directory.Create();
                 }
 
-                file.CopyTo(newPath, overwrite);
+                CopyTo(file, newFile, overwrite);
+                //file.CopyTo(newPath, overwrite);
             }
         }
 
@@ -671,9 +673,7 @@ namespace RFReborn.Files
                 newFile.Directory.Create();
             }
 
-            using var srcstream = new FileStream(file.FullName, FileMode.Open, FileAccess.Read, FileShare.Read);
-            using var deststream = new FileStream(newFile.FullName, overwrite ? FileMode.Create : FileMode.CreateNew, FileAccess.Write, FileShare.Read);
-            srcstream.CopyTo(deststream);
+            CopyTo(file, newFile, overwrite);
             //file.CopyTo(newPath, overwrite);
         }
 
@@ -699,7 +699,8 @@ namespace RFReborn.Files
                     {
                         newFile.Directory.Create();
                     }
-                    fi.CopyTo(newPath, false);
+                    CopyTo(fi, newFile, false);
+                    //fi.CopyTo(newPath, false);
                 });
         }
 
@@ -728,7 +729,8 @@ namespace RFReborn.Files
                     File.Create(newFilePath).Dispose();
                 }
 
-                File.Copy(filePath, newFilePath);
+                //File.Copy(filePath, newFilePath);
+                CopyTo(filePath, newFilePath, false);
                 yield return file;
             }
         }
@@ -850,5 +852,31 @@ namespace RFReborn.Files
         public static string GetAltPath(string path) => path.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 
         private static string NormalizePath(string path) => path.Replace('\\', '/');
+
+        private static void CopyTo(string sourcePath, string destinationPath, bool overwrite = true) => CopyTo(new FileInfo(sourcePath), new FileInfo(destinationPath), overwrite);
+
+        private static void CopyTo(FileInfo source, FileInfo destination, bool overwrite = true)
+        {
+            using var srcstream = new FileStream(source.FullName, FileMode.Open, FileAccess.Read, FileShare.Read);
+            using var deststream = new FileStream(destination.FullName, overwrite ? FileMode.Create : FileMode.CreateNew, FileAccess.Write, FileShare.Read);
+            CopyTo(srcstream, deststream, srcstream.Length);
+        }
+
+        private static void CopyTo(FileStream source, FileStream destination, long length)
+        {
+            // look for enabling long here instead of int to handle larger data
+            int wantedBuffersize = (int)Math.Min(Math.Pow(2, 19), length);
+
+            ArrayPool<byte> pool = ArrayPool<byte>.Shared;
+            byte[] buffer = pool.Rent(wantedBuffersize);
+
+            int read;
+            long totalRead = 0;
+            while ((read = source.Read(buffer, 0, (int)Math.Min(wantedBuffersize, length - totalRead))) > 0 && totalRead < length)
+            {
+                destination.Write(buffer, 0, read);
+                totalRead += read;
+            }
+        }
     }
 }
