@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace RFReborn.Copying
+namespace RFReborn.Files.Copying
 {
     /// <summary>
     /// Class that wraps a <see cref="FileInfo"/> and splits it into segments, each segment being the size of <see cref="SplitSize"/>

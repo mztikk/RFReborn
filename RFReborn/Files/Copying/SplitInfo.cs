@@ -1,4 +1,4 @@
-﻿namespace RFReborn.Copying
+﻿namespace RFReborn.Files.Copying
 {
     /// <summary>
     /// Class that represents a split part with a <see cref="StartIndex"/>, <see cref="Length"/> and <see cref="EndIndex"/>

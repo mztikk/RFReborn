@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RFReborn.Comparison;
 
-namespace RFReborn.Copying
+namespace RFReborn.Files.Copying
 {
     /// <summary>
     /// Class that provides methods to copy files by splitting them into segments and comparing them and copying only segments that changed instead of copying everything at once.
