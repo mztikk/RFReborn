@@ -880,13 +880,20 @@ namespace RFReborn.Files
             ArrayPool<byte> pool = ArrayPool<byte>.Shared;
             byte[] buffer = pool.Rent(wantedBuffersize);
 
-            int read;
-            long totalRead = 0;
-            while ((read = source.Read(buffer, 0, (int)Math.Min(wantedBuffersize, length - totalRead))) > 0 && totalRead < length)
+            try
             {
-                destination.Write(buffer, 0, read);
-                totalRead += read;
-                onWrite?.Invoke(read);
+                int read;
+                long totalRead = 0;
+                while ((read = source.Read(buffer, 0, (int)Math.Min(wantedBuffersize, length - totalRead))) > 0 && totalRead < length)
+                {
+                    destination.Write(buffer, 0, read);
+                    totalRead += read;
+                    onWrite?.Invoke(read);
+                }
+            }
+            finally
+            {
+                pool.Return(buffer);
             }
         }
     }
