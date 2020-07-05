@@ -767,8 +767,9 @@ namespace RFReborn.Files
         /// <param name="source">Source file to copy</param>
         /// <param name="destination">Destination to copy to</param>
         /// <param name="overwrite">Allow overwriting of destination file or not</param>
+        /// <param name="onWrite">Action will be called everytime theres an advance in bytes with the number of bytes as parameter, to track progress. Can be null.</param>
         /// <exception cref="IOException">If the destination already exists and overwriting is not allowed</exception>
-        public static void Copy(FileInfo source, FileInfo destination, bool overwrite = true) => CopyTo(source, destination, overwrite);
+        public static void Copy(FileInfo source, FileInfo destination, bool overwrite = true, Action<long>? onWrite = null) => CopyTo(source, destination, overwrite, onWrite);
 
         /// <summary>
         /// Compares two files for inequality
@@ -864,14 +865,14 @@ namespace RFReborn.Files
 
         private static void CopyTo(string sourcePath, string destinationPath, bool overwrite = true) => CopyTo(new FileInfo(sourcePath), new FileInfo(destinationPath), overwrite);
 
-        private static void CopyTo(FileInfo source, FileInfo destination, bool overwrite = true)
+        private static void CopyTo(FileInfo source, FileInfo destination, bool overwrite = true, Action<long>? onWrite = null)
         {
             using var srcstream = new FileStream(source.FullName, FileMode.Open, FileAccess.Read, FileShare.Read);
             using var deststream = new FileStream(destination.FullName, overwrite ? FileMode.Create : FileMode.CreateNew, FileAccess.Write, FileShare.Read);
-            CopyTo(srcstream, deststream, srcstream.Length);
+            CopyTo(srcstream, deststream, srcstream.Length, onWrite);
         }
 
-        private static void CopyTo(FileStream source, FileStream destination, long length)
+        private static void CopyTo(FileStream source, FileStream destination, long length, Action<long>? onWrite = null)
         {
             // look for enabling long here instead of int to handle larger data
             int wantedBuffersize = (int)Math.Min(Math.Pow(2, 19), length);
@@ -885,6 +886,7 @@ namespace RFReborn.Files
             {
                 destination.Write(buffer, 0, read);
                 totalRead += read;
+                onWrite?.Invoke(read);
             }
         }
     }
