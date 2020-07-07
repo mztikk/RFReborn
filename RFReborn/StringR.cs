@@ -214,7 +214,7 @@ namespace RFReborn
                     {
                         *rp = str[i++];
                         rp++;
-                        if (i % n == 0)
+                        if (i % n == 0 && i < str.Length)
                         {
                             Buffer.MemoryCopy(vs, rp, sSize, sSize);
                             rp += seperator.Length;

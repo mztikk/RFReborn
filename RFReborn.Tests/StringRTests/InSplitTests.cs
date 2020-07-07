@@ -9,6 +9,7 @@ namespace RFReborn.Tests.StringRTests
     {
         private readonly List<InSplitCase> _inSplits = new List<InSplitCase>()
         {
+            new InSplitCase("ab", 2, " ", "ab"),
             new InSplitCase("test", 2, " ", "te st"),
             new InSplitCase("aaff09bacd5a", 2, " ", "aa ff 09 ba cd 5a"),
             new InSplitCase("aaff09bacd5a", 2, "  ", "aa  ff  09  ba  cd  5a"),
