@@ -156,15 +156,15 @@ namespace RFReborn
                             {
                                 if (w != 0)
                                 {
-                                    strp[i] = (charset[w]);
+                                    strp[i] = charset[w];
                                 }
                             }
                             else
                             {
-                                strp[i] = (charset[w]);
+                                strp[i] = charset[w];
                             }
 
-                            mw -= (w * d[i]);
+                            mw -= w * d[i];
                         }
 
                         if (checkFunc(str))

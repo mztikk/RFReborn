@@ -63,7 +63,7 @@ namespace RFReborn.Files
         }
 
         #region IDisposable Support
-        private bool _disposedValue = false; // To detect redundant calls
+        private bool _disposedValue; // To detect redundant calls
 
         /// <summary>
         /// Disposes temporary file

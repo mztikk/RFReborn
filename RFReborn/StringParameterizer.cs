@@ -155,7 +155,7 @@ namespace RFReborn
             }
 
             // If the param map contains the param invoke its func, default just return param
-            return (_parameterMap.ContainsKey(parameterName)) ? _parameterMap[parameterName].Invoke() : parameterName;
+            return _parameterMap.ContainsKey(parameterName) ? _parameterMap[parameterName].Invoke() : parameterName;
         }
     }
 }

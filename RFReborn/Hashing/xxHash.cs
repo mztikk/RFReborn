@@ -108,10 +108,10 @@ namespace RFReborn.Hashing
                     //v4 *= PRIME32_1;
                     //p += 4;
 
-                    v1 = rotl13(v1 + ((*((uint*)(p))) * PRIME32_2)) * PRIME32_1;
-                    v2 = rotl13(v2 + ((*((uint*)(p + 4))) * PRIME32_2)) * PRIME32_1;
-                    v3 = rotl13(v3 + ((*((uint*)(p + 8))) * PRIME32_2)) * PRIME32_1;
-                    v4 = rotl13(v4 + ((*((uint*)(p + 12))) * PRIME32_2)) * PRIME32_1;
+                    v1 = rotl13(v1 + ((*(uint*)p) * PRIME32_2)) * PRIME32_1;
+                    v2 = rotl13(v2 + ((*(uint*)(p + 4)) * PRIME32_2)) * PRIME32_1;
+                    v3 = rotl13(v3 + ((*(uint*)(p + 8)) * PRIME32_2)) * PRIME32_1;
+                    v4 = rotl13(v4 + ((*(uint*)(p + 12)) * PRIME32_2)) * PRIME32_1;
                     p += 16;
 
                 } while (p <= limit);
@@ -132,7 +132,7 @@ namespace RFReborn.Hashing
                 ////h32 = MathR.RotateLeft(h32, 17) * PRIME32_4;
                 //h32 = rotl17(h32) * PRIME32_4;
 
-                h32 = rotl17(h32 + ((*((uint*)(p))) * PRIME32_3)) * PRIME32_4;
+                h32 = rotl17(h32 + ((*(uint*)p) * PRIME32_3)) * PRIME32_4;
                 p += 4;
             }
             while (p < bEnd)

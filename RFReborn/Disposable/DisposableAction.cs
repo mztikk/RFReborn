@@ -16,7 +16,7 @@ namespace RFReborn.Disposable
         public DisposableAction(Action action) => _action = action;
 
         #region IDisposable Support
-        private bool _disposedValue = false; // To detect redundant calls
+        private bool _disposedValue; // To detect redundant calls
 
         /// <inheritdoc />
         protected virtual void Dispose(bool disposing)
