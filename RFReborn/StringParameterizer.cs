@@ -81,7 +81,7 @@ namespace RFReborn
         private Regex GetRegexFormatter()
         {
             string regex = string.Join("|", RegexHelper.Escape(GetTaggedKeys()));
-            regex = regex.Replace(WildcardString, ".*");
+            regex = regex.Replace(WildcardString, ".*?");
             return new Regex(regex);
         }
 

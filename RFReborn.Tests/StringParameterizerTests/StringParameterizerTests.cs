@@ -19,6 +19,7 @@ namespace RFReborn.Tests.StringParameterizerTests
         {
             {"Hello{World}", "HelloWorld!" },
             {"{World}={Num}", "World!=1337" },
+            {"<{Timestamp HH:mm}>", $"<{DateTime.Now:HH:mm}>" },
         };
 
         private readonly StringParameterizer _parameterizer2 = new StringParameterizer();
@@ -60,6 +61,7 @@ namespace RFReborn.Tests.StringParameterizerTests
         [DataRow("hh")]
         [DataRow("hhmm")]
         [DataRow("HHmm")]
+        [DataRow("HH:mm")]
         [DataRow("yyyyMMdd")]
         public void TimestampHours(string timestamp) => Assert.AreEqual(DateTime.Now.ToString(timestamp), _parameterizer.Make($"{{{_parameterizer.Timestamp} {timestamp}}}"));
 
