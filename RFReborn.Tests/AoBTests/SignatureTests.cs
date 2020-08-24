@@ -24,7 +24,8 @@ namespace RFReborn.Tests.AoBTests
             foreach (StringSignatureTest test in _stringSignatureTests)
             {
                 Assert.AreEqual(test.ExpectedMask, test.Signature.Mask);
-                Assert.IsTrue(FastCompare.Equals(test.ExpectedPattern, test.Signature.Pattern));
+                //Assert.IsTrue(FastCompare.Equals(test.ExpectedPattern, test.Signature.Pattern));
+                CollectionAssert.AreEqual(test.ExpectedPattern, test.Signature.Pattern);
             }
         }
     }

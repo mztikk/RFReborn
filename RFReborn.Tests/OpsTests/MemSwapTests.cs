@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RFReborn.Comparison;
 using RFReborn.Pairs;
 
 namespace RFReborn.Tests.OpsTests
@@ -46,13 +45,13 @@ namespace RFReborn.Tests.OpsTests
                 byte[] temp = new byte[testCase.Left.Length];
                 Array.Copy(testCase.Left, temp, temp.Length);
 
-                Assert.IsFalse(FastCompare.Equals(testCase.Left, testCase.Right));
-                Assert.IsTrue(FastCompare.Equals(testCase.Left, temp));
+                CollectionAssert.AreNotEqual(testCase.Left, testCase.Right);
+                CollectionAssert.AreEqual(testCase.Left, temp);
 
                 Swap(testCase.Left, testCase.Right);
 
-                Assert.IsFalse(FastCompare.Equals(testCase.Left, testCase.Right));
-                Assert.IsTrue(FastCompare.Equals(temp, testCase.Right));
+                CollectionAssert.AreNotEqual(testCase.Left, testCase.Right);
+                CollectionAssert.AreEqual(temp, testCase.Right);
             }
         }
 
@@ -74,16 +73,16 @@ namespace RFReborn.Tests.OpsTests
                 byte[] temp = new byte[testCase.Left.Length];
                 Array.Copy(testCase.Left, temp, temp.Length);
 
-                Assert.IsFalse(FastCompare.Equals(testCase.Left, testCase.Right));
-                Assert.IsTrue(FastCompare.Equals(testCase.Left, temp));
+                CollectionAssert.AreNotEqual(testCase.Left, testCase.Right);
+                CollectionAssert.AreEqual(testCase.Left, temp);
 
                 Swap(testCase.Left, testCase.Right, len);
 
-                Assert.IsFalse(FastCompare.Equals(testCase.Left, testCase.Right, len));
-                Assert.IsTrue(FastCompare.Equals(temp, testCase.Right, len));
+                CollectionAssert.AreNotEqual(testCase.Left.Take(len).ToArray(), testCase.Right.Take(len).ToArray());
+                CollectionAssert.AreEqual(temp.Take(len).ToArray(), testCase.Right.Take(len).ToArray());
 
                 // last half has to be the same still since we only swapped up to first half
-                Assert.IsTrue(FastCompare.Equals(temp.Skip(len).ToArray(), testCase.Left.Skip(len).ToArray()));
+                CollectionAssert.AreEqual(temp.Skip(len).ToArray(), testCase.Left.Skip(len).ToArray());
             }
         }
 
