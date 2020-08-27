@@ -17,8 +17,8 @@ namespace RFReborn.Tests.ArrayExtensionsTests
             IEnumerable<int> testZeroIndices = testList.IndicesOf(0);
             IEnumerable<int> testOneIndices = testList.IndicesOf(1);
 
-            Assert.IsTrue(testZeroIndices.SequenceEqual(zeroIndices));
-            Assert.IsTrue(testOneIndices.SequenceEqual(oneIndices));
+            CollectionAssert.AreEqual(testZeroIndices.ToList(), zeroIndices);
+            CollectionAssert.AreEqual(testOneIndices.ToList(), oneIndices);
         }
     }
 }
