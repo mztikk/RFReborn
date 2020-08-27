@@ -25,16 +25,13 @@ namespace RFReborn.Tests.ArithmeticMeanTests
         [TestMethod]
         public void ArithmeticMean<#=CapitalizeFirstLetter(t)#>()
         {
-            foreach ((<#=t#>[] array, <#=t#> mean) test in _tests)
+            foreach ((<#=t#>[] array, <#=t#> mean) in _tests)
             {
-                AssertIsMean(test.array, test.mean);
+                AssertIsMean(array, mean);
             }
         }
 
-        private void AssertIsMean(<#=t#>[] array, <#=t#> mean)
-        {
-            Assert.AreEqual(mean, array.Mean());
-        }
+        private void AssertIsMean(<#=t#>[] array, <#=t#> mean) => Assert.AreEqual(mean, array.Mean());
     }
 <#if (t != types[types.Length - 1]) {#>
 
