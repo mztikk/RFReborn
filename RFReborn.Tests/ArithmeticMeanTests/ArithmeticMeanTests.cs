@@ -7,167 +7,219 @@ namespace RFReborn.Tests.ArithmeticMeanTests
     [TestClass]
     public class ArithmeticMeanSbyteTests
     {
-        private readonly List<(sbyte[] array, sbyte mean)> _tests = new List<(sbyte[], sbyte)>() {
+        private readonly List<(sbyte[] array, double mean)> _tests = new List<(sbyte[], double)>() {
+            (new sbyte[] { 1, 2 }, 1.5),
             (new sbyte[] { 1, 2, 3, 4, 5 }, 3),
-            (new sbyte[] { 1, 0, 5, 50, 120, 13 }, 31),
+            (new sbyte[] { 1, 0, 5, 50, 120, 13 }, 31.5),
         };
 
         [TestMethod]
         public void ArithmeticMeanSbyte()
         {
-            foreach ((sbyte[] array, sbyte mean) in _tests)
+            foreach ((sbyte[] array, double mean) in _tests)
             {
                 AssertIsMean(array, mean);
             }
         }
 
-        private void AssertIsMean(sbyte[] array, sbyte mean) => Assert.AreEqual(mean, array.Mean());
+        private void AssertIsMean(sbyte[] array, double mean) => Assert.AreEqual(mean, array.Mean());
     }
 
     [TestClass]
     public class ArithmeticMeanByteTests
     {
-        private readonly List<(byte[] array, byte mean)> _tests = new List<(byte[], byte)>() {
+        private readonly List<(byte[] array, double mean)> _tests = new List<(byte[], double)>() {
+            (new byte[] { 1, 2 }, 1.5),
             (new byte[] { 1, 2, 3, 4, 5 }, 3),
-            (new byte[] { 1, 0, 5, 50, 120, 13 }, 31),
+            (new byte[] { 1, 0, 5, 50, 120, 13 }, 31.5),
         };
 
         [TestMethod]
         public void ArithmeticMeanByte()
         {
-            foreach ((byte[] array, byte mean) in _tests)
+            foreach ((byte[] array, double mean) in _tests)
             {
                 AssertIsMean(array, mean);
             }
         }
 
-        private void AssertIsMean(byte[] array, byte mean) => Assert.AreEqual(mean, array.Mean());
+        private void AssertIsMean(byte[] array, double mean) => Assert.AreEqual(mean, array.Mean());
     }
 
     [TestClass]
     public class ArithmeticMeanShortTests
     {
-        private readonly List<(short[] array, short mean)> _tests = new List<(short[], short)>() {
+        private readonly List<(short[] array, double mean)> _tests = new List<(short[], double)>() {
+            (new short[] { 1, 2 }, 1.5),
             (new short[] { 1, 2, 3, 4, 5 }, 3),
-            (new short[] { 1, 0, 5, 50, 120, 13 }, 31),
-            (new short[] { 100, 5000, 1337, 50, 120, 13 }, 1103),
+            (new short[] { 1, 0, 5, 50, 120, 13 }, 31.5),
+            (new short[] { 100, 5000, 1337, 50, 120, 13 }, 1103.3333333333333),
         };
 
         [TestMethod]
         public void ArithmeticMeanShort()
         {
-            foreach ((short[] array, short mean) in _tests)
+            foreach ((short[] array, double mean) in _tests)
             {
                 AssertIsMean(array, mean);
             }
         }
 
-        private void AssertIsMean(short[] array, short mean) => Assert.AreEqual(mean, array.Mean());
+        private void AssertIsMean(short[] array, double mean) => Assert.AreEqual(mean, array.Mean());
     }
 
     [TestClass]
     public class ArithmeticMeanUshortTests
     {
-        private readonly List<(ushort[] array, ushort mean)> _tests = new List<(ushort[], ushort)>() {
+        private readonly List<(ushort[] array, double mean)> _tests = new List<(ushort[], double)>() {
+            (new ushort[] { 1, 2 }, 1.5),
             (new ushort[] { 1, 2, 3, 4, 5 }, 3),
-            (new ushort[] { 1, 0, 5, 50, 120, 13 }, 31),
-            (new ushort[] { 100, 5000, 1337, 50, 120, 13 }, 1103),
+            (new ushort[] { 1, 0, 5, 50, 120, 13 }, 31.5),
+            (new ushort[] { 100, 5000, 1337, 50, 120, 13 }, 1103.3333333333333),
         };
 
         [TestMethod]
         public void ArithmeticMeanUshort()
         {
-            foreach ((ushort[] array, ushort mean) in _tests)
+            foreach ((ushort[] array, double mean) in _tests)
             {
                 AssertIsMean(array, mean);
             }
         }
 
-        private void AssertIsMean(ushort[] array, ushort mean) => Assert.AreEqual(mean, array.Mean());
+        private void AssertIsMean(ushort[] array, double mean) => Assert.AreEqual(mean, array.Mean());
     }
 
     [TestClass]
     public class ArithmeticMeanIntTests
     {
-        private readonly List<(int[] array, int mean)> _tests = new List<(int[], int)>() {
+        private readonly List<(int[] array, double mean)> _tests = new List<(int[], double)>() {
+            (new int[] { 1, 2 }, 1.5),
             (new int[] { 1, 2, 3, 4, 5 }, 3),
-            (new int[] { 1, 0, 5, 50, 120, 13 }, 31),
-            (new int[] { 100, 5000, 1337, 50, 120, 13 }, 1103),
+            (new int[] { 1, 0, 5, 50, 120, 13 }, 31.5),
+            (new int[] { 100, 5000, 1337, 50, 120, 13 }, 1103.3333333333333),
         };
 
         [TestMethod]
         public void ArithmeticMeanInt()
         {
-            foreach ((int[] array, int mean) in _tests)
+            foreach ((int[] array, double mean) in _tests)
             {
                 AssertIsMean(array, mean);
             }
         }
 
-        private void AssertIsMean(int[] array, int mean) => Assert.AreEqual(mean, array.Mean());
+        private void AssertIsMean(int[] array, double mean) => Assert.AreEqual(mean, array.Mean());
     }
 
     [TestClass]
     public class ArithmeticMeanUintTests
     {
-        private readonly List<(uint[] array, uint mean)> _tests = new List<(uint[], uint)>() {
+        private readonly List<(uint[] array, double mean)> _tests = new List<(uint[], double)>() {
+            (new uint[] { 1, 2 }, 1.5),
             (new uint[] { 1, 2, 3, 4, 5 }, 3),
-            (new uint[] { 1, 0, 5, 50, 120, 13 }, 31),
-            (new uint[] { 100, 5000, 1337, 50, 120, 13 }, 1103),
+            (new uint[] { 1, 0, 5, 50, 120, 13 }, 31.5),
+            (new uint[] { 100, 5000, 1337, 50, 120, 13 }, 1103.3333333333333),
         };
 
         [TestMethod]
         public void ArithmeticMeanUint()
         {
-            foreach ((uint[] array, uint mean) in _tests)
+            foreach ((uint[] array, double mean) in _tests)
             {
                 AssertIsMean(array, mean);
             }
         }
 
-        private void AssertIsMean(uint[] array, uint mean) => Assert.AreEqual(mean, array.Mean());
+        private void AssertIsMean(uint[] array, double mean) => Assert.AreEqual(mean, array.Mean());
     }
 
     [TestClass]
     public class ArithmeticMeanLongTests
     {
-        private readonly List<(long[] array, long mean)> _tests = new List<(long[], long)>() {
+        private readonly List<(long[] array, double mean)> _tests = new List<(long[], double)>() {
+            (new long[] { 1, 2 }, 1.5),
             (new long[] { 1, 2, 3, 4, 5 }, 3),
-            (new long[] { 1, 0, 5, 50, 120, 13 }, 31),
-            (new long[] { 100, 5000, 1337, 50, 120, 13 }, 1103),
+            (new long[] { 1, 0, 5, 50, 120, 13 }, 31.5),
+            (new long[] { 100, 5000, 1337, 50, 120, 13 }, 1103.3333333333333),
         };
 
         [TestMethod]
         public void ArithmeticMeanLong()
         {
-            foreach ((long[] array, long mean) in _tests)
+            foreach ((long[] array, double mean) in _tests)
             {
                 AssertIsMean(array, mean);
             }
         }
 
-        private void AssertIsMean(long[] array, long mean) => Assert.AreEqual(mean, array.Mean());
+        private void AssertIsMean(long[] array, double mean) => Assert.AreEqual(mean, array.Mean());
     }
 
     [TestClass]
     public class ArithmeticMeanUlongTests
     {
-        private readonly List<(ulong[] array, ulong mean)> _tests = new List<(ulong[], ulong)>() {
+        private readonly List<(ulong[] array, double mean)> _tests = new List<(ulong[], double)>() {
+            (new ulong[] { 1, 2 }, 1.5),
             (new ulong[] { 1, 2, 3, 4, 5 }, 3),
-            (new ulong[] { 1, 0, 5, 50, 120, 13 }, 31),
-            (new ulong[] { 100, 5000, 1337, 50, 120, 13 }, 1103),
+            (new ulong[] { 1, 0, 5, 50, 120, 13 }, 31.5),
+            (new ulong[] { 100, 5000, 1337, 50, 120, 13 }, 1103.3333333333333),
         };
 
         [TestMethod]
         public void ArithmeticMeanUlong()
         {
-            foreach ((ulong[] array, ulong mean) in _tests)
+            foreach ((ulong[] array, double mean) in _tests)
             {
                 AssertIsMean(array, mean);
             }
         }
 
-        private void AssertIsMean(ulong[] array, ulong mean) => Assert.AreEqual(mean, array.Mean());
+        private void AssertIsMean(ulong[] array, double mean) => Assert.AreEqual(mean, array.Mean());
+    }
+
+    [TestClass]
+    public class ArithmeticMeanFloatTests
+    {
+        private readonly List<(float[] array, double mean)> _tests = new List<(float[], double)>() {
+            (new float[] { 1, 2 }, 1.5),
+            (new float[] { 1, 2, 3, 4, 5 }, 3),
+            (new float[] { 1, 0, 5, 50, 120, 13 }, 31.5),
+            (new float[] { 100, 5000, 1337, 50, 120, 13 }, 1103.3333333333333),
+        };
+
+        [TestMethod]
+        public void ArithmeticMeanFloat()
+        {
+            foreach ((float[] array, double mean) in _tests)
+            {
+                AssertIsMean(array, mean);
+            }
+        }
+
+        private void AssertIsMean(float[] array, double mean) => Assert.AreEqual(mean, array.Mean());
+    }
+
+    [TestClass]
+    public class ArithmeticMeanDoubleTests
+    {
+        private readonly List<(double[] array, double mean)> _tests = new List<(double[], double)>() {
+            (new double[] { 1, 2 }, 1.5),
+            (new double[] { 1, 2, 3, 4, 5 }, 3),
+            (new double[] { 1, 0, 5, 50, 120, 13 }, 31.5),
+            (new double[] { 100, 5000, 1337, 50, 120, 13 }, 1103.3333333333333),
+        };
+
+        [TestMethod]
+        public void ArithmeticMeanDouble()
+        {
+            foreach ((double[] array, double mean) in _tests)
+            {
+                AssertIsMean(array, mean);
+            }
+        }
+
+        private void AssertIsMean(double[] array, double mean) => Assert.AreEqual(mean, array.Mean());
     }
 }
 

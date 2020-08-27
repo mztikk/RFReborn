@@ -1,7 +1,7 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ output extension=".cs" #>
-<# var types = new string[]{"sbyte", "byte", "short", "ushort", "int", "uint", "long", "ulong"};  #>
+<# var types = new string[]{"sbyte", "byte", "short", "ushort", "int", "uint", "long", "ulong", "float", "double"};  #>
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -18,9 +18,9 @@ namespace RFReborn.Extensions
         /// </summary>
         /// <param name="ienum"><see cref="IEnumerable{T}"/> to calculate the mean from</param>
         /// <returns>Returns the arithmetic mean of <paramref name="ienum"/></returns>
-        public static <#=t#> Mean(this IEnumerable<<#=t#>> ienum)
+        public static double Mean(this IEnumerable<<#=t#>> ienum)
         {
-            BigInteger sum = new BigInteger(0);
+            double sum = 0.0;
             ulong count = 0;
 
             foreach (<#=t#> item in ienum)
@@ -29,7 +29,7 @@ namespace RFReborn.Extensions
                 sum += item;
             }
 
-            return (<#=t#>)(sum / count);
+            return (sum / count);
         }
 <#if (t != types[types.Length - 1]) {#>
 

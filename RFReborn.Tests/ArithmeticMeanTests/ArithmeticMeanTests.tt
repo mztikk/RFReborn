@@ -1,7 +1,7 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ output extension=".cs" #>
-<# var types = new string[]{"sbyte", "byte", "short", "ushort", "int", "uint", "long", "ulong"};  #>
+<# var types = new string[]{"sbyte", "byte", "short", "ushort", "int", "uint", "long", "ulong", "float", "double"};  #>
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RFReborn.Extensions;
@@ -12,11 +12,12 @@ namespace RFReborn.Tests.ArithmeticMeanTests
     [TestClass]
     public class ArithmeticMean<#=CapitalizeFirstLetter(t)#>Tests
     {
-        private readonly List<(<#=t#>[] array, <#=t#> mean)> _tests = new List<(<#=t#>[], <#=t#>)>() {
+        private readonly List<(<#=t#>[] array, double mean)> _tests = new List<(<#=t#>[], double)>() {
+            (new <#=t#>[] { 1, 2 }, 1.5),
             (new <#=t#>[] { 1, 2, 3, 4, 5 }, 3),
-            (new <#=t#>[] { 1, 0, 5, 50, 120, 13 }, 31),<# if (t != "sbyte" && t != "byte") {#>
+            (new <#=t#>[] { 1, 0, 5, 50, 120, 13 }, 31.5),<# if (t != "sbyte" && t != "byte") {#>
 
-            (new <#=t#>[] { 100, 5000, 1337, 50, 120, 13 }, 1103),
+            (new <#=t#>[] { 100, 5000, 1337, 50, 120, 13 }, 1103.3333333333333),
 <#}else{#>
 
 <#}#>
@@ -25,13 +26,13 @@ namespace RFReborn.Tests.ArithmeticMeanTests
         [TestMethod]
         public void ArithmeticMean<#=CapitalizeFirstLetter(t)#>()
         {
-            foreach ((<#=t#>[] array, <#=t#> mean) in _tests)
+            foreach ((<#=t#>[] array, double mean) in _tests)
             {
                 AssertIsMean(array, mean);
             }
         }
 
-        private void AssertIsMean(<#=t#>[] array, <#=t#> mean) => Assert.AreEqual(mean, array.Mean());
+        private void AssertIsMean(<#=t#>[] array, double mean) => Assert.AreEqual(mean, array.Mean());
     }
 <#if (t != types[types.Length - 1]) {#>
 
