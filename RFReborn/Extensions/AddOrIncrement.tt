@@ -31,6 +31,26 @@ namespace RFReborn.Extensions
                 dict[key] = 1;
             }
         }
+
+        /// <summary>
+        /// Adds the key with value <paramref name="incrementValue"/> if it doesn't exist, otherwise increments it by <paramref name="incrementValue"/>.
+        /// </summary>
+        /// <typeparam name="T">Type of key.</typeparam>
+        /// <param name="dict">Dictionary to operate on.</param>
+        /// <param name="key">Key to be added or incremented.</param>
+        /// <param name="incrementValue">Value to be set and incremented by.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AddOrIncrement<T>(this Dictionary<T, <#=t#>> dict, T key, <#=t#> incrementValue)
+        {
+            if (dict.ContainsKey(key))
+            {
+                dict[key] += incrementValue;
+            }
+            else
+            {
+                dict[key] = incrementValue;
+            }
+        }
 <#if (t != types[types.Length - 1]) {#>
 
 <#}}#>
