@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RFReborn.Comparison;
 
 namespace RFReborn.Tests.AoBTests
 {

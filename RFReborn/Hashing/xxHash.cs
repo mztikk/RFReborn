@@ -41,7 +41,7 @@ namespace RFReborn.Hashing
         /// <returns>The computed hash code.</returns>
         public static uint Hash<T>(T input, uint seed = 0) where T : unmanaged
         {
-            void* p = (void*)&input;
+            void* p = &input;
             return Hash(p, sizeof(T), seed);
         }
 
