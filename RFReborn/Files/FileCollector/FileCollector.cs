@@ -63,7 +63,7 @@ namespace RFReborn.Files.FileCollector
         /// <param name="root">Root path to traverse</param>
         public IEnumerable<string> EnumerateFiles(string root)
         {
-            foreach (string? file in FileUtils.GetFiles(root, SkipDirectory))
+            foreach (string file in FileUtils.GetFiles(root, SkipDirectory))
             {
                 foreach (ICollectingModule module in _modules)
                 {
