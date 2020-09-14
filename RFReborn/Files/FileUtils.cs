@@ -516,6 +516,75 @@ namespace RFReborn.Files
         }
         #endregion Walk - Enumerable
 
+        #region GetFiles
+        /// <summary>
+        /// Enumerates the tree of a root path and yields all files
+        /// </summary>
+        /// <param name="root">Path to start walking</param>
+        /// <param name="skipDirectory"><see cref="Func{T, TResult}"/> to check each <see cref="DirectoryInfo"/>; if this returns true it will be skipped and not further traversed</param>
+        /// <returns></returns>
+        public static IEnumerable<string> GetFiles(string root, Func<DirectoryInfo, bool>? skipDirectory)
+        {
+            Stack<string> dirs = new Stack<string>(InitialCapacity);
+            if (!Directory.Exists(root))
+            {
+                throw new ArgumentException();
+            }
+
+            dirs.Push(NormalizePath(root));
+            while (dirs.Count > 0)
+            {
+                string currentDir = dirs.Pop();
+
+                DirectoryInfo di = new DirectoryInfo(currentDir);
+                if (skipDirectory?.Invoke(di) == false)
+                {
+                    IEnumerable<string> subDirs;
+                    try
+                    {
+                        subDirs = Directory.EnumerateDirectories(currentDir);
+                    }
+#pragma warning disable CA1031 // Do not catch general exception types
+                    catch (UnauthorizedAccessException)
+                    {
+                        continue;
+                    }
+                    catch (DirectoryNotFoundException)
+                    {
+                        continue;
+                    }
+#pragma warning restore CA1031 // Do not catch general exception types
+
+                    foreach (string str in subDirs.Call(NormalizePath))
+                    {
+                        dirs.Push(str);
+                    }
+
+                    IEnumerable<string> files;
+                    try
+                    {
+                        files = Directory.EnumerateFiles(currentDir);
+                    }
+#pragma warning disable CA1031 // Do not catch general exception types
+                    catch (UnauthorizedAccessException)
+                    {
+                        continue;
+                    }
+                    catch (DirectoryNotFoundException)
+                    {
+                        continue;
+                    }
+#pragma warning restore CA1031 // Do not catch general exception types
+
+                    foreach (string file in files.Call(NormalizePath))
+                    {
+                        yield return file;
+                    }
+                }
+            }
+        }
+        #endregion GetFiles
+
         /// <summary>
         /// Finds files by walking the root and wildcard matching the path and alt path with a given mask
         /// </summary>
@@ -861,7 +930,7 @@ namespace RFReborn.Files
         /// <param name="path">path to get alt path from</param>
         public static string GetAltPath(string path) => path.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 
-        private static string NormalizePath(string path) => path.Replace('\\', '/');
+        internal static string NormalizePath(string path) => path.Replace('\\', '/');
 
         private static void CopyTo(string sourcePath, string destinationPath, bool overwrite = true) => CopyTo(new FileInfo(sourcePath), new FileInfo(destinationPath), overwrite);
 
