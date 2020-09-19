@@ -65,13 +65,19 @@ namespace RFReborn.Files.FileCollector
         {
             foreach (string file in FileUtils.GetFiles(root, SkipDirectory))
             {
+                bool takeFile = true;
+
                 foreach (ICollectingModule module in _modules)
                 {
                     if (module.Skip(file) || !module.Take(file))
                     {
-                        continue;
+                        takeFile = false;
+                        break;
                     }
+                }
 
+                if (takeFile)
+                {
                     yield return file;
                 }
             }
