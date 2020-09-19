@@ -38,6 +38,26 @@ namespace RFReborn.Extensions
         }
 
         /// <summary>
+        /// Checks if <paramref name="ienum"/> contains any items matching a specified <see cref="Func{T, TResult}"/> <paramref name="selector"/>.
+        /// </summary>
+        /// <typeparam name="T">Type of <see cref="IEnumerable{T}"/></typeparam>
+        /// <param name="ienum"><see cref="IEnumerable{T}"/> to check</param>
+        /// <param name="selector">Selector to match items</param>
+        /// <returns>Returns TRUE if it contains any item; FALSE otherwise.</returns>
+        public static bool Any<T>(this IEnumerable<T> ienum, Func<T, bool> selector)
+        {
+            foreach (T item in ienum)
+            {
+                if (selector(item))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Returns the number of elements in <paramref name="ienum"/>.
         /// Tries to cast to <see cref="ICollection{T}"/> to get access to the Count property which should be its size,
         /// otherwise it loops through the <see cref="IEnumerable{T}"/>.
