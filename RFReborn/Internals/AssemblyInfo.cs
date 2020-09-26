@@ -13,11 +13,11 @@ namespace RFReborn.Internals
         private static Assembly[] GetAllAssemblies() => AppDomain.CurrentDomain.GetAssemblies();
 
         /// <summary>
-        /// Enumerates all <see cref="Type"/>s currently exported
+        /// Enumerates all <see cref="Type"/>s exported in the given <paramref name="assemblies"/>
         /// </summary>
-        public static IEnumerable<Type> GetAllTypes()
+        public static IEnumerable<Type> GetAllTypes(IEnumerable<Assembly> assemblies)
         {
-            foreach (Assembly assembly in GetAllAssemblies())
+            foreach (Assembly assembly in assemblies)
             {
                 foreach (Type type in assembly.GetExportedTypes())
                 {
@@ -25,6 +25,11 @@ namespace RFReborn.Internals
                 }
             }
         }
+
+        /// <summary>
+        /// Enumerates all <see cref="Type"/>s currently exported
+        /// </summary>
+        public static IEnumerable<Type> GetAllTypes() => GetAllTypes(GetAllAssemblies());
 
         /// <summary>
         /// Enumerates all <see cref="Type"/>s that derive from or are a given <paramref name="baseType"/>.
