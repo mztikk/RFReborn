@@ -98,5 +98,19 @@ namespace RFReborn.Extensions
         /// <param name="pattern">pattern to match</param>
         /// <returns>returns <see langword="true"/> if pattern matches; <see langword="false"/> otherwise</returns>
         public static bool WildcardMatch(this string input, string pattern) => StringR.WildcardMatch(input, pattern);
+
+        /// <summary>
+        /// Enumerates all lines in a string
+        /// </summary>
+        /// <param name="str"><see cref="string"/> to enumerate</param>
+        public static IEnumerable<string> GetLines(this string str)
+        {
+            using var reader = new StringReader(str);
+            string line;
+            while ((line = reader.ReadLine()) is { })
+            {
+                yield return line;
+            }
+        }
     }
 }

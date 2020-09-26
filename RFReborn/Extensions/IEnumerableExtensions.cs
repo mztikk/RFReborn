@@ -156,5 +156,20 @@ namespace RFReborn.Extensions
                 action(item);
             }
         }
+
+        /// <summary>
+        /// Enumerates all strings and only yields those that <see cref="string.IsNullOrWhiteSpace(string)"/> returns false for
+        /// </summary>
+        /// <param name="ienum"><see cref="string"/>s to enumerate</param>
+        public static IEnumerable<string> SkipEmpty(this IEnumerable<string> ienum)
+        {
+            foreach (string item in ienum)
+            {
+                if (!string.IsNullOrWhiteSpace(item))
+                {
+                    yield return item;
+                }
+            }
+        }
     }
 }
