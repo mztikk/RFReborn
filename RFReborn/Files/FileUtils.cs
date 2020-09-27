@@ -930,6 +930,12 @@ namespace RFReborn.Files
         /// <param name="path">path to get alt path from</param>
         public static string GetAltPath(string path) => path.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 
+        /// <summary>
+        /// Replaces all instances of <see cref="Path.AltDirectorySeparatorChar"/> with <see cref="Path.DirectorySeparatorChar"/>
+        /// </summary>
+        /// <param name="path">path to get normal path from</param>
+        public static string GetNormalPath(string path) => path.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+
         internal static string NormalizePath(string path) => path.Replace('\\', '/');
 
         private static void CopyTo(string sourcePath, string destinationPath, bool overwrite = true) => CopyTo(new FileInfo(sourcePath), new FileInfo(destinationPath), overwrite);
