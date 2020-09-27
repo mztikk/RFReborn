@@ -537,7 +537,7 @@ namespace RFReborn.Files
                 string currentDir = dirs.Pop();
 
                 DirectoryInfo di = new DirectoryInfo(currentDir);
-                if (skipDirectory?.Invoke(di) == false)
+                if (skipDirectory is null || !skipDirectory(di))
                 {
                     IEnumerable<string> subDirs;
                     try
