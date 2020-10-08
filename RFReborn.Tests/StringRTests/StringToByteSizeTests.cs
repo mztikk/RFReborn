@@ -26,9 +26,19 @@ namespace RFReborn.Tests.StringRTests
         [DataTestMethod]
         [DataRow("12abc")]
         [DataRow("test")]
-        public void StringToByteSizeWrongInput(string input)
+        public void StringToByteSizeNotFormattableAsNumber(string input)
         {
-            Assert.ThrowsException<ArgumentException>(() => StringR.StringToByteSize(input));
+            Assert.ThrowsException<FormatException>(() => StringR.StringToByteSize(input));
+
+            Assert.IsFalse(StringR.StringToByteSize(input, out long _));
+        }
+
+        [DataTestMethod]
+        [DataRow("1111111111111111111111111111111111111111111")]
+        [DataRow("12345678910111213141516171819")]
+        public void StringToByteSizeNumberOverflow(string input)
+        {
+            Assert.ThrowsException<OverflowException>(() => StringR.StringToByteSize(input));
 
             Assert.IsFalse(StringR.StringToByteSize(input, out long _));
         }
