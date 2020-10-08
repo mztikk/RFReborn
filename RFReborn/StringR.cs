@@ -374,7 +374,9 @@ namespace RFReborn
         /// Turns a string containing a byte size description (e.g. 50kb, 100mb) into its byte value
         /// </summary>
         /// <param name="input">Input to convert</param>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="input"/> is not parsable as a number with a size descriptor at the end</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="input"/> is null</exception>
+        /// <exception cref="FormatException"></exception>
+        /// <exception cref="OverflowException"></exception>
         /// <returns>The converted/parsed number</returns>
         public static long StringToByteSize(string input)
         {
@@ -385,10 +387,7 @@ namespace RFReborn
 
             (long match, string numString) = GetDescriptorIndexAndNumString(input);
 
-            if (!long.TryParse(numString, out long num))
-            {
-                throw new ArgumentException(input, nameof(input));
-            }
+            long num = long.Parse(numString);
 
             long conversion = (long)Math.Pow(1000, match);
             return num * conversion;
