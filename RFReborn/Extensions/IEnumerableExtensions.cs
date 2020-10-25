@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RFReborn.Extensions
 {
@@ -169,6 +170,20 @@ namespace RFReborn.Extensions
                 {
                     yield return item;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Calls and awaits a <see cref="Func{T, Task}"/> on every item in a <see cref="IEnumerable{T}"/>
+        /// </summary>
+        /// <typeparam name="T">Type of <see cref="IEnumerable{T}"/></typeparam>
+        /// <param name="ienum"><see cref="IEnumerable{T}"/> to iteratre</param>
+        /// <param name="func"><see cref="Func{T, Task}"/> to call</param>
+        public static async Task Call<T>(this IEnumerable<T> ienum, Func<T, Task> func)
+        {
+            foreach (T item in ienum)
+            {
+                await func(item);
             }
         }
     }
