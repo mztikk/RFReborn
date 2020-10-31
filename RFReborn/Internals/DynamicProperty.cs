@@ -7,6 +7,7 @@ namespace RFReborn.Internals
     /// <summary>
     /// Class that provides methods to manipulate properties at runtime dynamically by name
     /// </summary>
+    [Obsolete("With NET5 there will be a source generator equivalent", false)]
     public static class DynamicProperty
     {
         /// <summary>

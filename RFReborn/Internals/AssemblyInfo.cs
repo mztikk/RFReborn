@@ -8,6 +8,7 @@ namespace RFReborn.Internals
     /// <summary>
     /// Helper class that provides Information about <see cref="Assembly"/>s;
     /// </summary>
+    [Obsolete("Reflection API soon to be obsoleted in RFReborn in favor of source generator equivalents", false)]
     public static class AssemblyInfo
     {
         private static Assembly[] GetAllAssemblies() => AppDomain.CurrentDomain.GetAssemblies();

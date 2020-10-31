@@ -7,6 +7,7 @@ namespace RFReborn.Comparison
     /// Dynamically compares itself with an object of type T by looping through its properties
     /// </summary>
     /// <typeparam name="T">Type of object</typeparam>
+    [Obsolete("With NET5 there will be a source generator equivalent", false)]
     public class DynamicComparer<T>
     {
         /// <summary>
