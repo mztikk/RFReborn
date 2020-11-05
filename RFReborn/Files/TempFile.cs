@@ -25,10 +25,8 @@ namespace RFReborn.Files
         {
             CreateFile();
 
-            using (FileStream stream = File.OpenWrite())
-            {
-                content.CopyTo(stream);
-            }
+            using FileStream stream = File.OpenWrite();
+            content.CopyTo(stream);
         }
 
         /// <summary>
