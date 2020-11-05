@@ -47,7 +47,7 @@ namespace RFReborn
         /// <summary>
         /// <see cref="Func{TResult}"/> that returns a <see cref="DateTime"/> which is used when formatting a timestamp, default returns <see cref="DateTime.Now"/>
         /// </summary>
-        public Func<DateTime> DateTimeFactory { get; set; } = () => DateTime.Now;
+        public Func<DateTime> DateTimeFactory { get; set; } = GetDateTimeNow;
 
         /// <summary>
         /// Attempts to add a new parameter key and a <see cref="Func{TResult}"/> to retrieve the value
@@ -158,5 +158,7 @@ namespace RFReborn
             // If the param map contains the param invoke its func, default just return param
             return _parameterMap.ContainsKey(parameterName) ? _parameterMap[parameterName].Invoke() : parameterName;
         }
+
+        private static DateTime GetDateTimeNow() => DateTime.Now;
     }
 }
