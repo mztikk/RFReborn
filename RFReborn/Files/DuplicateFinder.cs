@@ -83,12 +83,10 @@ namespace RFReborn.Files
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe string XXHASH(FileInfo input)
         {
-            using (FileStream fRead = input.OpenRead())
-            {
-                byte[] buffer = new byte[fRead.Length];
-                fRead.Read(buffer);
-                return xxHash.Hash(buffer).ToString();
-            }
+            using FileStream fRead = input.OpenRead();
+            byte[] buffer = new byte[fRead.Length];
+            fRead.Read(buffer);
+            return xxHash.Hash(buffer).ToString();
         }
     }
 }

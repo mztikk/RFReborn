@@ -60,11 +60,9 @@ namespace RFReborn.Hashing
         /// <returns>Hex string of the hashed input.</returns>
         public static string Hash(string hashName, byte[] input)
         {
-            using (HashAlgorithm hashAlgorithm = GetHashAlgorithm(hashName))
-            {
-                byte[] hashedBytes = hashAlgorithm.ComputeHash(input);
-                return StringR.ByteArrayToHexString(hashedBytes);
-            }
+            using HashAlgorithm hashAlgorithm = GetHashAlgorithm(hashName);
+            byte[] hashedBytes = hashAlgorithm.ComputeHash(input);
+            return StringR.ByteArrayToHexString(hashedBytes);
         }
 
         /// <summary>
@@ -75,11 +73,9 @@ namespace RFReborn.Hashing
         /// <returns>Hex string of the hashed input.</returns>
         public static string Hash(string hashName, Stream input)
         {
-            using (HashAlgorithm hashAlgorithm = GetHashAlgorithm(hashName))
-            {
-                byte[] hashedBytes = hashAlgorithm.ComputeHash(input);
-                return StringR.ByteArrayToHexString(hashedBytes);
-            }
+            using HashAlgorithm hashAlgorithm = GetHashAlgorithm(hashName);
+            byte[] hashedBytes = hashAlgorithm.ComputeHash(input);
+            return StringR.ByteArrayToHexString(hashedBytes);
         }
 
         /// <summary>
@@ -95,10 +91,8 @@ namespace RFReborn.Hashing
                 throw new ArgumentException($"File does not exist \"{file.FullName}\"", nameof(file));
             }
 
-            using (FileStream stream = file.OpenRead())
-            {
-                return Hash(hashName, stream);
-            }
+            using FileStream stream = file.OpenRead();
+            return Hash(hashName, stream);
         }
 
         private static HashAlgorithm GetHashAlgorithm(string hashName)

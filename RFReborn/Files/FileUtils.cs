@@ -619,12 +619,10 @@ namespace RFReborn.Files
                 bool findFlag = false;
                 try
                 {
-                    using (FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    using FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    if (Scanner.FindSignature(fs, signature) != -1)
                     {
-                        if (Scanner.FindSignature(fs, signature) != -1)
-                        {
-                            findFlag = true;
-                        }
+                        findFlag = true;
                     }
                 }
                 catch (Exception) when (continueOnException)
@@ -848,13 +846,9 @@ namespace RFReborn.Files
         /// <returns><see langword="true"/> if files are different, <see langword="false"/> otherwise</returns>
         public static bool AreDifferent(this FileInfo left, FileInfo right)
         {
-            using (FileStream leftData = left.OpenRead())
-            {
-                using (FileStream rightData = right.OpenRead())
-                {
-                    return FastCompare.NotEquals(leftData, rightData);
-                }
-            }
+            using FileStream leftData = left.OpenRead();
+            using FileStream rightData = right.OpenRead();
+            return FastCompare.NotEquals(leftData, rightData);
         }
 
         /// <summary>
@@ -865,13 +859,9 @@ namespace RFReborn.Files
         /// <returns><see langword="true"/> if files are different, <see langword="false"/> otherwise</returns>
         public static bool AreDifferent(string left, string right)
         {
-            using (FileStream leftData = File.OpenRead(left))
-            {
-                using (FileStream rightData = File.OpenRead(right))
-                {
-                    return FastCompare.NotEquals(leftData, rightData);
-                }
-            }
+            using FileStream leftData = File.OpenRead(left);
+            using FileStream rightData = File.OpenRead(right);
+            return FastCompare.NotEquals(leftData, rightData);
         }
 
         /// <summary>
@@ -882,13 +872,9 @@ namespace RFReborn.Files
         /// <returns><see langword="true"/> if files are equal, <see langword="false"/> otherwise</returns>
         public static bool AreEqual(this FileInfo left, FileInfo right)
         {
-            using (FileStream leftData = left.OpenRead())
-            {
-                using (FileStream rightData = right.OpenRead())
-                {
-                    return FastCompare.Equals(leftData, rightData);
-                }
-            }
+            using FileStream leftData = left.OpenRead();
+            using FileStream rightData = right.OpenRead();
+            return FastCompare.Equals(leftData, rightData);
         }
 
         /// <summary>
@@ -899,13 +885,9 @@ namespace RFReborn.Files
         /// <returns><see langword="true"/> if files are equal, <see langword="false"/> otherwise</returns>
         public static bool AreEqual(string left, string right)
         {
-            using (FileStream leftData = File.OpenRead(left))
-            {
-                using (FileStream rightData = File.OpenRead(right))
-                {
-                    return FastCompare.Equals(leftData, rightData);
-                }
-            }
+            using FileStream leftData = File.OpenRead(left);
+            using FileStream rightData = File.OpenRead(right);
+            return FastCompare.Equals(leftData, rightData);
         }
 
         /// <summary>

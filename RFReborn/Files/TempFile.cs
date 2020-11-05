@@ -42,13 +42,9 @@ namespace RFReborn.Files
         {
             CreateFile();
 
-            using (FileStream stream = File.OpenWrite())
-            {
-                using (StreamWriter writer = new StreamWriter(stream))
-                {
-                    writer.WriteLine(content);
-                }
-            }
+            using FileStream stream = File.OpenWrite();
+            using StreamWriter writer = new StreamWriter(stream);
+            writer.WriteLine(content);
         }
 
 #pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
@@ -130,13 +126,9 @@ namespace RFReborn.Files
             TempFile tempFile = new TempFile();
             tempFile.CreateFile();
 
-            using (FileStream stream = tempFile.File.OpenWrite())
-            {
-                using (StreamWriter writer = new StreamWriter(stream))
-                {
-                    await writer.WriteLineAsync(content).ConfigureAwait(false);
-                }
-            }
+            using FileStream stream = tempFile.File.OpenWrite();
+            using StreamWriter writer = new StreamWriter(stream);
+            await writer.WriteLineAsync(content).ConfigureAwait(false);
 
             return tempFile;
         }
