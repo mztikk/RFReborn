@@ -287,9 +287,9 @@ namespace RFReborn.Comparison
             try
             {
                 int leftRead;
-                while ((leftRead = await left.ReadAsync(leftBuffer).ConfigureAwait(false)) > 0)
+                while ((leftRead = await left.ReadAsync(leftBuffer)) > 0)
                 {
-                    int rightRead = await right.ReadAsync(rightBuffer).ConfigureAwait(false);
+                    int rightRead = await right.ReadAsync(rightBuffer);
 
                     if (leftRead != rightRead)
                     {

@@ -19,13 +19,13 @@ namespace RFReborn.Extensions
         {
             while (retries > 0)
             {
-                if (await func().ConfigureAwait(false))
+                if (await func())
                 {
                     break;
                 }
 
                 retries--;
-                await Task.Delay(delayBetweenRetries).ConfigureAwait(false);
+                await Task.Delay(delayBetweenRetries);
             }
         }
 
@@ -65,7 +65,7 @@ namespace RFReborn.Extensions
                 }
 
                 retries--;
-                await Task.Delay(delayBetweenRetries).ConfigureAwait(false);
+                await Task.Delay(delayBetweenRetries);
             }
         }
     }

@@ -108,7 +108,7 @@ namespace RFReborn.Files
 
             using (FileStream stream = tempFile.File.OpenWrite())
             {
-                await content.CopyToAsync(stream).ConfigureAwait(false);
+                await content.CopyToAsync(stream);
             }
 
             return tempFile;
@@ -126,7 +126,7 @@ namespace RFReborn.Files
 
             using FileStream stream = tempFile.File.OpenWrite();
             using StreamWriter writer = new StreamWriter(stream);
-            await writer.WriteLineAsync(content).ConfigureAwait(false);
+            await writer.WriteLineAsync(content);
 
             return tempFile;
         }

@@ -45,14 +45,14 @@ namespace RFReborn.Tests.FastCompareTests
             byte[] onebytes = new byte[9001];
             Array.Fill<byte>(onebytes, 1);
 
-            await AssertEqualAsync(zerobytes, zerobytes).ConfigureAwait(false);
-            await AssertEqualAsync(onebytes, onebytes).ConfigureAwait(false);
+            await AssertEqualAsync(zerobytes, zerobytes);
+            await AssertEqualAsync(onebytes, onebytes);
 
             byte[] loremipsumbytes = Encoding.UTF8.GetBytes(LoremIpsum);
             byte[] loremipsumreversebytes = Encoding.UTF8.GetBytes(LoremIpsumReverse);
 
-            await AssertEqualAsync(loremipsumbytes, loremipsumbytes).ConfigureAwait(false);
-            await AssertEqualAsync(loremipsumreversebytes, loremipsumreversebytes).ConfigureAwait(false);
+            await AssertEqualAsync(loremipsumbytes, loremipsumbytes);
+            await AssertEqualAsync(loremipsumreversebytes, loremipsumreversebytes);
         }
 
         [TestMethod]
@@ -195,7 +195,7 @@ namespace RFReborn.Tests.FastCompareTests
             {
                 using (MemoryStream rightstream = new MemoryStream(right))
                 {
-                    await AssertEqualAsync(leftstream, rightstream).ConfigureAwait(false);
+                    await AssertEqualAsync(leftstream, rightstream);
                 }
             }
         }
@@ -212,7 +212,7 @@ namespace RFReborn.Tests.FastCompareTests
         }
 
         private static void AssertEqual(Stream left, Stream right) => Assert.IsTrue(FastCompare.Equals(left, right));
-        private static async Task AssertEqualAsync(Stream left, Stream right) => Assert.IsTrue(await FastCompare.EqualsAsync(left, right).ConfigureAwait(false));
+        private static async Task AssertEqualAsync(Stream left, Stream right) => Assert.IsTrue(await FastCompare.EqualsAsync(left, right));
         private static void AssertDiff(Stream left, Stream right) => Assert.IsTrue(FastCompare.NotEquals(left, right));
         private static void AssertEqual(Stream left, Stream right, int len) => Assert.IsTrue(FastCompare.Equals(left, right, len));
     }

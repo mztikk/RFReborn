@@ -33,7 +33,7 @@ namespace RFReborn.Extensions
 
                 using (cancellationToken.Register(() => tcs.TrySetCanceled()))
                 {
-                    await tcs.Task.ConfigureAwait(false);
+                    await tcs.Task;
                 }
             }
             finally

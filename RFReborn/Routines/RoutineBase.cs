@@ -46,7 +46,7 @@ namespace RFReborn.Routines
 
             try
             {
-                await OnTick().ConfigureAwait(false);
+                await OnTick();
             }
             finally
             {
@@ -60,7 +60,7 @@ namespace RFReborn.Routines
         protected abstract Task Shutdown();
 
         /// <inheritdoc />
-        public async Task Kill() => await Shutdown().ConfigureAwait(false);
+        public async Task Kill() => await Shutdown();
 
         /// <inheritdoc />
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
