@@ -186,5 +186,23 @@ namespace RFReborn.Extensions
                 await func(item);
             }
         }
+
+        /// <summary>
+        /// Filters a sequence of values based on a selector
+        /// </summary>
+        /// <typeparam name="T">Type of the elements</typeparam>
+        /// <param name="ienum"><see cref="IEnumerable{T}"/> to filter</param>
+        /// <param name="selector">Selector function</param>
+        /// <returns></returns>
+        public static IEnumerable<T> Where<T>(this IEnumerable<T> ienum, Func<T, bool> selector)
+        {
+            foreach (T item in ienum)
+            {
+                if (selector(item))
+                {
+                    yield return item;
+                }
+            }
+        }
     }
 }
