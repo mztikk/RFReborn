@@ -204,5 +204,23 @@ namespace RFReborn.Extensions
                 }
             }
         }
+
+        /// <summary>
+        /// Returns distinct elements from a sequence
+        /// </summary>
+        /// <typeparam name="T">Type of the elements</typeparam>
+        /// <param name="ienum"><see cref="IEnumerable{T}"/> to remove duplicate elements from</param>
+        /// <returns></returns>
+        public static IEnumerable<T> Distinct<T>(this IEnumerable<T> ienum)
+        {
+            var set = new HashSet<T>();
+            foreach (T item in ienum)
+            {
+                if (set.Add(item))
+                {
+                    yield return item;
+                }
+            }
+        }
     }
 }
