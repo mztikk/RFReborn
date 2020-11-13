@@ -586,6 +586,35 @@ namespace RFReborn.Files
         #endregion GetFiles
 
         /// <summary>
+        /// Enumerates all files in a directory
+        /// </summary>
+        /// <param name="directory">Path of the directory to enumerate</param>
+        /// <returns></returns>
+        public static IEnumerable<string> EnumerateFiles(string directory)
+        {
+            IEnumerable<string> files;
+            try
+            {
+                files = Directory.EnumerateFiles(directory);
+            }
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch (UnauthorizedAccessException)
+            {
+                yield break;
+            }
+            catch (DirectoryNotFoundException)
+            {
+                yield break;
+            }
+#pragma warning restore CA1031 // Do not catch general exception types
+
+            foreach (string file in files.Call(NormalizePath))
+            {
+                yield return file;
+            }
+        }
+
+        /// <summary>
         /// Finds files by walking the root and wildcard matching the path and alt path with a given mask
         /// </summary>
         /// <param name="root">Root path to start walking</param>
