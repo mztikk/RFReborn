@@ -60,7 +60,7 @@ namespace RFReborn.Tests.FuncExtensionsTests
                 i++;
                 return Task.FromResult(false);
             };
-            await returnFalse.TryTilTrue(max, 1);
+            await returnFalse.TryTilTrueAsync(max, 1);
             Assert.AreEqual(max, i);
         }
 
@@ -74,7 +74,7 @@ namespace RFReborn.Tests.FuncExtensionsTests
                 i++;
                 return Task.FromResult(true);
             };
-            await returnTrue.TryTilTrue(max, 1);
+            await returnTrue.TryTilTrueAsync(max, 1);
             Assert.AreEqual(1, i);
         }
 
@@ -88,7 +88,7 @@ namespace RFReborn.Tests.FuncExtensionsTests
                 i++;
                 return Task.FromResult(i > max / 2);
             };
-            await returnTrue.TryTilTrue(max, 1);
+            await returnTrue.TryTilTrueAsync(max, 1);
             Assert.AreEqual((max / 2) + 1, i);
         }
 

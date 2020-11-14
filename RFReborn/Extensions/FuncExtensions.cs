@@ -15,7 +15,7 @@ namespace RFReborn.Extensions
         /// <param name="func"><see cref="Func{T, TResult}"/> to execute</param>
         /// <param name="retries">Maximum number of retries</param>
         /// <param name="delayBetweenRetries">Delay between retries</param>
-        public static async Task TryTilTrue(this Func<Task<bool>> func, int retries, int delayBetweenRetries)
+        public static async Task TryTilTrueAsync(this Func<Task<bool>> func, int retries, int delayBetweenRetries)
         {
             while (retries > 0)
             {
