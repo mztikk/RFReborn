@@ -153,15 +153,12 @@ namespace RFReborn.AoB
                     sp = srp + find;
                     i += size;
 
-                    byte* pre = sp;
-                    if (CheckMask(sp, signature))
+                    if (CheckMask(sp, signature, out int delta))
                     {
                         return i + signature.Offset - firstIndex;
                     }
-                    byte* post = sp;
 
-                    long delta = post - pre;
-                    i += (int)delta + 1;
+                    i += delta;
                     sp++;
                 }
             }
@@ -229,10 +226,12 @@ namespace RFReborn.AoB
         /// </summary>
         /// <param name="searchRegion">pointer inside region where to start searching</param>
         /// <param name="sig"><see cref="Signature"/> to search for</param>
+        /// <param name="delta">Number of bytes advanced</param>
         /// <returns>TRUE if it matches; FALSE otherwise.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe bool CheckMask(byte* searchRegion, Signature sig)
+        private static unsafe bool CheckMask(byte* searchRegion, Signature sig, out int delta)
         {
+            delta = 0;
             fixed (byte* patternp = sig.Pattern)
             {
                 byte* pp = patternp;
@@ -250,6 +249,7 @@ namespace RFReborn.AoB
                     i++;
                     pp++;
                     searchRegion++;
+                    delta++;
                 }
             }
 
