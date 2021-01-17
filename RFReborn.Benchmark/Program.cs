@@ -1,13 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using BenchmarkDotNet.Running;
 
 namespace RFReborn.Benchmark
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static readonly List<Type> s_typesToBenchmark = new List<Type>() {
+            typeof(AoBScannerBenchmark),
+        };
+
+        private static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<AoBScannerBenchmark>();
+            //BenchmarkDotNet.Reports.Summary summary = BenchmarkRunner.Run<AoBScannerBenchmark>();
+            foreach (Type item in s_typesToBenchmark)
+            {
+                BenchmarkRunner.Run(item);
+            }
         }
     }
 }
