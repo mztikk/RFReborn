@@ -11,12 +11,12 @@ namespace RFReborn.Benchmark.Benchmarks
     [MarkdownExporterAttribute.GitHub]
     public class AoBScannerBenchmark
     {
-        [Params(64, 1024, 8192)]
+        [Params(64, 1024)]
         public int SearchRegionSize;
 
         public byte[] SearchRegion;
 
-        [Params(8, 16, 32)]
+        [Params(8, 16)]
         public int SignatureLength;
 
         public Signature SignatureStart;
