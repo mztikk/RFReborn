@@ -2,7 +2,7 @@
 using BenchmarkDotNet.Attributes;
 using RFReborn.AoB;
 
-namespace RFReborn.Benchmark
+namespace RFReborn.Benchmark.Benchmarks
 {
     [CsvExporter]
     [CsvMeasurementsExporter]
