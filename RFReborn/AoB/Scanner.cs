@@ -191,37 +191,6 @@ namespace RFReborn.AoB
         }
 
         /// <summary>
-        /// Checks if the byte pattern + mask match the searchregion at the specified index.
-        /// </summary>
-        /// <param name="index">Index in the search region.</param>
-        /// <param name="searchRegion">Space to search.</param>
-        /// <param name="pattern">pattern to match.</param>
-        /// <param name="mask">mask for the pattern.</param>
-        /// <returns>TRUE if it matches; FALSE otherwise.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool CheckMask(int index, Span<byte> searchRegion, byte[] pattern, string mask)
-        {
-            for (int i = 0; i < pattern.Length; i++)
-            {
-                if (mask[i] == '?')
-                {
-                    continue;
-                }
-
-                //if (mask[i] == 'x' && pattern[i] != searchRegion[index + i])
-                //{
-                //    return false;
-                //}
-                if (pattern[i] != searchRegion[index + i])
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
         /// Checks if the <see cref="Signature"/> <paramref name="sig"/> matches the searchregion
         /// </summary>
         /// <param name="searchRegion">pointer inside region where to start searching</param>
