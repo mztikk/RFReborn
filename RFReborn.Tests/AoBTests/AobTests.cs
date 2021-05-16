@@ -14,7 +14,10 @@ namespace RFReborn.Tests.AoBTests
         private readonly List<AoBTest> _tests = new List<AoBTest>()
         {
             { AoBTestGenerator.ForSignature(new Signature("05010203")) },
+            { AoBTestGenerator.ForSignature(new Signature("ff??aeff", 3)) },
             { AoBTestGenerator.ForSignature(new Signature("ff??aeff")) },
+            { AoBTestGenerator.ForSignature(new Signature("?f??aeff")) },
+            { AoBTestGenerator.ForSignature(new Signature("?f??aeff", 6)) },
             { AoBTestGenerator.ForSignature(new Signature("48 ?? C2 48 8D"), 5, 0) },
             { AoBTestGenerator.ForSignature(new Signature("48 ?? C2 48 8D"), 6, 0) },
             { AoBTestGenerator.ForSignature(new Signature("48 ?? C2 48 8D"), 6, 1) },
@@ -39,6 +42,8 @@ namespace RFReborn.Tests.AoBTests
             {new AoBTest(new byte[]{0xFF }, new Signature("FFEE"), -1) },
             {new AoBTest(new byte[]{0xFF, 0x00, 0xAE }, new Signature("FFEE"), -1) },
             {new AoBTest(new byte[]{0xFF, 0x00, 0xAE, 0xFF }, new Signature("FFEE"), -1) },
+            {new AoBTest(new byte[]{0xFF, 0x00, 0xFF, 0xAE }, new Signature("FFEE"), -1) },
+            {new AoBTest(new byte[]{0xFF, 0x00, 0xFF, 0xEE, 0xEE }, new Signature("FFEEAE"), -1) },
         };
 
         [TestMethod]
@@ -46,8 +51,10 @@ namespace RFReborn.Tests.AoBTests
         {
             foreach (AoBTest test in _tests)
             {
-                AssertFound(test.SearchRegion, test.Signature, test.Index);
+                AssertFound(test.SearchRegion, test.Signature, test.Index + test.Signature.Offset);
             }
+
+            AssertFound(new byte[] { 0xFF, 0xEE }, new Signature("EE"), 1);
         }
 
         [TestMethod]
@@ -56,7 +63,7 @@ namespace RFReborn.Tests.AoBTests
             foreach (AoBTest test in _tests)
             {
                 using Stream stream = test.GetSearchRegionAsStream();
-                AssertFound(stream, test.Signature, test.Index);
+                AssertFound(stream, test.Signature, test.Index + test.Signature.Offset);
             }
         }
 
