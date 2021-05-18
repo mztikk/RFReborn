@@ -117,8 +117,11 @@ namespace RFReborn.Tests.FastCompareTests
             byte[] b2 = new byte[] { 0xFF, 0xAE };
 
             Assert.IsFalse(FastCompare.Equals(b1, b2));
+            Assert.IsFalse(FastCompare.Equals(b2, b1));
             Assert.IsFalse(FastCompare.Equals(b1, b2, len: 2));
+            Assert.IsFalse(FastCompare.Equals(b2, b1, len: 2));
             Assert.IsFalse(FastCompare.Equals(b1, b2, len: 10));
+            Assert.IsFalse(FastCompare.Equals(b2, b1, len: 10));
 
             Assert.IsTrue(FastCompare.Equals(b1, b2, len: 1));
             Assert.IsTrue(FastCompare.Equals(b2, b1, len: 1));
