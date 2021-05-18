@@ -13,6 +13,7 @@ namespace RFReborn.Tests.AoBTests
 
         private readonly List<AoBTest> _tests = new List<AoBTest>()
         {
+            { new AoBTest(new byte[]{0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xee }, new Signature("FFEE"), 6) },
             { AoBTestGenerator.ForSignature(new Signature("05010203")) },
             { AoBTestGenerator.ForSignature(new Signature("ff??aeff", 3)) },
             { AoBTestGenerator.ForSignature(new Signature("ff??aeff")) },
@@ -22,6 +23,7 @@ namespace RFReborn.Tests.AoBTests
             { AoBTestGenerator.ForSignature(new Signature("48 ?? C2 48 8D"), 6, 0) },
             { AoBTestGenerator.ForSignature(new Signature("48 ?? C2 48 8D"), 6, 1) },
             { AoBTestGenerator.ForSignature(new Signature("ff??aeff"), BufferSize * 2, BufferSize - 3) },
+            { AoBTestGenerator.ForSignature(new Signature("ff??aeff"), 8197, 8193) },
             { AoBTestGenerator.ForSignature(new Signature("48 ?? C2 48 8D 0D B9 DC 63 02 FF C2 ?? 15 71 E6 63 ?? 8B 0C 81 8B C1"), BufferSize * 2, BufferSize - 23) },
             { AoBTestGenerator.ForSignature(new Signature("48 ?? C2 48 8D 0D B9 DC 63 02 FF C2 ?? 15 71 E6 63 ?? 8B 0C 81 8B C1"), BufferSize * 2, BufferSize - 22) },
             { AoBTestGenerator.ForSignature(new Signature("48 ?? C2 48 8D 0D B9 DC 63 02 FF C2 ?? 15 71 E6 63 ?? 8B 0C 81 8B C1"), BufferSize * 2, BufferSize - 21) },
