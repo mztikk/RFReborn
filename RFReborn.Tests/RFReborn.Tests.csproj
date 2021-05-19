@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -36,12 +36,10 @@
     <None Update="AddOrIncrementTests\AddOrIncrementTests.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AddOrIncrementTests.cs</LastGenOutput>
-      <CustomToolNamespace>sff</CustomToolNamespace>
     </None>
     <None Update="ArithmeticMeanTests\ArithmeticMeanTests.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ArithmeticMeanTests.cs</LastGenOutput>
-      <CustomToolNamespace>ar</CustomToolNamespace>
     </None>
   </ItemGroup>
 
