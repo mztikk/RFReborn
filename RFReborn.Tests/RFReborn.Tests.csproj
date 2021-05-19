@@ -33,9 +33,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="AddOrIncrementTests\AddOrIncrementTests.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AddOrIncrementTests.cs</LastGenOutput>
+      <CustomToolNamespace>sff</CustomToolNamespace>
+    </None>
     <None Update="ArithmeticMeanTests\ArithmeticMeanTests.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ArithmeticMeanTests.cs</LastGenOutput>
+      <CustomToolNamespace>ar</CustomToolNamespace>
     </None>
   </ItemGroup>
 
@@ -44,6 +50,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="AddOrIncrementTests\AddOrIncrementTests.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AddOrIncrementTests.tt</DependentUpon>
+    </Compile>
     <Compile Update="ArithmeticMeanTests\ArithmeticMeanTests.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
