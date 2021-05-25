@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RFReborn.Hashing;
 
 namespace RFReborn.Tests.HashingTests
@@ -25,9 +22,6 @@ namespace RFReborn.Tests.HashingTests
 
         [DataTestMethod]
         [DataRow("not a valid hash method")]
-        public void InvalidHashName(string hashName)
-        {
-            Assert.IsTrue(string.IsNullOrWhiteSpace(HashFactory.GetHashName(hashName)));
-        }
+        public void InvalidHashName(string hashName) => Assert.IsTrue(string.IsNullOrWhiteSpace(HashFactory.GetHashName(hashName)));
     }
 }
