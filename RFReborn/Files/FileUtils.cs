@@ -6,7 +6,6 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using RFReborn.AoB;
 using RFReborn.Comparison;
-using RFReborn.Disposable;
 using RFReborn.Extensions;
 
 namespace RFReborn.Files
@@ -610,17 +609,24 @@ namespace RFReborn.Files
         {
             int wantedBuffersize = GetBufferSize(length);
 
-            using DisposableArray<byte> disposableArray = new(wantedBuffersize);
-            byte[] buffer = disposableArray.Array;
+            ArrayPool<byte> pool = ArrayPool<byte>.Shared;
+            byte[] buffer = pool.Rent(wantedBuffersize);
 
-            int read;
-            long totalRead = 0;
-            while ((read = await source.ReadAsync(buffer, 0, (int)Math.Min(wantedBuffersize, length - totalRead))) >
-                0 && totalRead < length)
+            try
             {
-                await destination.WriteAsync(buffer, 0, read);
-                totalRead += read;
-                onWrite?.Invoke(read);
+                int read;
+                long totalRead = 0;
+                while ((read = await source.ReadAsync(buffer, 0, (int)Math.Min(wantedBuffersize, length - totalRead))) >
+                    0 && totalRead < length)
+                {
+                    await destination.WriteAsync(buffer, 0, read);
+                    totalRead += read;
+                    onWrite?.Invoke(read);
+                }
+            }
+            finally
+            {
+                pool.Return(buffer);
             }
         }
 
