@@ -3,8 +3,10 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using RFReborn.AoB;
 using RFReborn.Comparison;
+using RFReborn.Disposable;
 using RFReborn.Extensions;
 
 namespace RFReborn.Files
@@ -15,6 +17,7 @@ namespace RFReborn.Files
     public static class FileUtils
     {
         private const int InitialCapacity = 64;
+        private const int DefaultFileStreamBufferSize = 4096;
 
         /// <summary>
         /// Checks if there is any File inside a root path
@@ -80,6 +83,7 @@ namespace RFReborn.Files
         }
 
         #region Count
+
         /// <summary>
         /// Counts the number of <see cref="DirectoryInfo"/> inside the <paramref name="root"/> path.
         /// </summary>
@@ -123,9 +127,11 @@ namespace RFReborn.Files
             // folderCount has to be decreased by 1 because walk calls OnDirectory for the root dir
             return (fileCount, --folderCount);
         }
+
         #endregion Count
 
         #region Walk - Delegate
+
         /// <summary>
         /// Walks a path, invoking <paramref name="onDirectory"/> on every <see cref="DirectoryInfo"/> found.
         /// </summary>
@@ -417,9 +423,11 @@ namespace RFReborn.Files
                 }
             }
         }
+
         #endregion Walk - Delegate
 
         #region Walk - Enumerable
+
         /// <summary>
         /// Enumerates the tree of a root path, returning files and directories
         /// </summary>
@@ -443,8 +451,10 @@ namespace RFReborn.Files
                 throw new ArgumentException();
             }
 
-            bool enumFiles = fileSystemEnumeration == FileSystemEnumeration.FilesOnly || fileSystemEnumeration == FileSystemEnumeration.FilesAndDirectories;
-            bool enumDirs = fileSystemEnumeration == FileSystemEnumeration.DirectoriesOnly || fileSystemEnumeration == FileSystemEnumeration.FilesAndDirectories;
+            bool enumFiles = fileSystemEnumeration == FileSystemEnumeration.FilesOnly ||
+                             fileSystemEnumeration == FileSystemEnumeration.FilesAndDirectories;
+            bool enumDirs = fileSystemEnumeration == FileSystemEnumeration.DirectoriesOnly ||
+                            fileSystemEnumeration == FileSystemEnumeration.FilesAndDirectories;
 
             dirs.Push(NormalizePath(root));
             while (dirs.Count > 0)
@@ -514,9 +524,11 @@ namespace RFReborn.Files
                 }
             }
         }
+
         #endregion Walk - Enumerable
 
         #region GetFiles
+
         /// <summary>
         /// Enumerates the tree of a root path and yields all files
         /// </summary>
@@ -583,6 +595,7 @@ namespace RFReborn.Files
                 }
             }
         }
+
         #endregion GetFiles
 
         /// <summary>
@@ -623,7 +636,7 @@ namespace RFReborn.Files
         {
             foreach (string file in Walk(root, FileSystemEnumeration.FilesOnly))
             {
-                string[] tests = new string[] { Path.GetFileName(file), file, GetAltPath(file) };
+                string[] tests = new string[] {Path.GetFileName(file), file, GetAltPath(file)};
                 foreach (string test in tests)
                 {
                     if (StringR.WildcardMatch(test, pattern))
@@ -641,7 +654,8 @@ namespace RFReborn.Files
         /// <param name="root">Root path to start walking</param>
         /// <param name="signature"><see cref="Signature"/> to match</param>
         /// <param name="continueOnException">If <see langword="true"/> continues on exception, if <see langword="false"/> throws them. May happen when reading from files</param>
-        public static IEnumerable<string> FindFilesBySignature(string root, Signature signature, bool continueOnException = true)
+        public static IEnumerable<string> FindFilesBySignature(string root, Signature signature,
+            bool continueOnException = true)
         {
             foreach (string file in Walk(root, FileSystemEnumeration.FilesOnly))
             {
@@ -673,7 +687,8 @@ namespace RFReborn.Files
         /// <param name="destination">Destination to copy to</param>
         /// <param name="files">Files to copy</param>
         /// <param name="overwrite">Overwrite files</param>
-        public static void Copy(DirectoryInfo baseOrigin, DirectoryInfo destination, IEnumerable<FileInfo> files, bool overwrite = true)
+        public static void Copy(DirectoryInfo baseOrigin, DirectoryInfo destination, IEnumerable<FileInfo> files,
+            bool overwrite = true)
         {
             if (!destination.Exists)
             {
@@ -749,7 +764,8 @@ namespace RFReborn.Files
         /// <param name="destination">Destination to copy to</param>
         /// <param name="file">File to copy</param>
         /// <param name="overwrite">Overwrite files</param>
-        public static void Copy(DirectoryInfo baseOrigin, DirectoryInfo destination, FileInfo file, bool overwrite = true)
+        public static void Copy(DirectoryInfo baseOrigin, DirectoryInfo destination, FileInfo file,
+            bool overwrite = true)
         {
             if (!destination.Exists)
             {
@@ -795,6 +811,7 @@ namespace RFReborn.Files
                     {
                         newFile.Directory.Create();
                     }
+
                     CopyTo(fi, newFile, false);
                     //fi.CopyTo(newPath, false);
                 });
@@ -814,7 +831,9 @@ namespace RFReborn.Files
                 target.Create();
             }
 
-            IEnumerable<string> files = onlyDiffFiles ? GetDiffFiles(source, target) : Walk(source.FullName, FileSystemEnumeration.FilesOnly);
+            IEnumerable<string> files = onlyDiffFiles
+                ? GetDiffFiles(source, target)
+                : Walk(source.FullName, FileSystemEnumeration.FilesOnly);
             foreach (string file in files)
             {
                 string filePath = Path.Combine(source.FullName, file);
@@ -865,7 +884,15 @@ namespace RFReborn.Files
         /// <param name="overwrite">Allow overwriting of destination file or not</param>
         /// <param name="onWrite">Action will be called everytime theres an advance in bytes with the number of bytes as parameter, to track progress. Can be null.</param>
         /// <exception cref="IOException">If the destination already exists and overwriting is not allowed</exception>
-        public static void Copy(FileInfo source, FileInfo destination, bool overwrite = true, Action<long>? onWrite = null) => CopyTo(source, destination, overwrite, onWrite);
+        public static void Copy(FileInfo source, FileInfo destination, bool overwrite = true,
+            Action<long>? onWrite = null) => CopyTo(source, destination, overwrite, onWrite);
+
+        /// <inheritdoc cref="Copy(System.IO.FileInfo,System.IO.FileInfo,bool,System.Action{long}?)" />
+        /// <summary>
+        /// Asynchronously Copies a file to a destination
+        /// </summary>
+        public static async Task CopyAsync(FileInfo source, FileInfo destination, bool overwrite = true,
+            Action<long>? onWrite = null) => await CopyToAsync(source, destination, overwrite, onWrite);
 
         /// <summary>
         /// Compares two files for inequality
@@ -939,23 +966,44 @@ namespace RFReborn.Files
         /// Replaces all instances of <see cref="Path.DirectorySeparatorChar"/> with <see cref="Path.AltDirectorySeparatorChar"/>
         /// </summary>
         /// <param name="path">path to get alt path from</param>
-        public static string GetAltPath(string path) => path.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        public static string GetAltPath(string path) =>
+            path.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 
         /// <summary>
         /// Replaces all instances of <see cref="Path.AltDirectorySeparatorChar"/> with <see cref="Path.DirectorySeparatorChar"/>
         /// </summary>
         /// <param name="path">path to get normal path from</param>
-        public static string GetNormalPath(string path) => path.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+        public static string GetNormalPath(string path) =>
+            path.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
 
         internal static string NormalizePath(string path) => path.Replace('\\', '/');
 
-        private static void CopyTo(string sourcePath, string destinationPath, bool overwrite = true) => CopyTo(new FileInfo(sourcePath), new FileInfo(destinationPath), overwrite);
+        private static void CopyTo(string sourcePath, string destinationPath, bool overwrite = true) =>
+            CopyTo(new FileInfo(sourcePath), new FileInfo(destinationPath), overwrite);
 
-        private static void CopyTo(FileInfo source, FileInfo destination, bool overwrite = true, Action<long>? onWrite = null)
+        private static void CopyTo(FileInfo source, FileInfo destination, bool overwrite = true,
+            Action<long>? onWrite = null)
         {
             using var srcstream = new FileStream(source.FullName, FileMode.Open, FileAccess.Read, FileShare.Read);
-            using var deststream = new FileStream(destination.FullName, overwrite ? FileMode.Create : FileMode.CreateNew, FileAccess.Write, FileShare.Read);
+            using var deststream = new FileStream(destination.FullName,
+                overwrite ? FileMode.Create : FileMode.CreateNew, FileAccess.Write, FileShare.Read);
             CopyTo(srcstream, deststream, srcstream.Length, onWrite);
+        }
+
+        private static async Task CopyToAsync(FileInfo source, FileInfo destination, bool overwrite = true,
+            Action<long>? onWrite = null)
+        {
+            await using var srcStream = new FileStream(source.FullName, FileMode.Open, FileAccess.Read, FileShare.Read,
+                DefaultFileStreamBufferSize, useAsync: true);
+            await using var destStream = new FileStream(destination.FullName,
+                overwrite
+                    ? FileMode.Create
+                    : FileMode.CreateNew,
+                FileAccess.Write,
+                FileShare.Read,
+                DefaultFileStreamBufferSize,
+                useAsync: true);
+            await CopyToAsync(srcStream, destStream, srcStream.Length, onWrite);
         }
 
         private static void CopyTo(FileStream source, FileStream destination, long length, Action<long>? onWrite = null)
@@ -970,7 +1018,8 @@ namespace RFReborn.Files
             {
                 int read;
                 long totalRead = 0;
-                while ((read = source.Read(buffer, 0, (int)Math.Min(wantedBuffersize, length - totalRead))) > 0 && totalRead < length)
+                while ((read = source.Read(buffer, 0, (int)Math.Min(wantedBuffersize, length - totalRead))) > 0 &&
+                       totalRead < length)
                 {
                     destination.Write(buffer, 0, read);
                     totalRead += read;
@@ -982,5 +1031,27 @@ namespace RFReborn.Files
                 pool.Return(buffer);
             }
         }
+
+        private static async Task CopyToAsync(FileStream source, FileStream destination, long length,
+            Action<long>? onWrite = null)
+        {
+            int wantedBuffersize = GetBufferSize(length);
+
+            using var disposableArray = new DisposableArray<byte>(wantedBuffersize);
+            byte[] buffer = disposableArray.Array;
+
+            int read;
+            long totalRead = 0;
+            while ((read = await source.ReadAsync(buffer, 0, (int)Math.Min(wantedBuffersize, length - totalRead))) >
+                0 && totalRead < length)
+            {
+                await destination.WriteAsync(buffer, 0, read);
+                totalRead += read;
+                onWrite?.Invoke(read);
+            }
+        }
+
+        private static double GetBufferSize() => Math.Pow(2, 19);
+        private static int GetBufferSize(long length) => (int)Math.Min(GetBufferSize(), length);
     }
 }
