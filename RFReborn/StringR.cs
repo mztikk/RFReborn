@@ -67,7 +67,7 @@ namespace RFReborn
         public static readonly IReadOnlyDictionary<char, bool> s_hexLookup = new ReadOnlyDictionary<char, bool>(Hex.ToLookup());
 
         /// <summary>
-        /// Gets the escaped unicode value string represantion of a char
+        /// Gets the escaped unicode value string representation of a char
         /// </summary>
         /// <param name="c"></param>
         /// <returns></returns>
@@ -185,30 +185,30 @@ namespace RFReborn
         /// </summary>
         /// <param name="str">String to split.</param>
         /// <param name="n">Length of split parts.</param>
-        /// <param name="seperator">Separator to use between the split parts.</param>
+        /// <param name="separator">Separator to use between the split parts.</param>
         /// <returns>A new string with the separator every nth char.</returns>
-        public static string InSplit(string str, int n, string seperator)
+        public static string InSplit(string str, int n, string separator)
         {
             if (str is null)
             {
                 throw new ArgumentNullException(nameof(str));
             }
 
-            if (n <= 0 || string.IsNullOrEmpty(seperator))
+            if (n <= 0 || string.IsNullOrEmpty(separator))
             {
                 return str;
             }
 
-            int extraSize = (int)Math.Ceiling((double)str.Length / n) * seperator.Length;
-            extraSize -= seperator.Length;
-            int sSize = sizeof(char) * seperator.Length;
+            int extraSize = (int)Math.Ceiling((double)str.Length / n) * separator.Length;
+            extraSize -= separator.Length;
+            int sSize = sizeof(char) * separator.Length;
             int newSize = str.Length + extraSize;
             char[] rtn = new char[newSize];
             int i = 0;
             fixed (void* vp = rtn)
             {
                 char* rp = (char*)vp;
-                fixed (void* vs = seperator)
+                fixed (void* vs = separator)
                 {
                     while (i < str.Length)
                     {
@@ -217,7 +217,7 @@ namespace RFReborn
                         if (i % n == 0 && i < str.Length)
                         {
                             Buffer.MemoryCopy(vs, rp, sSize, sSize);
-                            rp += seperator.Length;
+                            rp += separator.Length;
                         }
                     }
                 }

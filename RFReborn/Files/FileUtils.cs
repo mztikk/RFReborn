@@ -118,7 +118,7 @@ namespace RFReborn.Files
             ulong fileCount = 0;
 
             ulong folderCount = 0;
-            Walk(root, (DirectoryInfo _) => folderCount++, (FileInfo _) => fileCount++);
+            Walk(root, _ => folderCount++, _ => fileCount++);
 
             // folderCount has to be decreased by 1 because walk calls OnDirectory for the root dir
             return (fileCount, --folderCount);
@@ -180,7 +180,7 @@ namespace RFReborn.Files
             Func<DirectoryInfo, bool>? onDirFunc = null;
             if (onDirectory is { })
             {
-                onDirFunc = (DirectoryInfo di) =>
+                onDirFunc = di =>
                 {
                     onDirectory.Invoke(di);
                     return true;
@@ -190,7 +190,7 @@ namespace RFReborn.Files
             Func<FileInfo, bool>? onFileFunc = null;
             if (onFile is { })
             {
-                onFileFunc = (FileInfo fi) =>
+                onFileFunc = fi =>
                 {
                     onFile.Invoke(fi);
                     return true;
@@ -690,7 +690,7 @@ namespace RFReborn.Files
                 string relPath = Path.GetRelativePath(baseOrigin.FullName, file.FullName);
                 string newPath = Path.Combine(destination.FullName, relPath);
                 FileInfo newFile = new FileInfo(newPath);
-                if (!newFile.Directory.Exists)
+                if (newFile.Directory is {Exists: false})
                 {
                     newFile.Directory.Create();
                 }
@@ -764,7 +764,7 @@ namespace RFReborn.Files
             string relPath = Path.GetRelativePath(baseOrigin.FullName, file.FullName);
             string newPath = Path.Combine(destination.FullName, relPath);
             FileInfo newFile = new FileInfo(newPath);
-            if (!newFile.Directory.Exists)
+            if (newFile.Directory is {Exists: false})
             {
                 newFile.Directory.Create();
             }
@@ -786,12 +786,12 @@ namespace RFReborn.Files
             }
 
             Walk(source.FullName,
-                (FileInfo fi) =>
+                fi =>
                 {
                     string relPath = Path.GetRelativePath(source.FullName, fi.FullName);
                     string newPath = Path.Combine(destination.FullName, relPath);
                     FileInfo newFile = new FileInfo(newPath);
-                    if (!newFile.Directory.Exists)
+                    if (newFile.Directory is {Exists: false})
                     {
                         newFile.Directory.Create();
                     }

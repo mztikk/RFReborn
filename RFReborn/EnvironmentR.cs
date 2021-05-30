@@ -33,12 +33,12 @@ namespace RFReborn
         /// <summary>
         /// Returns all Directories in the PATH Environment Variable
         /// </summary>
-        public static string[] PathDirectories() => Environment.GetEnvironmentVariable("PATH").Split(PathSeparator());
+        public static string[]? PathDirectories() => Environment.GetEnvironmentVariable("PATH")?.Split(PathSeparator());
 
         /// <summary>
         /// Enumerates all Directories in the PATH Environment Variable which exist
         /// </summary>
-        public static IEnumerable<string> ExistingPathDirectories() => PathDirectories().Where(x => Directory.Exists(x));
+        public static IEnumerable<string> ExistingPathDirectories() => (PathDirectories() ?? Array.Empty<string>()).Where(Directory.Exists);
 
         /// <summary>
         /// Searches for a file name in all PATH Directories

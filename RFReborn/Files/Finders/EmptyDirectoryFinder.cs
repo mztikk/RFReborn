@@ -18,7 +18,7 @@ namespace RFReborn.Files.Finders
         {
             HashSet<DirectoryInfo> emptyDirs = new HashSet<DirectoryInfo>();
 
-            FileUtils.Walk(root, (DirectoryInfo di) =>
+            FileUtils.Walk(root, di =>
             {
                 if (!FileUtils.AnyFile(di.FullName))
                 {

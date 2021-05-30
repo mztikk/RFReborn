@@ -44,12 +44,6 @@ namespace RFReborn.AoB
         public long Length { get; }
 
         #region Constructors
-        /// <summary>
-        /// Constructs a new instance of <see cref="Signature"/> using a byte pattern and mask, with the offset defaulting to 0.
-        /// </summary>
-        /// <param name="pattern">Byte pattern.</param>
-        /// <param name="mask">Mask.</param>
-        public Signature(byte[] pattern, string mask) : this(pattern, mask, 0) { }
 
         /// <summary>
         /// Constructs a new instance of <see cref="Signature"/> using a byte pattern, mask and an offset.
@@ -57,20 +51,14 @@ namespace RFReborn.AoB
         /// <param name="pattern">Byte pattern.</param>
         /// <param name="mask">Mask.</param>
         /// <param name="offset">Offset.</param>
-        public Signature(byte[] pattern, string mask, long offset) : this(GetSignatureFromPatternAndMask(pattern, mask), offset) { }
-
-        /// <summary>
-        /// Constructs a new instance of <see cref="Signature"/> using a PEiD style signature with the offset defaulting to 0.
-        /// </summary>
-        /// <param name="signature"></param>
-        public Signature(string signature) : this(signature, 0) { }
+        public Signature(byte[] pattern, string mask, long offset = 0) : this(GetSignatureFromPatternAndMask(pattern, mask), offset) { }
 
         /// <summary>
         /// Constructs a new instance of <see cref="Signature"/> using a PEiD style signature and an offset.
         /// </summary>
         /// <param name="signature"></param>
         /// <param name="offset"></param>
-        public Signature(string signature, long offset)
+        public Signature(string signature, long offset = 0)
         {
             (byte[] pattern, string mask) = GetPatternAndMaskFromSignature(signature);
             Pattern = pattern;

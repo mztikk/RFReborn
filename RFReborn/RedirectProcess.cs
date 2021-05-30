@@ -45,7 +45,7 @@ namespace RFReborn
 
             OverwriteStartInfo();
 
-            // start the process and begin reading the std and err ouput
+            // start the process and begin reading the std and err output
             base.Start();
             BeginOutputReadLine();
             BeginErrorReadLine();

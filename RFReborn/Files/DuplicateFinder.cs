@@ -44,7 +44,7 @@ namespace RFReborn.Files
 
             foreach (string root in rootPaths)
             {
-                FileUtils.Walk(root, (FileInfo fi) =>
+                FileUtils.Walk(root, fi =>
                 {
                     try
                     {

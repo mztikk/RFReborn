@@ -30,7 +30,7 @@ namespace RFReborn.Files.FileCollector
         /// <param name="onFile">Action to execute on every file</param>
         public void GetFiles(string root, Action<string> onFile) => FileUtils.Walk(
                 root,
-                (string dir) =>
+                dir =>
                 {
                     foreach (ICollectingModule module in _modules)
                     {
@@ -42,7 +42,7 @@ namespace RFReborn.Files.FileCollector
 
                     return true;
                 },
-                (string file) =>
+                file =>
                 {
                     foreach (ICollectingModule module in _modules)
                     {

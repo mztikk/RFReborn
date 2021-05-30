@@ -19,10 +19,10 @@ namespace RFReborn.Extensions
         {
             TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
 
-            void Process_Exited(object sender, EventArgs e) => tcs.TrySetResult(true);
+            void ProcessExited(object sender, EventArgs e) => tcs.TrySetResult(true);
 
             process.EnableRaisingEvents = true;
-            process.Exited += Process_Exited;
+            process.Exited += ProcessExited;
 
             try
             {
@@ -31,14 +31,12 @@ namespace RFReborn.Extensions
                     return;
                 }
 
-                using (cancellationToken.Register(() => tcs.TrySetCanceled()))
-                {
-                    await tcs.Task;
-                }
+                await using CancellationTokenRegistration _ = cancellationToken.Register(() => tcs.TrySetCanceled());
+                await tcs.Task;
             }
             finally
             {
-                process.Exited -= Process_Exited;
+                process.Exited -= ProcessExited;
             }
         }
     }

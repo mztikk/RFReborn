@@ -106,7 +106,7 @@ namespace RFReborn.Extensions
         public static IEnumerable<string> GetLines(this string str)
         {
             using var reader = new StringReader(str);
-            string line;
+            string? line;
             while ((line = reader.ReadLine()) is { })
             {
                 yield return line;

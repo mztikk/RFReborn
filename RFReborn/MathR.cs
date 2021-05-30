@@ -16,14 +16,12 @@ namespace RFReborn
         /// <returns>n!.</returns>
         public static BigInteger Factorial(int n)
         {
-            if (n < 0)
+            switch (n)
             {
-                throw new ArgumentOutOfRangeException(nameof(n), "N can't be smaller than zero.");
-            }
-
-            if (n < 2)
-            {
-                return 1;
+                case < 0:
+                    throw new ArgumentOutOfRangeException(nameof(n), "N can't be smaller than zero.");
+                case < 2:
+                    return 1;
             }
 
             BigInteger sum = n;
@@ -110,14 +108,12 @@ namespace RFReborn
         /// <returns>prime number.</returns>
         public static long NthPrime(int n)
         {
-            if (n < 1)
+            switch (n)
             {
-                throw new ArgumentOutOfRangeException(nameof(n), "N can't be smaller than one.");
-            }
-
-            if (n == 1)
-            {
-                return 2;
+                case < 1:
+                    throw new ArgumentOutOfRangeException(nameof(n), "N can't be smaller than one.");
+                case 1:
+                    return 2;
             }
 
             long i = 3;

@@ -74,7 +74,7 @@ namespace RFReborn.Extensions
             }
 
             int count = 0;
-            foreach (T item in ienum)
+            foreach (T _ in ienum)
             {
                 count++;
             }
@@ -134,7 +134,7 @@ namespace RFReborn.Extensions
         /// </summary>
         /// <typeparam name="T">Type of <see cref="IEnumerable{T}"/></typeparam>
         /// <typeparam name="TResult">Type of <see cref="Func{T, TResult}"/> Result</typeparam>
-        /// <param name="ienum"><see cref="IEnumerable{T}"/> to iteratre</param>
+        /// <param name="ienum"><see cref="IEnumerable{T}"/> to iterate</param>
         /// <param name="func"><see cref="Func{T, TResult}"/> to call</param>
         public static IEnumerable<TResult> Call<T, TResult>(this IEnumerable<T> ienum, Func<T, TResult> func)
         {
@@ -148,7 +148,7 @@ namespace RFReborn.Extensions
         /// Calls a <see cref="Action{T}"/> on every item in a <see cref="IEnumerable{T}"/>
         /// </summary>
         /// <typeparam name="T">Type of <see cref="IEnumerable{T}"/></typeparam>
-        /// <param name="ienum"><see cref="IEnumerable{T}"/> to iteratre</param>
+        /// <param name="ienum"><see cref="IEnumerable{T}"/> to iterate</param>
         /// <param name="action"><see cref="Action{T}"/> to call</param>
         public static void Call<T>(this IEnumerable<T> ienum, Action<T> action)
         {
@@ -177,7 +177,7 @@ namespace RFReborn.Extensions
         /// Calls and awaits a <see cref="Func{T, Task}"/> on every item in a <see cref="IEnumerable{T}"/>
         /// </summary>
         /// <typeparam name="T">Type of <see cref="IEnumerable{T}"/></typeparam>
-        /// <param name="ienum"><see cref="IEnumerable{T}"/> to iteratre</param>
+        /// <param name="ienum"><see cref="IEnumerable{T}"/> to iterate</param>
         /// <param name="func"><see cref="Func{T, Task}"/> to call</param>
         public static async Task Call<T>(this IEnumerable<T> ienum, Func<T, Task> func)
         {
