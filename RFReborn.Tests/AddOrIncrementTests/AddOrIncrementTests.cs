@@ -1,21 +1,16 @@
-
-
-
-
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RFReborn.Extensions;
 namespace RFReborn.Tests.AddOrIncrementTests
 {
-
     [TestClass]
-    public class AddOrIncrementsbyteTests
+    public class AddOrIncrementSbyteTests
     {
         [TestMethod]
-        public void AddOrIncrementsbyte()
+        public void AddOrIncrementSbyte()
         {
-            var key = "test";
-            var dict = new Dictionary<string, sbyte>();
+            const string key = "test";
+            Dictionary<string, sbyte> dict = new();
             dict.AddOrIncrement(key);
             Assert.IsTrue(dict.ContainsKey(key));
             Assert.AreEqual((sbyte)1, dict[key]);
@@ -28,30 +23,28 @@ namespace RFReborn.Tests.AddOrIncrementTests
         [DataTestMethod]
         [DataRow((sbyte)5)]
         [DataRow((sbyte)10)]
-        public void AddOrIncrementsbyteWithValue(sbyte value)
+        public void AddOrIncrementSbyteWithValue(sbyte value)
         {
-            var key = "test";
-            var dict = new Dictionary<string, sbyte>();
+            const string key = "test";
+            Dictionary<string, sbyte> dict = new();
             dict.AddOrIncrement(key, value);
             Assert.IsTrue(dict.ContainsKey(key));
             Assert.AreEqual(value, dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((sbyte)(value*2), dict[key]);
+            Assert.AreEqual((value*2), dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((sbyte)(value*3), dict[key]);
+            Assert.AreEqual((value*3), dict[key]);
         }
     }
 
-
-
     [TestClass]
-    public class AddOrIncrementbyteTests
+    public class AddOrIncrementByteTests
     {
         [TestMethod]
-        public void AddOrIncrementbyte()
+        public void AddOrIncrementByte()
         {
-            var key = "test";
-            var dict = new Dictionary<string, byte>();
+            const string key = "test";
+            Dictionary<string, byte> dict = new();
             dict.AddOrIncrement(key);
             Assert.IsTrue(dict.ContainsKey(key));
             Assert.AreEqual((byte)1, dict[key]);
@@ -64,30 +57,28 @@ namespace RFReborn.Tests.AddOrIncrementTests
         [DataTestMethod]
         [DataRow((byte)5)]
         [DataRow((byte)10)]
-        public void AddOrIncrementbyteWithValue(byte value)
+        public void AddOrIncrementByteWithValue(byte value)
         {
-            var key = "test";
-            var dict = new Dictionary<string, byte>();
+            const string key = "test";
+            Dictionary<string, byte> dict = new();
             dict.AddOrIncrement(key, value);
             Assert.IsTrue(dict.ContainsKey(key));
             Assert.AreEqual(value, dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((byte)(value*2), dict[key]);
+            Assert.AreEqual((value*2), dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((byte)(value*3), dict[key]);
+            Assert.AreEqual((value*3), dict[key]);
         }
     }
 
-
-
     [TestClass]
-    public class AddOrIncrementshortTests
+    public class AddOrIncrementShortTests
     {
         [TestMethod]
-        public void AddOrIncrementshort()
+        public void AddOrIncrementShort()
         {
-            var key = "test";
-            var dict = new Dictionary<string, short>();
+            const string key = "test";
+            Dictionary<string, short> dict = new();
             dict.AddOrIncrement(key);
             Assert.IsTrue(dict.ContainsKey(key));
             Assert.AreEqual((short)1, dict[key]);
@@ -100,30 +91,28 @@ namespace RFReborn.Tests.AddOrIncrementTests
         [DataTestMethod]
         [DataRow((short)5)]
         [DataRow((short)10)]
-        public void AddOrIncrementshortWithValue(short value)
+        public void AddOrIncrementShortWithValue(short value)
         {
-            var key = "test";
-            var dict = new Dictionary<string, short>();
+            const string key = "test";
+            Dictionary<string, short> dict = new();
             dict.AddOrIncrement(key, value);
             Assert.IsTrue(dict.ContainsKey(key));
             Assert.AreEqual(value, dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((short)(value*2), dict[key]);
+            Assert.AreEqual((value*2), dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((short)(value*3), dict[key]);
+            Assert.AreEqual((value*3), dict[key]);
         }
     }
 
-
-
     [TestClass]
-    public class AddOrIncrementushortTests
+    public class AddOrIncrementUshortTests
     {
         [TestMethod]
-        public void AddOrIncrementushort()
+        public void AddOrIncrementUshort()
         {
-            var key = "test";
-            var dict = new Dictionary<string, ushort>();
+            const string key = "test";
+            Dictionary<string, ushort> dict = new();
             dict.AddOrIncrement(key);
             Assert.IsTrue(dict.ContainsKey(key));
             Assert.AreEqual((ushort)1, dict[key]);
@@ -136,30 +125,28 @@ namespace RFReborn.Tests.AddOrIncrementTests
         [DataTestMethod]
         [DataRow((ushort)5)]
         [DataRow((ushort)10)]
-        public void AddOrIncrementushortWithValue(ushort value)
+        public void AddOrIncrementUshortWithValue(ushort value)
         {
-            var key = "test";
-            var dict = new Dictionary<string, ushort>();
+            const string key = "test";
+            Dictionary<string, ushort> dict = new();
             dict.AddOrIncrement(key, value);
             Assert.IsTrue(dict.ContainsKey(key));
             Assert.AreEqual(value, dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((ushort)(value*2), dict[key]);
+            Assert.AreEqual((value*2), dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((ushort)(value*3), dict[key]);
+            Assert.AreEqual((value*3), dict[key]);
         }
     }
 
-
-
     [TestClass]
-    public class AddOrIncrementintTests
+    public class AddOrIncrementIntTests
     {
         [TestMethod]
-        public void AddOrIncrementint()
+        public void AddOrIncrementInt()
         {
-            var key = "test";
-            var dict = new Dictionary<string, int>();
+            const string key = "test";
+            Dictionary<string, int> dict = new();
             dict.AddOrIncrement(key);
             Assert.IsTrue(dict.ContainsKey(key));
             Assert.AreEqual((int)1, dict[key]);
@@ -172,30 +159,28 @@ namespace RFReborn.Tests.AddOrIncrementTests
         [DataTestMethod]
         [DataRow((int)5)]
         [DataRow((int)10)]
-        public void AddOrIncrementintWithValue(int value)
+        public void AddOrIncrementIntWithValue(int value)
         {
-            var key = "test";
-            var dict = new Dictionary<string, int>();
+            const string key = "test";
+            Dictionary<string, int> dict = new();
             dict.AddOrIncrement(key, value);
             Assert.IsTrue(dict.ContainsKey(key));
             Assert.AreEqual(value, dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((int)(value*2), dict[key]);
+            Assert.AreEqual((value*2), dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((int)(value*3), dict[key]);
+            Assert.AreEqual((value*3), dict[key]);
         }
     }
 
-
-
     [TestClass]
-    public class AddOrIncrementuintTests
+    public class AddOrIncrementUintTests
     {
         [TestMethod]
-        public void AddOrIncrementuint()
+        public void AddOrIncrementUint()
         {
-            var key = "test";
-            var dict = new Dictionary<string, uint>();
+            const string key = "test";
+            Dictionary<string, uint> dict = new();
             dict.AddOrIncrement(key);
             Assert.IsTrue(dict.ContainsKey(key));
             Assert.AreEqual((uint)1, dict[key]);
@@ -208,30 +193,28 @@ namespace RFReborn.Tests.AddOrIncrementTests
         [DataTestMethod]
         [DataRow((uint)5)]
         [DataRow((uint)10)]
-        public void AddOrIncrementuintWithValue(uint value)
+        public void AddOrIncrementUintWithValue(uint value)
         {
-            var key = "test";
-            var dict = new Dictionary<string, uint>();
+            const string key = "test";
+            Dictionary<string, uint> dict = new();
             dict.AddOrIncrement(key, value);
             Assert.IsTrue(dict.ContainsKey(key));
             Assert.AreEqual(value, dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((uint)(value*2), dict[key]);
+            Assert.AreEqual((value*2), dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((uint)(value*3), dict[key]);
+            Assert.AreEqual((value*3), dict[key]);
         }
     }
 
-
-
     [TestClass]
-    public class AddOrIncrementlongTests
+    public class AddOrIncrementLongTests
     {
         [TestMethod]
-        public void AddOrIncrementlong()
+        public void AddOrIncrementLong()
         {
-            var key = "test";
-            var dict = new Dictionary<string, long>();
+            const string key = "test";
+            Dictionary<string, long> dict = new();
             dict.AddOrIncrement(key);
             Assert.IsTrue(dict.ContainsKey(key));
             Assert.AreEqual((long)1, dict[key]);
@@ -244,30 +227,28 @@ namespace RFReborn.Tests.AddOrIncrementTests
         [DataTestMethod]
         [DataRow((long)5)]
         [DataRow((long)10)]
-        public void AddOrIncrementlongWithValue(long value)
+        public void AddOrIncrementLongWithValue(long value)
         {
-            var key = "test";
-            var dict = new Dictionary<string, long>();
+            const string key = "test";
+            Dictionary<string, long> dict = new();
             dict.AddOrIncrement(key, value);
             Assert.IsTrue(dict.ContainsKey(key));
             Assert.AreEqual(value, dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((long)(value*2), dict[key]);
+            Assert.AreEqual((value*2), dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((long)(value*3), dict[key]);
+            Assert.AreEqual((value*3), dict[key]);
         }
     }
 
-
-
     [TestClass]
-    public class AddOrIncrementulongTests
+    public class AddOrIncrementUlongTests
     {
         [TestMethod]
-        public void AddOrIncrementulong()
+        public void AddOrIncrementUlong()
         {
-            var key = "test";
-            var dict = new Dictionary<string, ulong>();
+            const string key = "test";
+            Dictionary<string, ulong> dict = new();
             dict.AddOrIncrement(key);
             Assert.IsTrue(dict.ContainsKey(key));
             Assert.AreEqual((ulong)1, dict[key]);
@@ -280,18 +261,17 @@ namespace RFReborn.Tests.AddOrIncrementTests
         [DataTestMethod]
         [DataRow((ulong)5)]
         [DataRow((ulong)10)]
-        public void AddOrIncrementulongWithValue(ulong value)
+        public void AddOrIncrementUlongWithValue(ulong value)
         {
-            var key = "test";
-            var dict = new Dictionary<string, ulong>();
+            const string key = "test";
+            Dictionary<string, ulong> dict = new();
             dict.AddOrIncrement(key, value);
             Assert.IsTrue(dict.ContainsKey(key));
             Assert.AreEqual(value, dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((ulong)(value*2), dict[key]);
+            Assert.AreEqual((value*2), dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((ulong)(value*3), dict[key]);
+            Assert.AreEqual((value*3), dict[key]);
         }
     }
-
 }
