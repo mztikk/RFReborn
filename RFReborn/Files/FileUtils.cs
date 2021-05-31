@@ -72,10 +72,7 @@ namespace RFReborn.Files
                 }
 #pragma warning restore CA1031 // Do not catch general exception types
 
-                foreach (string str in subDirs)
-                {
-                    dirs.Push(str);
-                }
+                subDirs.Call(dirs.Push);
             }
 
             return false;
@@ -124,10 +121,7 @@ namespace RFReborn.Files
                     }
 #pragma warning restore CA1031 // Do not catch general exception types
 
-                    foreach (string str in subDirs.Call(NormalizePath))
-                    {
-                        dirs.Push(str);
-                    }
+                    subDirs.Call(NormalizePath).Call(dirs.Push);
 
                     IEnumerable<string> files;
                     try
@@ -836,10 +830,7 @@ namespace RFReborn.Files
 
                     // Push the subdirectories onto the stack for traversal.
                     // This could also be done before handing the files.
-                    foreach (string str in subDirs.Call(NormalizePath))
-                    {
-                        dirs.Push(str);
-                    }
+                    subDirs.Call(NormalizePath).Call(dirs.Push);
 
                     // only go through files if we have a file handler
                     if (checkFiles)
@@ -951,10 +942,7 @@ namespace RFReborn.Files
 
                     // Push the subdirectories onto the stack for traversal.
                     // This could also be done before handing the files.
-                    foreach (string str in subDirs.Call(NormalizePath))
-                    {
-                        dirs.Push(str);
-                    }
+                    subDirs.Call(NormalizePath).Call(dirs.Push);
 
                     // only go through files if we have a file handler
                     if (checkFiles)
@@ -1028,10 +1016,11 @@ namespace RFReborn.Files
                 throw new ArgumentException();
             }
 
-            bool enumFiles = fileSystemEnumeration == FileSystemEnumeration.FilesOnly ||
-                             fileSystemEnumeration == FileSystemEnumeration.FilesAndDirectories;
-            bool enumDirs = fileSystemEnumeration == FileSystemEnumeration.DirectoriesOnly ||
-                            fileSystemEnumeration == FileSystemEnumeration.FilesAndDirectories;
+            bool enumFiles =
+                fileSystemEnumeration is FileSystemEnumeration.FilesOnly or FileSystemEnumeration.FilesAndDirectories;
+            bool enumDirs =
+                fileSystemEnumeration is FileSystemEnumeration.DirectoriesOnly or FileSystemEnumeration
+                    .FilesAndDirectories;
 
             dirs.Push(NormalizePath(root));
             while (dirs.Count > 0)
@@ -1070,10 +1059,7 @@ namespace RFReborn.Files
 
                 // Push the subdirectories onto the stack for traversal.
                 // This could also be done before handing the files.
-                foreach (string str in subDirs.Call(NormalizePath))
-                {
-                    dirs.Push(str);
-                }
+                subDirs.Call(NormalizePath).Call(dirs.Push);
 
                 // only go through files if we have a file handler
                 if (enumFiles)
