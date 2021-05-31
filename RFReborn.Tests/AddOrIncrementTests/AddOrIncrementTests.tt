@@ -16,7 +16,7 @@ namespace RFReborn.Tests.AddOrIncrementTests
 #>
     [TestClass]
     public class AddOrIncrement<#=
-                Enumerable.First(t).ToString().ToUpper() + t.Substring(1) #>Tests
+            Enumerable.First(t).ToString().ToUpper() + t.Substring(1) #>Tests
     {
         [TestMethod]
         public void AddOrIncrement<#=

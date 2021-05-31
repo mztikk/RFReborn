@@ -1,7 +1,9 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ output extension=".cs" #>
-<# var types = new string[]{"sbyte", "byte", "short", "ushort", "int", "uint", "long", "ulong", "float", "double"};  #>
+<#
+    var types = new[] {"sbyte", "byte", "short", "ushort", "int", "uint", "long", "ulong", "float", "double"};
+#>
 using System.Collections.Generic;
 
 namespace RFReborn.Extensions
@@ -11,18 +13,21 @@ namespace RFReborn.Extensions
     /// </summary>
     public static class ArithmeticMean
     {
-<# foreach (var t in types) {#>
+<#
+    foreach (var t in types)
+    {
+#>
         /// <summary>
         /// Calculates the arithmetic mean of <paramref name="ienum"/>
         /// </summary>
         /// <param name="ienum"><see cref="IEnumerable{T}"/> to calculate the mean from</param>
         /// <returns>Returns the arithmetic mean of <paramref name="ienum"/></returns>
-        public static double Mean(this IEnumerable<<#=t#>> ienum)
+        public static double Mean(this IEnumerable<<#= t #>> ienum)
         {
             double sum = 0.0;
             ulong count = 0;
 
-            foreach (<#=t#> item in ienum)
+            foreach (<#= t #> item in ienum)
             {
                 count++;
                 sum += item;
@@ -30,8 +35,14 @@ namespace RFReborn.Extensions
 
             return (sum / count);
         }
-<#if (t != types[types.Length - 1]) {#>
+<#
+        if (t != types[types.Length - 1])
+        {
+#>
 
-<#}}#>
+<#
+        }
+    }
+#>
     }
 }

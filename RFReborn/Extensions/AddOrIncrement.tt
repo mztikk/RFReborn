@@ -1,7 +1,9 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ output extension=".cs" #>
-<# var types = new string[]{"sbyte", "byte", "short", "ushort", "int", "uint", "long", "ulong"};  #>
+<#
+    var types = new[] {"sbyte", "byte", "short", "ushort", "int", "uint", "long", "ulong"};
+#>
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -12,7 +14,10 @@ namespace RFReborn.Extensions
     /// </summary>
     public static class AddOrIncrementExt
     {
-<# foreach (var t in types) {#>
+<#
+    foreach (var t in types)
+    {
+#>
         /// <summary>
         /// Adds the key with value 1 if it doesn't exist, otherwise increments it by 1.
         /// </summary>
@@ -20,7 +25,7 @@ namespace RFReborn.Extensions
         /// <param name="dict">Dictionary to operate on.</param>
         /// <param name="key">Key to be added or incremented.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddOrIncrement<T>(this Dictionary<T, <#=t#>> dict, T key)
+        public static void AddOrIncrement<T>(this Dictionary<T, <#= t #>> dict, T key)
         {
             if (dict.ContainsKey(key))
             {
@@ -40,7 +45,7 @@ namespace RFReborn.Extensions
         /// <param name="key">Key to be added or incremented.</param>
         /// <param name="incrementValue">Value to be set and incremented by.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddOrIncrement<T>(this Dictionary<T, <#=t#>> dict, T key, <#=t#> incrementValue)
+        public static void AddOrIncrement<T>(this Dictionary<T, <#= t #>> dict, T key, <#= t #> incrementValue)
         {
             if (dict.ContainsKey(key))
             {
@@ -51,8 +56,14 @@ namespace RFReborn.Extensions
                 dict[key] = incrementValue;
             }
         }
-<#if (t != types[types.Length - 1]) {#>
+<#
+        if (t != types[types.Length - 1])
+        {
+#>
 
-<#}}#>
+<#
+        }
+    }
+#>
     }
 }
