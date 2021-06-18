@@ -187,7 +187,7 @@ namespace RFReborn.Files
         {
             foreach (string file in Walk(root, FileSystemEnumeration.FilesOnly))
             {
-                string[] tests = {Path.GetFileName(file), file, GetAltPath(file)};
+                string[] tests = { Path.GetFileName(file), file, GetAltPath(file) };
                 foreach (string test in tests)
                 {
                     if (StringR.WildcardMatch(test, pattern))
@@ -260,7 +260,7 @@ namespace RFReborn.Files
                 string relPath = Path.GetRelativePath(baseOrigin.FullName, file.FullName);
                 string newPath = Path.Combine(destination.FullName, relPath);
                 FileInfo newFile = new(newPath);
-                if (newFile.Directory is {Exists: false})
+                if (newFile.Directory is { Exists: false })
                 {
                     newFile.Directory.Create();
                 }
@@ -339,7 +339,7 @@ namespace RFReborn.Files
             string relPath = Path.GetRelativePath(baseOrigin.FullName, file.FullName);
             string newPath = Path.Combine(destination.FullName, relPath);
             FileInfo newFile = new(newPath);
-            if (newFile.Directory is {Exists: false})
+            if (newFile.Directory is { Exists: false })
             {
                 newFile.Directory.Create();
             }
@@ -366,7 +366,7 @@ namespace RFReborn.Files
                     string relPath = Path.GetRelativePath(source.FullName, fi.FullName);
                     string newPath = Path.Combine(destination.FullName, relPath);
                     FileInfo newFile = new(newPath);
-                    if (newFile.Directory is {Exists: false})
+                    if (newFile.Directory is { Exists: false })
                     {
                         newFile.Directory.Create();
                     }

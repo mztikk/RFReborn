@@ -31,9 +31,9 @@ namespace RFReborn.Tests.AddOrIncrementTests
             Assert.IsTrue(dict.ContainsKey(key));
             Assert.AreEqual(value, dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((value*2), dict[key]);
+            Assert.AreEqual((value * 2), dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((value*3), dict[key]);
+            Assert.AreEqual((value * 3), dict[key]);
         }
     }
 
@@ -65,9 +65,9 @@ namespace RFReborn.Tests.AddOrIncrementTests
             Assert.IsTrue(dict.ContainsKey(key));
             Assert.AreEqual(value, dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((value*2), dict[key]);
+            Assert.AreEqual((value * 2), dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((value*3), dict[key]);
+            Assert.AreEqual((value * 3), dict[key]);
         }
     }
 
@@ -99,9 +99,9 @@ namespace RFReborn.Tests.AddOrIncrementTests
             Assert.IsTrue(dict.ContainsKey(key));
             Assert.AreEqual(value, dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((value*2), dict[key]);
+            Assert.AreEqual((value * 2), dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((value*3), dict[key]);
+            Assert.AreEqual((value * 3), dict[key]);
         }
     }
 
@@ -133,9 +133,9 @@ namespace RFReborn.Tests.AddOrIncrementTests
             Assert.IsTrue(dict.ContainsKey(key));
             Assert.AreEqual(value, dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((value*2), dict[key]);
+            Assert.AreEqual((value * 2), dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((value*3), dict[key]);
+            Assert.AreEqual((value * 3), dict[key]);
         }
     }
 
@@ -167,9 +167,9 @@ namespace RFReborn.Tests.AddOrIncrementTests
             Assert.IsTrue(dict.ContainsKey(key));
             Assert.AreEqual(value, dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((value*2), dict[key]);
+            Assert.AreEqual((value * 2), dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((value*3), dict[key]);
+            Assert.AreEqual((value * 3), dict[key]);
         }
     }
 
@@ -201,9 +201,9 @@ namespace RFReborn.Tests.AddOrIncrementTests
             Assert.IsTrue(dict.ContainsKey(key));
             Assert.AreEqual(value, dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((value*2), dict[key]);
+            Assert.AreEqual((value * 2), dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((value*3), dict[key]);
+            Assert.AreEqual((value * 3), dict[key]);
         }
     }
 
@@ -235,9 +235,9 @@ namespace RFReborn.Tests.AddOrIncrementTests
             Assert.IsTrue(dict.ContainsKey(key));
             Assert.AreEqual(value, dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((value*2), dict[key]);
+            Assert.AreEqual((value * 2), dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((value*3), dict[key]);
+            Assert.AreEqual((value * 3), dict[key]);
         }
     }
 
@@ -269,9 +269,9 @@ namespace RFReborn.Tests.AddOrIncrementTests
             Assert.IsTrue(dict.ContainsKey(key));
             Assert.AreEqual(value, dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((value*2), dict[key]);
+            Assert.AreEqual((value * 2), dict[key]);
             dict.AddOrIncrement(key, value);
-            Assert.AreEqual((value*3), dict[key]);
+            Assert.AreEqual((value * 3), dict[key]);
         }
     }
 }
