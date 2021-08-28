@@ -27,7 +27,6 @@ namespace RFReborn.Files.Finders
                 {
                     file = new FileInfo(filePath);
                 }
-#pragma warning disable CA1031 // Do not catch general exception types
                 catch (FileNotFoundException)
                 {
                     continue;
@@ -36,7 +35,6 @@ namespace RFReborn.Files.Finders
                 {
                     continue;
                 }
-#pragma warning restore CA1031 // Do not catch general exception types
 
                 if (SearchOptions?.Compare(file) == true)
                 {

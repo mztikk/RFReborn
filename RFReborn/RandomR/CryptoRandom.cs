@@ -38,7 +38,6 @@
  */
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 
 namespace RFReborn.RandomR
@@ -52,12 +51,12 @@ namespace RFReborn.RandomR
     /// </summary>
     public class CryptoRandom : Random
     {
-        private readonly RNGCryptoServiceProvider _rng = new RNGCryptoServiceProvider();
+        private readonly RNGCryptoServiceProvider _rng = new();
 
         private byte[] _buffer;
 
         private int _bufferPosition;
-        private readonly object _lockObject = new object();
+        private readonly object _lockObject = new();
 
         /// <summary>
         /// Gets a value indicating whether this instance has random pool enabled.
@@ -80,7 +79,6 @@ namespace RFReborn.RandomR
         /// Using this overload will enable the random buffer pool.
         /// </summary>
         /// <param name="ignoredSeed">The ignored seed.</param>
-        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "ignoredSeed", Justification = "Cannot remove this parameter as we implement the full API of System.Random")]
 #pragma warning disable RCS1163 // Unused parameter.
         public CryptoRandom(int ignoredSeed) : this(true) { }
 #pragma warning restore RCS1163 // Unused parameter.

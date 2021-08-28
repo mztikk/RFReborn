@@ -15,7 +15,6 @@ namespace RFReborn
             Size = TypeCode == TypeCode.Boolean ? 1 : sizeof(T);
         }
 
-#pragma warning disable S2743 // Static fields should not be used in generic types
         /// <summary>
         /// <see cref="Type"/> of <typeparamref name="T"/>
         /// </summary>
@@ -30,7 +29,6 @@ namespace RFReborn
         /// Size in bytes of <typeparamref name="T"/>
         /// </summary>
         public static int Size { get; }
-#pragma warning restore S2743 // Static fields should not be used in generic types
 
         /// <summary>
         /// Converts an unmanaged object to a byte array

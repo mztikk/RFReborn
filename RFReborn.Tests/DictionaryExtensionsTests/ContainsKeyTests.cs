@@ -11,7 +11,7 @@ namespace RFReborn.Tests.DictionaryExtensionsTests
         [TestMethod]
         public void ContainsKey()
         {
-            Dictionary<string, int> dict = new Dictionary<string, int>()
+            Dictionary<string, int> dict = new()
             {
                 ["0"] = 0,
                 ["1"] = 1,

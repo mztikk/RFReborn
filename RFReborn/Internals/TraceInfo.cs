@@ -16,7 +16,7 @@ namespace RFReborn.Internals
         /// <returns>The <see cref="StackFrame"/> that matched the <paramref name="check"/> or <see langword="null"/> if nothing was found.</returns>
         public static StackFrame? WalkStackTrace(Func<StackFrame, bool> check, int skipFrames)
         {
-            StackTrace stackTrace = new StackTrace(skipFrames);
+            StackTrace stackTrace = new(skipFrames);
             foreach (StackFrame frame in stackTrace.GetFrames())
             {
                 if (check(frame))

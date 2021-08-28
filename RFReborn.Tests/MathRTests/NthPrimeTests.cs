@@ -30,6 +30,6 @@ namespace RFReborn.Tests.MathRTests
             AssertExtensions.ThrowsExceptionMessage<ArgumentOutOfRangeException>(action, "N can't be smaller than one. (Parameter 'n')");
         }
 
-        private void AssertEquals(int n, long prime) => Assert.AreEqual(prime, MathR.NthPrime(n));
+        private static void AssertEquals(int n, long prime) => Assert.AreEqual(prime, MathR.NthPrime(n));
     }
 }

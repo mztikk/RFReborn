@@ -104,7 +104,7 @@ namespace RFReborn.Extensions
         /// <param name="str"><see cref="string" /> to enumerate</param>
         public static IEnumerable<string> GetLines(this string str)
         {
-            using StringReader? reader = new StringReader(str);
+            using StringReader reader = new(str);
             string? line;
             while ((line = reader.ReadLine()) is { })
             {

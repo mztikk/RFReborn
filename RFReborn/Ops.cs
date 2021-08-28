@@ -126,7 +126,7 @@ namespace RFReborn
             int charsetLength = charset.Count;
             const long startw = 0;
             long[] d = new long[maxLength + 1];
-            Dictionary<int, string> set = new Dictionary<int, string>(Environment.ProcessorCount);
+            Dictionary<int, string> set = new(Environment.ProcessorCount);
             for (int length = startLength; length < maxLength; length++)
             {
                 long endw = (long)Math.Pow(charset.Count, length);

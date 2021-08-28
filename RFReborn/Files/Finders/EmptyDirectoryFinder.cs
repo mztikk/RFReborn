@@ -16,7 +16,7 @@ namespace RFReborn.Files.Finders
         /// <returns><see cref="IEnumerable{T}"/> of empty <see cref="DirectoryInfo"/></returns>
         public IEnumerable<DirectoryInfo> Find(string root)
         {
-            HashSet<DirectoryInfo> emptyDirs = new HashSet<DirectoryInfo>();
+            HashSet<DirectoryInfo> emptyDirs = new();
 
             FileUtils.Walk(root, di =>
             {

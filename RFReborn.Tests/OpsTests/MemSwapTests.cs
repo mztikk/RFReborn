@@ -16,9 +16,9 @@ namespace RFReborn.Tests.OpsTests
         [TestInitialize]
         public void Setup()
         {
-            Random random = new Random(Seed);
+            Random random = new(Seed);
 
-            List<Pair<byte[]>> generatedCases = new List<Pair<byte[]>>();
+            List<Pair<byte[]>> generatedCases = new();
 
             int[] sizes = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 54, 1337 };
 

@@ -10,17 +10,19 @@ namespace RFReborn.Tests.FastCompareTests
     public class ArrayEqualsTests
     {
         #region Byte Tests
-        private readonly List<Pair<byte[]>> _equalBytePairs = new List<Pair<byte[]>>() {
-            { new byte[] { 1, 5, 6, 123, 255 },new byte[] { 1, 5, 6, 123, 255 }},
-            { new byte[] { 65, 35, 76, 23, 255 },new byte[] { 65, 35, 76, 23, 255 }},
-            { new byte[] { 00, 00, 00, 00, 00 },new byte[] { 00, 00, 00, 00, 00 }},
+        private readonly List<Pair<byte[]>> _equalBytePairs = new()
+        {
+            { new byte[] { 1, 5, 6, 123, 255 }, new byte[] { 1, 5, 6, 123, 255 } },
+            { new byte[] { 65, 35, 76, 23, 255 }, new byte[] { 65, 35, 76, 23, 255 } },
+            { new byte[] { 00, 00, 00, 00, 00 }, new byte[] { 00, 00, 00, 00, 00 } },
         };
 
-        private readonly List<Pair<byte[]>> _diffBytePairs = new List<Pair<byte[]>>() {
-            { new byte[] { 65, 35, 76, 23, 255 },new byte[] { 65, 35, 76, 23 }},
-            { new byte[] { 65, 35, 76, 23 },new byte[] { 65, 35, 76, 23, 255 }},
-            { new byte[] { 65, 35, 76, 23, 255 },new byte[] { 1, 5, 6, 123, 255 }},
-            { new byte[] { 00, 00, 00, 00, 00 },new byte[] { 00, 00, 00, 00, 01 }},
+        private readonly List<Pair<byte[]>> _diffBytePairs = new()
+        {
+            { new byte[] { 65, 35, 76, 23, 255 }, new byte[] { 65, 35, 76, 23 } },
+            { new byte[] { 65, 35, 76, 23 }, new byte[] { 65, 35, 76, 23, 255 } },
+            { new byte[] { 65, 35, 76, 23, 255 }, new byte[] { 1, 5, 6, 123, 255 } },
+            { new byte[] { 00, 00, 00, 00, 00 }, new byte[] { 00, 00, 00, 00, 01 } },
         };
 
         [TestMethod]
@@ -38,17 +40,19 @@ namespace RFReborn.Tests.FastCompareTests
         #endregion Byte Tests
 
         #region Short Tests
-        private readonly List<Pair<short[]>> _equalShortPairs = new List<Pair<short[]>>() {
-            { new short[] { 1, 5, 6, 123, 255 },new short[] { 1, 5, 6, 123, 255 }},
-            { new short[] { 65, 35, 76, 23, 255 },new short[] { 65, 35, 76, 23, 255 }},
-            { new short[] { 00, 00, 00, 00, 00 },new short[] { 00, 00, 00, 00, 00 }}
+        private readonly List<Pair<short[]>> _equalShortPairs = new()
+        {
+            { new short[] { 1, 5, 6, 123, 255 }, new short[] { 1, 5, 6, 123, 255 } },
+            { new short[] { 65, 35, 76, 23, 255 }, new short[] { 65, 35, 76, 23, 255 } },
+            { new short[] { 00, 00, 00, 00, 00 }, new short[] { 00, 00, 00, 00, 00 } }
         };
 
-        private readonly List<Pair<short[]>> _diffShortPairs = new List<Pair<short[]>>() {
-            { new short[] { 65, 35, 76, 23, 255 },new short[] { 65, 35, 76, 23 }},
-            { new short[] { 65, 35, 76, 23 },new short[] { 65, 35, 76, 23, 255 }},
-            { new short[] { 65, 35, 76, 23, 255 },new short[] { 1, 5, 6, 123, 255 }},
-            { new short[] { 00, 00, 00, 00, 00 },new short[] { 00, 00, 00, 00, 01 }}
+        private readonly List<Pair<short[]>> _diffShortPairs = new()
+        {
+            { new short[] { 65, 35, 76, 23, 255 }, new short[] { 65, 35, 76, 23 } },
+            { new short[] { 65, 35, 76, 23 }, new short[] { 65, 35, 76, 23, 255 } },
+            { new short[] { 65, 35, 76, 23, 255 }, new short[] { 1, 5, 6, 123, 255 } },
+            { new short[] { 00, 00, 00, 00, 00 }, new short[] { 00, 00, 00, 00, 01 } }
         };
 
         [TestMethod]
@@ -66,17 +70,19 @@ namespace RFReborn.Tests.FastCompareTests
         #endregion Short Tests
 
         #region Int Tests
-        private readonly List<Pair<int[]>> _equalIntPairs = new List<Pair<int[]>>() {
-            { new int[] { 1, 5, 6, 123, 255 },new int[] { 1, 5, 6, 123, 255 }},
-            { new int[] { 65, 35, 76, 23, 255 },new int[] { 65, 35, 76, 23, 255 }},
-            { new int[] { 00, 00, 00, 00, 00 },new int[] { 00, 00, 00, 00, 00 }}
+        private readonly List<Pair<int[]>> _equalIntPairs = new()
+        {
+            { new int[] { 1, 5, 6, 123, 255 }, new int[] { 1, 5, 6, 123, 255 } },
+            { new int[] { 65, 35, 76, 23, 255 }, new int[] { 65, 35, 76, 23, 255 } },
+            { new int[] { 00, 00, 00, 00, 00 }, new int[] { 00, 00, 00, 00, 00 } }
         };
 
-        private readonly List<Pair<int[]>> _diffIntPairs = new List<Pair<int[]>>() {
-            { new int[] { 65, 35, 76, 23, 255 },new int[] { 65, 35, 76, 23 }},
-            { new int[] { 65, 35, 76, 23 },new int[] { 65, 35, 76, 23, 255 }},
-            { new int[] { 65, 35, 76, 23, 255 },new int[] { 1, 5, 6, 123, 255 }},
-            { new int[] { 00, 00, 00, 00, 00 },new int[] { 00, 00, 00, 00, 01 }}
+        private readonly List<Pair<int[]>> _diffIntPairs = new()
+        {
+            { new int[] { 65, 35, 76, 23, 255 }, new int[] { 65, 35, 76, 23 } },
+            { new int[] { 65, 35, 76, 23 }, new int[] { 65, 35, 76, 23, 255 } },
+            { new int[] { 65, 35, 76, 23, 255 }, new int[] { 1, 5, 6, 123, 255 } },
+            { new int[] { 00, 00, 00, 00, 00 }, new int[] { 00, 00, 00, 00, 01 } }
         };
 
         [TestMethod]
@@ -127,7 +133,7 @@ namespace RFReborn.Tests.FastCompareTests
             Assert.IsTrue(FastCompare.Equals(b2, b1, len: 1));
         }
 
-        private void AssertEquals<T>(T[] left, T[] right) where T : unmanaged
+        private static void AssertEquals<T>(T[] left, T[] right) where T : unmanaged
         {
             Assert.IsTrue(FastCompare.Equals(left, right));
             Assert.IsTrue(FastCompare.Equals(left, right, left.Length));
@@ -136,7 +142,7 @@ namespace RFReborn.Tests.FastCompareTests
             Assert.IsTrue(FastCompare.Equals(left.AsSpan(), new ReadOnlySpan<T>(right)));
         }
 
-        private void AssertDiff<T>(T[] left, T[] right) where T : unmanaged
+        private static void AssertDiff<T>(T[] left, T[] right) where T : unmanaged
         {
             Assert.IsFalse(FastCompare.Equals(left, right));
             Assert.IsFalse(FastCompare.Equals(left.AsSpan(), right.AsSpan()));

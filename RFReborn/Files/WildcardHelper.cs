@@ -20,7 +20,7 @@ namespace RFReborn.Files
                 return true;
             }
 
-            DirectoryInfo di = new DirectoryInfo(path);
+            DirectoryInfo di = new(path);
             return StringR.WildcardMatch(di.Name, pattern);
         }
 

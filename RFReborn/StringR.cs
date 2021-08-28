@@ -73,7 +73,7 @@ namespace RFReborn
         /// <returns></returns>
         public static string GetEscapeSequence(char c) => "\\u" + ((int)c).ToString("X4");
 
-        private static readonly HashSet<char> s_whitespaceChars = new HashSet<char>
+        private static readonly HashSet<char> s_whitespaceChars = new()
         {
             '\u0020',
             '\u00A0',
@@ -244,7 +244,7 @@ namespace RFReborn
                 return s.ToUpperInvariant();
             }
 
-            string rtn = new string(s);
+            string rtn = new(s);
             rtn.CapitalizeFirstLetterSelf();
 
             return rtn;

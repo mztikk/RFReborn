@@ -7,7 +7,7 @@ namespace RFReborn.Tests.StringRTests
     [TestClass]
     public class WildcardMatchTests
     {
-        private readonly List<Pair<string>> _positiveTests = new List<Pair<string>>()
+        private readonly List<Pair<string>> _positiveTests = new()
         {
             { "longteststring", "*teststring" },
             { "123456", "???456" },
@@ -20,7 +20,7 @@ namespace RFReborn.Tests.StringRTests
             { "abcd", "***d" }
         };
 
-        private readonly List<Pair<string>> _positiveCasingTests = new List<Pair<string>>()
+        private readonly List<Pair<string>> _positiveCasingTests = new()
         {
             { "lonGteStstring", "*teststring" },
             { "äöÜd", "?*üd" },
@@ -30,7 +30,7 @@ namespace RFReborn.Tests.StringRTests
             { "abCD", "***d" }
         };
 
-        private readonly List<Pair<string>> _negativeTests = new List<Pair<string>>()
+        private readonly List<Pair<string>> _negativeTests = new()
         {
             { "longteststring", "*test" },
             { "123456", "???578" },

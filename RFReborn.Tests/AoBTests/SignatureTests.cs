@@ -7,7 +7,8 @@ namespace RFReborn.Tests.AoBTests
     [TestClass]
     public class SignatureTests
     {
-        private readonly List<StringSignatureTest> _stringSignatureTests = new List<StringSignatureTest> {
+        private readonly List<StringSignatureTest> _stringSignatureTests = new()
+        {
             new StringSignatureTest("AE FF ?? 00 FE", "AE FF ?? 00 FE", "xx?xx", new byte[] { 0xAE, 0xFF, 0x00, 0x00, 0xFE }),
             new StringSignatureTest("AE FF ?F 00 FE", "AE FF ?? 00 FE", "xx?xx", new byte[] { 0xAE, 0xFF, 0x00, 0x00, 0xFE }),
             new StringSignatureTest("AE FF F? 00 FE", "AE FF ?? 00 FE", "xx?xx", new byte[] { 0xAE, 0xFF, 0x00, 0x00, 0xFE }),

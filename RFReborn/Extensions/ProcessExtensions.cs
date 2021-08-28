@@ -17,7 +17,7 @@ namespace RFReborn.Extensions
         /// <param name="cancellationToken">A cancellation token. If invoked, the task will return immediately as canceled.</param>
         public static async Task WaitForExitAsync(this Process process, CancellationToken cancellationToken = default)
         {
-            TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
+            TaskCompletionSource<bool> tcs = new();
 
             void ProcessExited(object sender, EventArgs e) => tcs.TrySetResult(true);
 

@@ -15,7 +15,7 @@ namespace RFReborn.Hashing
         /// <summary>
         /// List of all valid hash names.
         /// </summary>
-        public static readonly ReadOnlyCollection<string> s_validHashes = new ReadOnlyCollection<string>(new List<string>() { "MD5", "SHA1", "SHA256", "SHA384", "SHA512" });
+        public static readonly ReadOnlyCollection<string> s_validHashes = new(new List<string>() { "MD5", "SHA1", "SHA256", "SHA384", "SHA512" });
 
         /// <summary>
         /// Gets the name of the hash as represented in <see cref="s_validHashes"/>. Turns "md5" into "MD5" for example.

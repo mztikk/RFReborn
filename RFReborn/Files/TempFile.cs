@@ -18,10 +18,8 @@ namespace RFReborn.Files
         /// Constructs the temporary file from a stream
         /// </summary>
         /// <param name="content">Content the temp file holds</param>
-// Not null since CreateFile call
-#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
+        // Not null since CreateFile call
         public TempFile(Stream content)
-#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         {
             CreateFile();
 
@@ -33,15 +31,13 @@ namespace RFReborn.Files
         /// Constructs the temporary file from a string
         /// </summary>
         /// <param name="content">Content the temp file holds</param>
-// Not null since CreateFile call
-#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
+        // Not null since CreateFile call
         public TempFile(string content)
-#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         {
             CreateFile();
 
             using FileStream stream = File.OpenWrite();
-            using StreamWriter writer = new StreamWriter(stream);
+            using StreamWriter writer = new(stream);
             writer.WriteLine(content);
         }
 
@@ -50,11 +46,7 @@ namespace RFReborn.Files
         private TempFile() { }
 #pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
 
-        private void CreateFile()
-        {
-            string name = Guid.NewGuid().ToString();
-            File = new FileInfo(name);
-        }
+        private void CreateFile() => File = new FileInfo(Path.GetRandomFileName());
 
         #region IDisposable Support
         private bool _disposedValue; // To detect redundant calls
@@ -90,9 +82,7 @@ namespace RFReborn.Files
         /// <summary>
         /// Disposes temporary file
         /// </summary>
-#pragma warning disable CA1063 // Implement IDisposable Correctly; Wrong warning because there is no block body
         public void Dispose() =>
-#pragma warning restore CA1063 // Implement IDisposable Correctly
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);// TODO: uncomment the following line if the finalizer is overridden above.// GC.SuppressFinalize(this);
         #endregion
@@ -103,7 +93,7 @@ namespace RFReborn.Files
         /// <param name="content">Content the temp file holds</param>
         public static async Task<TempFile> Create(Stream content)
         {
-            TempFile tempFile = new TempFile();
+            TempFile tempFile = new();
             tempFile.CreateFile();
 
             using (FileStream stream = tempFile.File.OpenWrite())
@@ -121,11 +111,11 @@ namespace RFReborn.Files
         /// <returns></returns>
         public static async Task<TempFile> Create(string content)
         {
-            TempFile tempFile = new TempFile();
+            TempFile tempFile = new();
             tempFile.CreateFile();
 
             using FileStream stream = tempFile.File.OpenWrite();
-            using StreamWriter writer = new StreamWriter(stream);
+            using StreamWriter writer = new(stream);
             await writer.WriteLineAsync(content);
 
             return tempFile;

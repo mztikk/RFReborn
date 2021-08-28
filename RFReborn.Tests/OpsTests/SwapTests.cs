@@ -7,7 +7,7 @@ namespace RFReborn.Tests.OpsTests
     [TestClass]
     public class SwapTests
     {
-        private readonly List<Pair<int>> _pairs = new List<Pair<int>>() { { 1, 2 }, { 5, 10 }, { 100, 200 } };
+        private readonly List<Pair<int>> _pairs = new() { { 1, 2 }, { 5, 10 }, { 100, 200 } };
 
         [TestMethod]
         public void Swap()
@@ -18,7 +18,7 @@ namespace RFReborn.Tests.OpsTests
             }
         }
 
-        private void AssertSwapped<T>(T m1, T m2)
+        private static void AssertSwapped<T>(T m1, T m2)
         {
             T m1copy = m1;
             T m2copy = m2;

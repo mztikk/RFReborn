@@ -16,7 +16,7 @@ namespace RFReborn.Tests.RandomExtensionsTests
         {
             for (int i = 0; i < Iterations; i++)
             {
-                Random rnd = new Random();
+                Random rnd = new();
                 double val = rnd.NextDouble(minValue, maxValue);
                 Assert.IsTrue(
                     val >= minValue && val < maxValue,
@@ -31,7 +31,7 @@ namespace RFReborn.Tests.RandomExtensionsTests
         {
             for (int i = 0; i < Iterations; i++)
             {
-                Random rnd = new Random();
+                Random rnd = new();
                 double val = rnd.NextDouble(minValue, maxValue);
                 Assert.IsTrue(
                     val == minValue,
@@ -46,7 +46,7 @@ namespace RFReborn.Tests.RandomExtensionsTests
         {
             for (int i = 0; i < Iterations; i++)
             {
-                Random rnd = new Random();
+                Random rnd = new();
                 double val = rnd.NextDouble(maxValue);
                 Assert.IsTrue(
                     val < maxValue,
@@ -62,7 +62,7 @@ namespace RFReborn.Tests.RandomExtensionsTests
         {
             for (int i = 0; i < Iterations; i++)
             {
-                Random rnd = new Random();
+                Random rnd = new();
                 double val = rnd.NextDouble(maxValue);
                 Assert.IsFalse(
                     val < 0,
@@ -75,7 +75,7 @@ namespace RFReborn.Tests.RandomExtensionsTests
         [DataRow(-1.5d)]
         public void NegativeThrows(double maxValue)
         {
-            Random rnd = new Random();
+            Random rnd = new();
             Assert.ThrowsException<ArgumentException>(() => rnd.NextDouble(maxValue));
         }
     }

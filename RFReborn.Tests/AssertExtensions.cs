@@ -5,7 +5,7 @@ namespace RFReborn.Tests
 {
     public static class AssertExtensions
     {
-        public static void ThrowsExceptionMessage<T>(Action action, string exceptionMessage)
+        public static void ThrowsExceptionMessage<T>(this Action action, string exceptionMessage)
         {
             Type expectedType = typeof(T);
 

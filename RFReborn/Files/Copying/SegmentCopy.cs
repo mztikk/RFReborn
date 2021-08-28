@@ -16,8 +16,8 @@ namespace RFReborn.Files.Copying
         {
             int array_length = Math.Min((int)Math.Pow(2, 19), length);
             byte[] dataArray = new byte[array_length];
-            using BinaryReader bread = new BinaryReader(origin, Encoding.UTF8, true);
-            using BinaryWriter bwrite = new BinaryWriter(dest, Encoding.UTF8, true);
+            using BinaryReader bread = new(origin, Encoding.UTF8, true);
+            using BinaryWriter bwrite = new(dest, Encoding.UTF8, true);
             int read;
             int totalRead = 0;
             while ((read = bread.Read(dataArray, 0, Math.Min(array_length, length - totalRead))) > 0 && totalRead < length)

@@ -39,8 +39,8 @@ namespace RFReborn.Files
         /// <param name="rootPaths">root paths to walk</param>
         public Dictionary<string, List<FileInfo>> Find(string[] rootPaths)
         {
-            Dictionary<string, FileInfo> cache = new Dictionary<string, FileInfo>();
-            Dictionary<string, List<FileInfo>> dupes = new Dictionary<string, List<FileInfo>>();
+            Dictionary<string, FileInfo> cache = new();
+            Dictionary<string, List<FileInfo>> dupes = new();
 
             foreach (string root in rootPaths)
             {
@@ -65,10 +65,8 @@ namespace RFReborn.Files
                             cache.TryAdd(hash, fi);
                         }
                     }
-#pragma warning disable CA1031 // Do not catch general exception types
                     catch (IOException) { }
                     catch (UnauthorizedAccessException) { }
-#pragma warning restore CA1031 // Do not catch general exception types
                 });
             }
 

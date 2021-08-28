@@ -12,7 +12,7 @@ namespace RFReborn.Tests.ArithmeticMeanTests
     [TestClass]
     public class ArithmeticMean<#=CapitalizeFirstLetter(t)#>Tests
     {
-        private readonly List<(<#=t#>[] array, double mean)> _tests = new List<(<#=t#>[], double)>() {
+        private readonly List<(<#=t#>[] array, double mean)> _tests = new() {
             (new <#=t#>[] { 1, 2 }, 1.5),
             (new <#=t#>[] { 1, 2, 3, 4, 5 }, 3),
             (new <#=t#>[] { 1, 0, 5, 50, 120, 13 }, 31.5),<# if (t != "sbyte" && t != "byte") {#>
@@ -32,7 +32,7 @@ namespace RFReborn.Tests.ArithmeticMeanTests
             }
         }
 
-        private void AssertIsMean(<#=t#>[] array, double mean) => Assert.AreEqual(mean, array.Mean());
+        private static void AssertIsMean(<#=t#>[] array, double mean) => Assert.AreEqual(mean, array.Mean());
     }
 <#if (t != types[types.Length - 1]) {#>
 

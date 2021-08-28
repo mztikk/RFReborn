@@ -65,12 +65,17 @@ namespace RFReborn.Internals
                 throw new ArgumentException($"{nameof(baseType)} has to be an interface");
             }
 
-            foreach (Type type in GetAllTypes())
+            return GetAllInterfaceImplementationsInternal();
+
+            IEnumerable<Type> GetAllInterfaceImplementationsInternal()
             {
-                Type[] interfaces = type.GetInterfaces();
-                if (interfaces.Any(x => x == baseType))
+                foreach (Type type in GetAllTypes())
                 {
-                    yield return type;
+                    Type[] interfaces = type.GetInterfaces();
+                    if (interfaces.Any(x => x == baseType))
+                    {
+                        yield return type;
+                    }
                 }
             }
         }

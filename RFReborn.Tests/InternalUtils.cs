@@ -5,10 +5,10 @@ namespace RFReborn.Tests
 {
     internal static class InternalUtils
     {
-        internal static readonly CryptoRandom s_rng = new CryptoRandom();
+        internal static readonly CryptoRandom s_rng = new();
 
-        internal static readonly System.Random s_random = new System.Random();
+        internal static readonly System.Random s_random = new();
 
-        internal static MemoryStream GetStream(this byte[] array) => new MemoryStream(array);
+        internal static MemoryStream GetStream(this byte[] array) => new(array);
     }
 }

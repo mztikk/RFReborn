@@ -45,9 +45,7 @@ namespace RFReborn.Disposable
 
         // This code added to correctly implement the disposable pattern.
         /// <inheritdoc />
-#pragma warning disable CA1063 // Implement IDisposable Correctly
         public void Dispose() =>
-#pragma warning restore CA1063 // Implement IDisposable Correctly
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);// TODO: uncomment the following line if the finalizer is overridden above.// GC.SuppressFinalize(this);
         #endregion

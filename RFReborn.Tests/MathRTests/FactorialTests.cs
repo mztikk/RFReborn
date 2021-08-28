@@ -8,7 +8,7 @@ namespace RFReborn.Tests.MathRTests
     [TestClass]
     public class FactorialTests
     {
-        private readonly List<KeyValuePair<int, BigInteger>> _factorials = new List<KeyValuePair<int, BigInteger>>()
+        private readonly List<KeyValuePair<int, BigInteger>> _factorials = new()
         {
             new KeyValuePair<int, BigInteger>(0, 1),
             new KeyValuePair<int, BigInteger>(1, 1),
@@ -41,6 +41,6 @@ namespace RFReborn.Tests.MathRTests
             AssertExtensions.ThrowsExceptionMessage<ArgumentOutOfRangeException>(action, "N can't be smaller than zero. (Parameter 'n')");
         }
 
-        private void AssertEqual(int n, BigInteger factorial) => Assert.AreEqual(factorial, MathR.Factorial(n));
+        private static void AssertEqual(int n, BigInteger factorial) => Assert.AreEqual(factorial, MathR.Factorial(n));
     }
 }

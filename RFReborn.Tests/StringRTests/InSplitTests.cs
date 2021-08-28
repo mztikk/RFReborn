@@ -7,7 +7,7 @@ namespace RFReborn.Tests.StringRTests
     [TestClass]
     public class InSplitTests
     {
-        private readonly List<InSplitCase> _inSplits = new List<InSplitCase>()
+        private readonly List<InSplitCase> _inSplits = new()
         {
             new InSplitCase("ab", 2, " ", "ab"),
             new InSplitCase("test", 2, " ", "te st"),
@@ -34,7 +34,7 @@ namespace RFReborn.Tests.StringRTests
         [TestMethod]
         public void InSplitExceptionOnNullString() => Assert.ThrowsException<ArgumentNullException>(() => StringR.InSplit(null, 0, null));
 
-        private void AssertSplit(InSplitCase inSplitCase) => Assert.AreEqual(inSplitCase.Result, StringR.InSplit(inSplitCase.Str, inSplitCase.N, inSplitCase.Seperator));
+        private static void AssertSplit(InSplitCase inSplitCase) => Assert.AreEqual(inSplitCase.Result, StringR.InSplit(inSplitCase.Str, inSplitCase.N, inSplitCase.Seperator));
 
         private class InSplitCase
         {

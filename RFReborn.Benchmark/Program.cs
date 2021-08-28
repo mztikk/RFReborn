@@ -5,7 +5,7 @@ using RFReborn.Benchmark.Benchmarks;
 
 namespace RFReborn.Benchmark
 {
-    internal class Program
+    internal static class Program
     {
         private static readonly List<Type> s_typesToBenchmark = new List<Type>() {
             typeof(NthPrimeBenchmark),

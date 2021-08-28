@@ -31,18 +31,18 @@
         /// Create a <see cref="RefValuePair{T}"/> from a Tuple T, T
         /// </summary>
         /// <param name="args"></param>
-        public static implicit operator RefValuePair<T>((T left, T right) args) => new RefValuePair<T>(args.left, args.right);
+        public static implicit operator RefValuePair<T>((T left, T right) args) => new(args.left, args.right);
 
         /// <summary>
         /// Creates a new <see cref="RefValuePair{T}"/> from a <see cref="Pair{T}"/>
         /// </summary>
         /// <param name="pair"></param>
-        public static implicit operator RefValuePair<T>(Pair<T> pair) => new RefValuePair<T>(pair.Left, pair.Right);
+        public static implicit operator RefValuePair<T>(Pair<T> pair) => new(pair.Left, pair.Right);
 
         /// <summary>
         /// Creates a new <see cref="RefValuePair{T}"/> from a <see cref="ValuePair{T}"/>
         /// </summary>
         /// <param name="pair"></param>
-        public static implicit operator RefValuePair<T>(ValuePair<T> pair) => new RefValuePair<T>(pair.Left, pair.Right);
+        public static implicit operator RefValuePair<T>(ValuePair<T> pair) => new(pair.Left, pair.Right);
     }
 }

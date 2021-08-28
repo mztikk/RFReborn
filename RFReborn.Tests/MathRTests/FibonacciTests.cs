@@ -8,7 +8,7 @@ namespace RFReborn.Tests.MathRTests
     [TestClass]
     public class FibonacciTests
     {
-        private readonly List<KeyValuePair<int, BigInteger>> _fibs = new List<KeyValuePair<int, BigInteger>>()
+        private readonly List<KeyValuePair<int, BigInteger>> _fibs = new()
         {
             new KeyValuePair<int, BigInteger>(0, 0),
             new KeyValuePair<int, BigInteger>(1, 1),
@@ -42,6 +42,6 @@ namespace RFReborn.Tests.MathRTests
             AssertExtensions.ThrowsExceptionMessage<ArgumentOutOfRangeException>(action, "N can't be smaller than zero. (Parameter 'n')");
         }
 
-        private void AssertEqual(int n, BigInteger fibonacci) => Assert.AreEqual(fibonacci, MathR.Fibonacci(n));
+        private static void AssertEqual(int n, BigInteger fibonacci) => Assert.AreEqual(fibonacci, MathR.Fibonacci(n));
     }
 }

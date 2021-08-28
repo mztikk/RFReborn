@@ -7,9 +7,9 @@ namespace RFReborn.Tests.StringRTests
     [TestClass]
     public class CapitalizeFirstLetterTests
     {
-        private readonly List<Pair<string>> _capitalizeTests = new List<Pair<string>> { { "hello World!", "Hello World!" }, { "öäü", "Öäü" } };
+        private readonly List<Pair<string>> _capitalizeTests = new() { { "hello World!", "Hello World!" }, { "öäü", "Öäü" } };
 
-        private readonly List<Pair<string>> _capitalizeNoChangeTests = new List<Pair<string>> { { "!hello World!", "!hello World!" }, { "ßss", "ßss" }, { "???", "???" }, { "{{}}", "{{}}" } };
+        private readonly List<Pair<string>> _capitalizeNoChangeTests = new() { { "!hello World!", "!hello World!" }, { "ßss", "ßss" }, { "???", "???" }, { "{{}}", "{{}}" } };
 
         [TestMethod]
         public void CapitalizeFirstLetter()
@@ -34,7 +34,7 @@ namespace RFReborn.Tests.StringRTests
         {
             foreach (Pair<string> test in _capitalizeTests)
             {
-                string og = new string(test.Left);
+                string og = new(test.Left);
                 AssertCapitalizedSelf(og, test.Right);
             }
         }
@@ -44,12 +44,12 @@ namespace RFReborn.Tests.StringRTests
         {
             foreach (Pair<string> test in _capitalizeNoChangeTests)
             {
-                string og = new string(test.Left);
+                string og = new(test.Left);
                 AssertCapitalizedNoChangeSelf(og, test.Right);
             }
         }
 
-        private void AssertCapitalized(string original, string expected)
+        private static void AssertCapitalized(string original, string expected)
         {
             Assert.AreNotEqual(expected, original);
             string capitalized = original.CapitalizeFirstLetter();
@@ -58,21 +58,21 @@ namespace RFReborn.Tests.StringRTests
             Assert.AreNotEqual(original, capitalized);
         }
 
-        private void AssertCapitalizedSelf(string original, string expected)
+        private static void AssertCapitalizedSelf(string original, string expected)
         {
             Assert.AreNotEqual(expected, original);
             original.CapitalizeFirstLetterSelf();
             Assert.AreEqual(expected, original);
         }
 
-        private void AssertCapitalizedNoChange(string original, string expected)
+        private static void AssertCapitalizedNoChange(string original, string expected)
         {
             Assert.AreEqual(expected, original);
             string capitalized = original.CapitalizeFirstLetter();
             Assert.AreEqual(expected, capitalized);
         }
 
-        private void AssertCapitalizedNoChangeSelf(string original, string expected)
+        private static void AssertCapitalizedNoChangeSelf(string original, string expected)
         {
             Assert.AreEqual(expected, original);
             original.CapitalizeFirstLetterSelf();

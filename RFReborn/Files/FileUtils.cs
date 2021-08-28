@@ -40,7 +40,6 @@ namespace RFReborn.Files
                 {
                     files = Directory.GetFiles(currentDir);
                 }
-#pragma warning disable CA1031 // Do not catch general exception types
                 catch (UnauthorizedAccessException)
                 {
                     continue;
@@ -49,7 +48,6 @@ namespace RFReborn.Files
                 {
                     continue;
                 }
-#pragma warning restore CA1031 // Do not catch general exception types
 
                 if (files.Length > 0)
                 {
@@ -61,7 +59,6 @@ namespace RFReborn.Files
                 {
                     subDirs = Directory.GetDirectories(currentDir);
                 }
-#pragma warning disable CA1031 // Do not catch general exception types
                 catch (UnauthorizedAccessException)
                 {
                     continue;
@@ -70,7 +67,6 @@ namespace RFReborn.Files
                 {
                     continue;
                 }
-#pragma warning restore CA1031 // Do not catch general exception types
 
                 subDirs.Call(dirs.Push);
             }
@@ -110,7 +106,6 @@ namespace RFReborn.Files
                     {
                         subDirs = Directory.EnumerateDirectories(currentDir);
                     }
-#pragma warning disable CA1031 // Do not catch general exception types
                     catch (UnauthorizedAccessException)
                     {
                         continue;
@@ -119,7 +114,6 @@ namespace RFReborn.Files
                     {
                         continue;
                     }
-#pragma warning restore CA1031 // Do not catch general exception types
 
                     subDirs.Call(NormalizePath).Call(dirs.Push);
 
@@ -128,7 +122,6 @@ namespace RFReborn.Files
                     {
                         files = Directory.EnumerateFiles(currentDir);
                     }
-#pragma warning disable CA1031 // Do not catch general exception types
                     catch (UnauthorizedAccessException)
                     {
                         continue;
@@ -137,7 +130,6 @@ namespace RFReborn.Files
                     {
                         continue;
                     }
-#pragma warning restore CA1031 // Do not catch general exception types
 
                     foreach (string file in files.Call(NormalizePath))
                     {
@@ -161,7 +153,6 @@ namespace RFReborn.Files
             {
                 files = Directory.EnumerateFiles(directory);
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (UnauthorizedAccessException)
             {
                 yield break;
@@ -170,7 +161,6 @@ namespace RFReborn.Files
             {
                 yield break;
             }
-#pragma warning restore CA1031 // Do not catch general exception types
 
             foreach (string file in files.Call(NormalizePath))
             {
@@ -817,7 +807,6 @@ namespace RFReborn.Files
                     // choice of which exceptions to catch depends entirely on the specific task
                     // you are intending to perform and also on how much you know with certainty
                     // about the systems on which this code will run.
-#pragma warning disable CA1031 // Do not catch general exception types
                     catch (UnauthorizedAccessException)
                     {
                         continue;
@@ -826,7 +815,6 @@ namespace RFReborn.Files
                     {
                         continue;
                     }
-#pragma warning restore CA1031 // Do not catch general exception types
 
                     // Push the subdirectories onto the stack for traversal.
                     // This could also be done before handing the files.
@@ -840,7 +828,6 @@ namespace RFReborn.Files
                         {
                             files = Directory.GetFiles(currentDir);
                         }
-#pragma warning disable CA1031 // Do not catch general exception types
                         catch (UnauthorizedAccessException)
                         {
                             continue;
@@ -849,7 +836,6 @@ namespace RFReborn.Files
                         {
                             continue;
                         }
-#pragma warning restore CA1031 // Do not catch general exception types
 
                         // Perform the required action on each file here.
                         foreach (string file in files.Call(NormalizePath))
@@ -862,14 +848,12 @@ namespace RFReborn.Files
                                     break;
                                 }
                             }
-#pragma warning disable CA1031 // Do not catch general exception types
                             catch (FileNotFoundException)
                             {
                                 // If file was deleted by a separate application
                                 // or thread since the call to TraverseTree()
                                 // then just continue.
                             }
-#pragma warning restore CA1031 // Do not catch general exception types
                         }
                     }
                 }
@@ -929,7 +913,6 @@ namespace RFReborn.Files
                     // choice of which exceptions to catch depends entirely on the specific task
                     // you are intending to perform and also on how much you know with certainty
                     // about the systems on which this code will run.
-#pragma warning disable CA1031 // Do not catch general exception types
                     catch (UnauthorizedAccessException)
                     {
                         continue;
@@ -938,7 +921,6 @@ namespace RFReborn.Files
                     {
                         continue;
                     }
-#pragma warning restore CA1031 // Do not catch general exception types
 
                     // Push the subdirectories onto the stack for traversal.
                     // This could also be done before handing the files.
@@ -952,7 +934,6 @@ namespace RFReborn.Files
                         {
                             files = Directory.GetFiles(currentDir);
                         }
-#pragma warning disable CA1031 // Do not catch general exception types
                         catch (UnauthorizedAccessException)
                         {
                             continue;
@@ -961,7 +942,6 @@ namespace RFReborn.Files
                         {
                             continue;
                         }
-#pragma warning restore CA1031 // Do not catch general exception types
 
                         // Perform the required action on each file here.
                         foreach (string file in files.Call(NormalizePath))
@@ -975,14 +955,12 @@ namespace RFReborn.Files
                                     break;
                                 }
                             }
-#pragma warning disable CA1031 // Do not catch general exception types
                             catch (FileNotFoundException)
                             {
                                 // If file was deleted by a separate application
                                 // or thread since the call to TraverseTree()
                                 // then just continue.
                             }
-#pragma warning restore CA1031 // Do not catch general exception types
                         }
                     }
                 }
@@ -1046,7 +1024,6 @@ namespace RFReborn.Files
                 // choice of which exceptions to catch depends entirely on the specific task
                 // you are intending to perform and also on how much you know with certainty
                 // about the systems on which this code will run.
-#pragma warning disable CA1031 // Do not catch general exception types
                 catch (UnauthorizedAccessException)
                 {
                     continue;
@@ -1055,7 +1032,6 @@ namespace RFReborn.Files
                 {
                     continue;
                 }
-#pragma warning restore CA1031 // Do not catch general exception types
 
                 // Push the subdirectories onto the stack for traversal.
                 // This could also be done before handing the files.
@@ -1069,7 +1045,6 @@ namespace RFReborn.Files
                     {
                         files = Directory.EnumerateFiles(currentDir);
                     }
-#pragma warning disable CA1031 // Do not catch general exception types
                     catch (UnauthorizedAccessException)
                     {
                         continue;
@@ -1078,7 +1053,6 @@ namespace RFReborn.Files
                     {
                         continue;
                     }
-#pragma warning restore CA1031 // Do not catch general exception types
 
                     foreach (string file in files.Call(NormalizePath))
                     {

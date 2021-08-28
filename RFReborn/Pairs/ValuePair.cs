@@ -33,19 +33,19 @@ namespace RFReborn.Pairs
         /// Create a <see cref="ValuePair{T}"/> from a Tuple T, T
         /// </summary>
         /// <param name="args"></param>
-        public static implicit operator ValuePair<T>((T left, T right) args) => new ValuePair<T>(args.left, args.right);
+        public static implicit operator ValuePair<T>((T left, T right) args) => new(args.left, args.right);
 
         /// <summary>
         /// Creates a new <see cref="ValuePair{T}"/> from a <see cref="Pair{T}"/>
         /// </summary>
         /// <param name="pair"></param>
-        public static implicit operator ValuePair<T>(Pair<T> pair) => new ValuePair<T>(pair.Left, pair.Right);
+        public static implicit operator ValuePair<T>(Pair<T> pair) => new(pair.Left, pair.Right);
 
         /// <summary>
         /// Creates a new <see cref="ValuePair{T}"/> from a <see cref="RefValuePair{T}"/>
         /// </summary>
         /// <param name="refValuePair"></param>
-        public static implicit operator ValuePair<T>(RefValuePair<T> refValuePair) => new ValuePair<T>(refValuePair.Left, refValuePair.Right);
+        public static implicit operator ValuePair<T>(RefValuePair<T> refValuePair) => new(refValuePair.Left, refValuePair.Right);
     }
 
     /// <summary>

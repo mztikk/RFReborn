@@ -8,22 +8,29 @@ namespace RFReborn.Tests.FastCompareTests
     [TestClass]
     public class StringEqualsTests
     {
-        private readonly List<Pair<string>> _equals = new List<Pair<string>>() { { "test", "test" }, { "!%/$%@üpäüö", "!%/$%@üpäüö" }, { @"
+        private readonly List<Pair<string>> _equals = new()
+        {
+            { "test", "test" },
+            { "!%/$%@üpäüö", "!%/$%@üpäüö" },
+            { @"
 
 ", @"
 
 " },
-            {null, null },
-            {"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam", "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam" },
+            { null, null },
+            { "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam", "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam" },
         };
 
-        private readonly List<Pair<string>> _diff = new List<Pair<string>>() { { "test", "test1" }, { @"
+        private readonly List<Pair<string>> _diff = new()
+        {
+            { "test", "test1" },
+            { @"
 
 ", @"
 " },
-            {null, "" },
-            {"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam", "maid des ,rtile gnicspidas rutetesnoc ,tema tis rolod muspi meroL" },
-            {"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam", "Lorem ipsum dolor sit amet, consetetur,tema tis rolod muspi meroL" }
+            { null, "" },
+            { "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam", "maid des ,rtile gnicspidas rutetesnoc ,tema tis rolod muspi meroL" },
+            { "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam", "Lorem ipsum dolor sit amet, consetetur,tema tis rolod muspi meroL" }
         };
 
         [TestMethod]
@@ -40,8 +47,8 @@ namespace RFReborn.Tests.FastCompareTests
             }
         }
 
-        private void AssertEquals(string left, string right) => Assert.IsTrue(FastCompare.Equals(left, right));
+        private static void AssertEquals(string left, string right) => Assert.IsTrue(FastCompare.Equals(left, right));
 
-        private void AssertDiff(string left, string right) => Assert.IsFalse(FastCompare.Equals(left, right));
+        private static void AssertDiff(string left, string right) => Assert.IsFalse(FastCompare.Equals(left, right));
     }
 }

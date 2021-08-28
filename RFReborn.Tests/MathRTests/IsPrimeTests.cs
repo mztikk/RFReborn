@@ -42,8 +42,8 @@ namespace RFReborn.Tests.MathRTests
         [DataRow(492876860)]
         public void IsNotPrime(int prime) => AssertIsNotPrime(prime);
 
-        private void AssertIsPrime(int n) => Assert.IsTrue(MathR.IsPrime(n));
+        private static void AssertIsPrime(int n) => Assert.IsTrue(MathR.IsPrime(n));
 
-        private void AssertIsNotPrime(int n) => Assert.IsFalse(MathR.IsPrime(n));
+        private static void AssertIsNotPrime(int n) => Assert.IsFalse(MathR.IsPrime(n));
     }
 }

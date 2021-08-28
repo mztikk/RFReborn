@@ -7,12 +7,12 @@ namespace RFReborn.Tests.StringRTests
     [TestClass]
     public class SplitNTests
     {
-        private readonly List<SplitNCase> _tests = new List<SplitNCase>()
+        private readonly List<SplitNCase> _tests = new()
         {
-            new SplitNCase("test", 1, new string[]{ "t", "e", "s", "t" }),
-            new SplitNCase("test", 2, new string[]{ "te", "st" }),
-            new SplitNCase("test", 3, new string[]{ "tes", "t" }),
-            new SplitNCase("test", 4, new string[]{ "test" }),
+            new SplitNCase("test", 1, new string[] { "t", "e", "s", "t" }),
+            new SplitNCase("test", 2, new string[] { "te", "st" }),
+            new SplitNCase("test", 3, new string[] { "tes", "t" }),
+            new SplitNCase("test", 4, new string[] { "test" }),
         };
 
         [TestMethod]

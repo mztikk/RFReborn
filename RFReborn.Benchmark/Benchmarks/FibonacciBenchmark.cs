@@ -15,6 +15,5 @@ namespace RFReborn.Benchmark.Benchmarks
 
         [Benchmark]
         public BigInteger Fibonacci() => MathR.Fibonacci(N);
-
     }
 }

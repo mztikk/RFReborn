@@ -7,7 +7,7 @@ namespace RFReborn.Tests.StringRTests
     [TestClass]
     public class RemoveCharsTests
     {
-        private readonly List<Pair<string>> _tests = new List<Pair<string>>() { { "test", "es" } };
+        private readonly List<Pair<string>> _tests = new() { { "test", "es" } };
 
         [TestMethod]
         public void RemoveChars()
@@ -18,7 +18,7 @@ namespace RFReborn.Tests.StringRTests
             }
         }
 
-        private void AssertRemoved(string toTest, char[] toRemove) => Assert.IsFalse(Contains(StringR.RemoveChars(toTest, toRemove), toRemove));
+        private static void AssertRemoved(string toTest, char[] toRemove) => Assert.IsFalse(Contains(StringR.RemoveChars(toTest, toRemove), toRemove));
 
         private static bool Contains(string str, char[] chrs) => str.IndexOfAny(chrs) > 0;
     }

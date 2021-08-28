@@ -64,6 +64,5 @@ namespace RFReborn.Benchmark.Benchmarks
         public long FindSignatureMiddle() => Scanner.FindSignature(SearchRegion, SignatureMiddle);
         [Benchmark]
         public long FindSignatureEnd() => Scanner.FindSignature(SearchRegion, SignatureEnd);
-
     }
 }

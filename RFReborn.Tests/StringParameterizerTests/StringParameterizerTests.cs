@@ -9,25 +9,25 @@ namespace RFReborn.Tests.StringParameterizerTests
     [TestClass]
     public class StringParameterizerTests
     {
-        private readonly StringParameterizer _parameterizer = new StringParameterizer(new List<KeyValuePair<string, Func<string>>>()
+        private readonly StringParameterizer _parameterizer = new(new List<KeyValuePair<string, Func<string>>>()
         {
             { "World", () => "World!" },
             { "Num", () => "1337" },
         });
 
-        private readonly List<Pair<string>> _params = new List<Pair<string>>()
+        private readonly List<Pair<string>> _params = new()
         {
-            {"Hello{World}", "HelloWorld!" },
-            {"{World}={Num}", "World!=1337" },
-            {"<{Timestamp HH:mm}>", $"<{DateTime.Now:HH:mm}>" },
+            { "Hello{World}", "HelloWorld!" },
+            { "{World}={Num}", "World!=1337" },
+            { "<{Timestamp HH:mm}>", $"<{DateTime.Now:HH:mm}>" },
         };
 
-        private readonly StringParameterizer _parameterizer2 = new StringParameterizer();
+        private readonly StringParameterizer _parameterizer2 = new();
 
-        private readonly List<Pair<string>> _params2 = new List<Pair<string>>()
+        private readonly List<Pair<string>> _params2 = new()
         {
-            {"Hello<-!World!->", "HelloWorld!" },
-            {"<-!World!->=<-!Num!->", "World!=1337" },
+            { "Hello<-!World!->", "HelloWorld!" },
+            { "<-!World!->=<-!Num!->", "World!=1337" },
         };
 
         [TestInitialize]
