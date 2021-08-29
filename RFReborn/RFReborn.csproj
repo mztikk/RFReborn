@@ -14,6 +14,7 @@
     <LangVersion>default</LangVersion>
     <Nullable>enable</Nullable>
     <AssemblyVersion>1.5.5</AssemblyVersion>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
