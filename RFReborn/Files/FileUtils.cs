@@ -448,6 +448,13 @@ namespace RFReborn.Files
         public static async Task CopyAsync(FileInfo source, FileInfo destination, bool overwrite = true,
             Action<long>? onWrite = null) => await CopyToAsync(source, destination, overwrite, onWrite);
 
+        /// <inheritdoc cref="Copy(System.IO.FileInfo,System.IO.FileInfo,bool,System.Action{long}?)" />
+        /// <summary>
+        ///     Asynchronously Copies a file to a destination
+        /// </summary>
+        public static async Task CopyAsync(FileInfo source, FileInfo destination, bool overwrite = true,
+            Func<long, Task>? onWrite = null) => await CopyToAsync(source, destination, overwrite, onWrite);
+
         /// <summary>
         ///     Compares two files for inequality
         /// </summary>
@@ -562,6 +569,22 @@ namespace RFReborn.Files
             await CopyToAsync(srcStream, destStream, srcStream.Length, onWrite);
         }
 
+        private static async Task CopyToAsync(FileInfo source, FileInfo destination, bool overwrite = true,
+            Func<long, Task>? onWrite = null)
+        {
+            await using FileStream? srcStream = new(source.FullName, FileMode.Open, FileAccess.Read, FileShare.Read,
+                DefaultFileStreamBufferSize, true);
+            await using FileStream? destStream = new(destination.FullName,
+                overwrite
+                    ? FileMode.Create
+                    : FileMode.CreateNew,
+                FileAccess.Write,
+                FileShare.Read,
+                DefaultFileStreamBufferSize,
+                true);
+            await CopyToAsync(srcStream, destStream, srcStream.Length, onWrite);
+        }
+
         private static void CopyTo(FileStream source, FileStream destination, long length, Action<long>? onWrite = null)
         {
             // look for enabling long here instead of int to handle larger data
@@ -606,6 +629,35 @@ namespace RFReborn.Files
                     await destination.WriteAsync(buffer, 0, read);
                     totalRead += read;
                     onWrite?.Invoke(read);
+                }
+            }
+            finally
+            {
+                pool.Return(buffer);
+            }
+        }
+
+        private static async Task CopyToAsync(FileStream source, FileStream destination, long length,
+            Func<long, Task>? onWrite = null)
+        {
+            int wantedBuffersize = GetBufferSize(length);
+
+            ArrayPool<byte> pool = ArrayPool<byte>.Shared;
+            byte[] buffer = pool.Rent(wantedBuffersize);
+
+            try
+            {
+                int read;
+                long totalRead = 0;
+                while ((read = await source.ReadAsync(buffer, 0, (int)Math.Min(wantedBuffersize, length - totalRead))) >
+                    0 && totalRead < length)
+                {
+                    await destination.WriteAsync(buffer, 0, read);
+                    totalRead += read;
+                    if (onWrite is not null)
+                    {
+                        await onWrite(read);
+                    }
                 }
             }
             finally
