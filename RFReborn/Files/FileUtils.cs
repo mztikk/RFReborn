@@ -547,8 +547,8 @@ namespace RFReborn.Files
         private static void CopyTo(FileInfo source, FileInfo destination, bool overwrite = true,
             Action<long>? onWrite = null)
         {
-            using FileStream? srcstream = new(source.FullName, FileMode.Open, FileAccess.Read, FileShare.Read);
-            using FileStream? deststream = new(destination.FullName,
+            using FileStream srcstream = new(source.FullName, FileMode.Open, FileAccess.Read, FileShare.Read);
+            using FileStream deststream = new(destination.FullName,
                 overwrite ? FileMode.Create : FileMode.CreateNew, FileAccess.Write, FileShare.Read);
             CopyTo(srcstream, deststream, srcstream.Length, onWrite);
         }
@@ -556,9 +556,9 @@ namespace RFReborn.Files
         private static async Task CopyToAsync(FileInfo source, FileInfo destination, bool overwrite = true,
             Action<long>? onWrite = null)
         {
-            await using FileStream? srcStream = new(source.FullName, FileMode.Open, FileAccess.Read, FileShare.Read,
+            await using FileStream srcStream = new(source.FullName, FileMode.Open, FileAccess.Read, FileShare.Read,
                 DefaultFileStreamBufferSize, true);
-            await using FileStream? destStream = new(destination.FullName,
+            await using FileStream destStream = new(destination.FullName,
                 overwrite
                     ? FileMode.Create
                     : FileMode.CreateNew,
@@ -572,9 +572,9 @@ namespace RFReborn.Files
         private static async Task CopyToAsync(FileInfo source, FileInfo destination, bool overwrite = true,
             Func<long, Task>? onWrite = null)
         {
-            await using FileStream? srcStream = new(source.FullName, FileMode.Open, FileAccess.Read, FileShare.Read,
+            await using FileStream srcStream = new(source.FullName, FileMode.Open, FileAccess.Read, FileShare.Read,
                 DefaultFileStreamBufferSize, true);
-            await using FileStream? destStream = new(destination.FullName,
+            await using FileStream destStream = new(destination.FullName,
                 overwrite
                     ? FileMode.Create
                     : FileMode.CreateNew,
