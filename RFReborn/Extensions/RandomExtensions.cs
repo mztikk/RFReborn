@@ -8,7 +8,7 @@ namespace RFReborn.Extensions
     /// <summary>
     /// Extends <see cref="Random"/>.
     /// </summary>
-    public static unsafe class RandomExtensions
+    public static class RandomExtensions
     {
         /// <summary>
         /// Returns a random <see cref="double"/> that is within a specified range.
@@ -132,7 +132,7 @@ namespace RFReborn.Extensions
         /// <exception cref="T:System.ArgumentNullException">
         ///     <paramref name="buffer"/> is null.
         /// </exception>
-        public static void NextInts(this Random random, int[] buffer)
+        public static unsafe void NextInts(this Random random, int[] buffer)
         {
             if (buffer == null)
             {
@@ -156,7 +156,7 @@ namespace RFReborn.Extensions
         /// <exception cref="T:System.ArgumentNullException">
         ///     <paramref name="buffer"/> is null.
         /// </exception>
-        public static void NextT<T>(this Random random, T[] buffer) where T : unmanaged
+        public static unsafe void NextT<T>(this Random random, T[] buffer) where T : unmanaged
         {
             if (buffer == null)
             {
@@ -177,7 +177,7 @@ namespace RFReborn.Extensions
         /// </summary>
         /// <typeparam name="T">Type of value</typeparam>
         /// <param name="random">Random provider</param>
-        public static T Next<T>(this Random random) where T : unmanaged
+        public static unsafe T Next<T>(this Random random) where T : unmanaged
         {
             byte[] buffer = new byte[sizeof(T)];
             fixed (void* ptr = buffer)
@@ -193,7 +193,7 @@ namespace RFReborn.Extensions
         /// <param name="random">Random provider</param>
         /// <param name="charset">Chars to use</param>
         /// <param name="len">Length of constructed string</param>
-        public static string NextString(this Random random, ReadOnlySpan<char> charset, int len)
+        public static unsafe string NextString(this Random random, ReadOnlySpan<char> charset, int len)
         {
             char* rtn = stackalloc char[len];
             for (int i = 0; i < len; i++)
@@ -256,7 +256,7 @@ namespace RFReborn.Extensions
         /// <param name="alpha">Randomize alpha chars, default true</param>
         /// <param name="numeric">Randomize numeric chars, default true</param>
         /// <param name="special">Randomize special characters, default false</param>
-        public static void Randomize(this Random random, string str, bool alpha = true, bool numeric = true, bool special = false)
+        public static unsafe void Randomize(this Random random, string str, bool alpha = true, bool numeric = true, bool special = false)
         {
             fixed (void* voidptr = str)
             {

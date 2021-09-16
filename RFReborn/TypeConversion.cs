@@ -6,9 +6,9 @@ namespace RFReborn
     /// Class used to convert unmanaged objects to byte arrays or from bytes to an object.
     /// </summary>
     /// <typeparam name="T">Type used for conversion</typeparam>
-    public static unsafe class TypeConversion<T> where T : unmanaged
+    public static class TypeConversion<T> where T : unmanaged
     {
-        static TypeConversion()
+        static unsafe TypeConversion()
         {
             Type = typeof(T);
             TypeCode = Type.GetTypeCode(Type);
@@ -35,7 +35,7 @@ namespace RFReborn
         /// </summary>
         /// <param name="obj"></param>
         /// <returns>Returns an array consisting of the bytes of the <paramref name="obj"/></returns>
-        public static byte[] ToByteArray(in T obj)
+        public static unsafe byte[] ToByteArray(in T obj)
         {
             byte[] rtn = new byte[Size];
             fixed (void* rtnPointer = rtn)
@@ -53,7 +53,7 @@ namespace RFReborn
         /// <param name="bytes">Bytes to convert</param>
         /// <param name="index">Start index inside the byte array</param>
         /// <returns>Returns an object of type <typeparamref name="T"/></returns>
-        public static T ToObject(byte[] bytes, int index = 0)
+        public static unsafe T ToObject(byte[] bytes, int index = 0)
         {
             fixed (byte* ff = bytes)
             {

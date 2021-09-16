@@ -9,7 +9,7 @@ namespace RFReborn
     /// <summary>
     /// Provides functionality to manipulate and operate on <see cref="string"/>.
     /// </summary>
-    public static unsafe class StringR
+    public static class StringR
     {
         /// <summary>
         /// Full latin alphabet in uppercase
@@ -115,7 +115,7 @@ namespace RFReborn
         /// <param name="input">String where the chars should be removed from.</param>
         /// <param name="chars">The chars to remove.</param>
         /// <returns>A new string, without the chars.</returns>
-        public static string RemoveChars(string input, ICollection<char> chars)
+        public static unsafe string RemoveChars(string input, ICollection<char> chars)
         {
             int len = input.Length;
             char* rtn = stackalloc char[len];
@@ -150,7 +150,7 @@ namespace RFReborn
         /// <returns>Array of strings that each contain a split part.</returns>
         /// <exception cref="ArgumentNullException">string is null</exception>
         /// <exception cref="ArgumentOutOfRangeException">n is smaller or equal to 0</exception>
-        public static string[] SplitN(string str, int n)
+        public static unsafe string[] SplitN(string str, int n)
         {
             if (str is null)
             {
@@ -187,7 +187,7 @@ namespace RFReborn
         /// <param name="n">Length of split parts.</param>
         /// <param name="separator">Separator to use between the split parts.</param>
         /// <returns>A new string with the separator every nth char.</returns>
-        public static string InSplit(string str, int n, string separator)
+        public static unsafe string InSplit(string str, int n, string separator)
         {
             if (str is null)
             {
@@ -255,7 +255,7 @@ namespace RFReborn
         /// </summary>
         /// <param name="s">String to capitalize</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CapitalizeFirstLetterSelf(this string s)
+        public static unsafe void CapitalizeFirstLetterSelf(this string s)
         {
             if (string.IsNullOrEmpty(s))
             {

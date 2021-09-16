@@ -8,7 +8,7 @@ namespace RFReborn
     /// <summary>
     /// Provides general operations.
     /// </summary>
-    public static unsafe class Ops
+    public static class Ops
     {
         /// <summary>
         /// Swaps two variables.
@@ -30,7 +30,7 @@ namespace RFReborn
         /// <param name="m1">First pointer.</param>
         /// <param name="m2">Second pointer.</param>
         /// <param name="len">Number of bytes to swap.</param>
-        public static void MemSwap(void* m1, void* m2, int len)
+        public static unsafe void MemSwap(void* m1, void* m2, int len)
         {
             byte* pl = (byte*)m1;
             byte* pr = (byte*)m2;
@@ -120,7 +120,7 @@ namespace RFReborn
         /// <param name="maxLength">Maximum length of the generated strings.</param>
         /// <returns>The string that matched the <paramref name="checkFunc"/> or <see cref="string.Empty"/> otherwise.</returns>
         [Obsolete]
-        public static string BruteForce(IList<char> charset, Func<string, bool> checkFunc, int startLength = 1, int maxLength = 6)
+        public static unsafe string BruteForce(IList<char> charset, Func<string, bool> checkFunc, int startLength = 1, int maxLength = 6)
         {
             string found = string.Empty;
             int charsetLength = charset.Count;

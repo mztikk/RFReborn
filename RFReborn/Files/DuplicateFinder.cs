@@ -79,7 +79,7 @@ namespace RFReborn.Files
 #pragma warning restore IDE0051 // Remove unused private members
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static unsafe string XXHASH(FileInfo input)
+        private static string XXHASH(FileInfo input)
         {
             using FileStream fRead = input.OpenRead();
             byte[] buffer = new byte[fRead.Length];

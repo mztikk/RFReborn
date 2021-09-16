@@ -109,7 +109,7 @@ namespace RFReborn.Comparison
         /// <param name="right">Second <see cref="Span{T}"/> to compare.</param>
         /// <returns>TRUE if all values are equal, FALSE otherwise.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe bool Equals<T>(Span<T> left, Span<T> right) where T : unmanaged => Equals(left, right, left.Length);
+        public static bool Equals<T>(Span<T> left, Span<T> right) where T : unmanaged => Equals(left, right, left.Length);
 
         /// <summary>
         /// Checks if the specified <see cref="Span{T}"/> are equal in value.
