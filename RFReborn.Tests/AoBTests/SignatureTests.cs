@@ -12,6 +12,8 @@ namespace RFReborn.Tests.AoBTests
             new StringSignatureTest("AE FF ?? 00 FE", "AE FF ?? 00 FE", "xx?xx", new byte[] { 0xAE, 0xFF, 0x00, 0x00, 0xFE }),
             new StringSignatureTest("AE FF ?F 00 FE", "AE FF ?? 00 FE", "xx?xx", new byte[] { 0xAE, 0xFF, 0x00, 0x00, 0xFE }),
             new StringSignatureTest("AE FF F? 00 FE", "AE FF ?? 00 FE", "xx?xx", new byte[] { 0xAE, 0xFF, 0x00, 0x00, 0xFE }),
+            new StringSignatureTest("AEFFF?00FE", "AE FF ?? 00 FE", "xx?xx", new byte[] { 0xAE, 0xFF, 0x00, 0x00, 0xFE }),
+            new StringSignatureTest("AEFF?F00FE", "AE FF ?? 00 FE", "xx?xx", new byte[] { 0xAE, 0xFF, 0x00, 0x00, 0xFE }),
             new StringSignatureTest("AEFF??00FE", "AE FF ?? 00 FE", "xx?xx", new byte[] { 0xAE, 0xFF, 0x00, 0x00, 0xFE }),
             new StringSignatureTest("AEF F??00F E", "AE FF ?? 00 FE", "xx?xx", new byte[] { 0xAE, 0xFF, 0x00, 0x00, 0xFE }),
             new StringSignatureTest(" A E F F ? ? 0 0 F E ", "AE FF ?? 00 FE", "xx?xx", new byte[] { 0xAE, 0xFF, 0x00, 0x00, 0xFE }),
@@ -30,6 +32,17 @@ namespace RFReborn.Tests.AoBTests
 
                 Assert.AreEqual(test.ExpectedSig, Signature.GetSignatureFromPatternAndMask(test.ExpectedPattern, test.ExpectedMask));
                 Assert.AreEqual(test.ExpectedSig, Signature.Standardize(Signature.GetSignatureFromPatternAndMask(test.ExpectedPattern, test.ExpectedMask)));
+            }
+        }
+
+        [TestMethod]
+        public void GetPatternAndMaskFromSignature()
+        {
+            foreach (StringSignatureTest test in _stringSignatureTests)
+            {
+                (byte[] aob, string mask) = Signature.GetPatternAndMaskFromSignature(test.Sig);
+                Assert.AreEqual(test.ExpectedMask, mask);
+                CollectionAssert.AreEqual(test.ExpectedPattern, aob);
             }
         }
     }

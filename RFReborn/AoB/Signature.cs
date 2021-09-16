@@ -6,7 +6,7 @@ namespace RFReborn.AoB
     /// <summary>
     /// Represents an AoB Signature.
     /// </summary>
-    public unsafe class Signature
+    public class Signature
     {
         /// <summary>
         /// The byte pattern of the signature.
@@ -78,7 +78,7 @@ namespace RFReborn.AoB
         /// <param name="signature">PEiD style string signature.</param>
         /// <returns>Byte pattern and mask as tuple.</returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static (byte[] aob, string mask) GetPatternAndMaskFromSignature(string signature)
+        public static unsafe (byte[] aob, string mask) GetPatternAndMaskFromSignature(string signature)
         {
             // remove whitespace and split every 2 chars so we can support sigs that dont even have whitespace in the first place or are not formatted with whitespace after every byte/wildcard
             // 0F ?? AE ?? CC |standard
@@ -94,11 +94,13 @@ namespace RFReborn.AoB
             char* mask = stackalloc char[split.Length];
             for (int i = 0; i < split.Length; i++)
             {
+                // check if current or next is a wildcard because of halfbyte masking 0xFF | 0x?F | 0xF? | 0x??
                 if (split[i][0] == '?' || split[i][1] == '?')
                 {
                     bytes[i] = 0;
                     mask[i] = '?';
                 }
+                // consider everything that is not a wildcard a byte
                 else
                 {
                     bytes[i] = (byte)int.Parse(split[i], NumberStyles.HexNumber);
@@ -153,10 +155,14 @@ namespace RFReborn.AoB
                 throw new ArgumentOutOfRangeException(nameof(signature), "signature length(excluding whitespace) must be divisible by 2, make sure to prepend bytes with 0 if necessary and make wildcards full ?? instead of single ?");
             }
 
-            //var split = StringR.SplitN(signature, 2);
-            //return string.Join(" ", split);
             return StringR.InSplit(signature, 2, " ").ToUpperInvariant();
         }
         #endregion Converters
+
+        /// <summary>
+        /// Converts a PEiD style signature string to a <see cref="Signature"/> object
+        /// </summary>
+        /// <param name="signature">PEiD style signature string to convert</param>
+        public static explicit operator Signature(string signature) => new(signature);
     }
 }
