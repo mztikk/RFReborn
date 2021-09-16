@@ -89,12 +89,13 @@ namespace RFReborn.AoB
                 throw new ArgumentOutOfRangeException(nameof(signature), "signature length(excluding whitespace) must be divisible by 2, make sure to prepend bytes with 0 if necessary and make wildcards full ?? instead of single ?");
             }
 
+            // split string in pairs of 2
             string[] split = StringR.SplitN(signature, 2);
             byte[] bytes = new byte[split.Length];
             char* mask = stackalloc char[split.Length];
             for (int i = 0; i < split.Length; i++)
             {
-                // check if current or next is a wildcard because of halfbyte masking 0xFF | 0x?F | 0xF? | 0x??
+                // check if a wildcard is in string pair because of halfbyte masking 0xFF | 0x?F | 0xF? | 0x??
                 if (split[i][0] == '?' || split[i][1] == '?')
                 {
                     bytes[i] = 0;
