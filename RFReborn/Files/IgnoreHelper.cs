@@ -2,73 +2,72 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace RFReborn.Files
+namespace RFReborn.Files;
+
+/// <summary>
+/// Class that provides methods to ignore paths based on wildcard matching patterns
+/// </summary>
+[Obsolete("IgnoreHelper is deprecated, use WildcardHelper instead")]
+public static class IgnoreHelper
 {
     /// <summary>
-    /// Class that provides methods to ignore paths based on wildcard matching patterns
+    /// Check if the path is ignored by the given pattern
     /// </summary>
-    [Obsolete("IgnoreHelper is deprecated, use WildcardHelper instead")]
-    public static class IgnoreHelper
+    /// <param name="path">path to check</param>
+    /// <param name="pattern">pattern to use</param>
+    public static bool IsIgnored(string path, string pattern)
     {
-        /// <summary>
-        /// Check if the path is ignored by the given pattern
-        /// </summary>
-        /// <param name="path">path to check</param>
-        /// <param name="pattern">pattern to use</param>
-        public static bool IsIgnored(string path, string pattern)
+        if (StringR.WildcardMatch(path, pattern))
         {
-            if (StringR.WildcardMatch(path, pattern))
+            return true;
+        }
+
+        DirectoryInfo di = new(path);
+        return StringR.WildcardMatch(di.Name, pattern);
+    }
+
+    /// <summary>
+    /// Check if the path is ignored by any of the given patterns
+    /// </summary>
+    /// <param name="path">path to check</param>
+    /// <param name="patterns">patterns to use</param>
+    public static bool IsIgnored(string path, IEnumerable<string> patterns)
+    {
+        foreach (string pattern in patterns)
+        {
+            if (IsIgnored(path, pattern))
             {
                 return true;
             }
-
-            DirectoryInfo di = new(path);
-            return StringR.WildcardMatch(di.Name, pattern);
         }
 
-        /// <summary>
-        /// Check if the path is ignored by any of the given patterns
-        /// </summary>
-        /// <param name="path">path to check</param>
-        /// <param name="patterns">patterns to use</param>
-        public static bool IsIgnored(string path, IEnumerable<string> patterns)
+        return false;
+    }
+
+    /// <summary>
+    /// Reads all ignore patterns from a file and yields them as an <see cref="IEnumerable{T}"/>
+    /// </summary>
+    /// <param name="file">file to read</param>
+    /// <remarks>
+    /// Lines starting with "#" are ignored and can be used as comments
+    /// <para/>
+    /// Empty lines are skipped
+    /// </remarks>
+    public static IEnumerable<string> GetIgnorePatternsFromFile(string file)
+    {
+        foreach (string line in File.ReadAllLines(file))
         {
-            foreach (string pattern in patterns)
+            if (string.IsNullOrWhiteSpace(line))
             {
-                if (IsIgnored(path, pattern))
-                {
-                    return true;
-                }
+                continue;
             }
 
-            return false;
-        }
-
-        /// <summary>
-        /// Reads all ignore patterns from a file and yields them as an <see cref="IEnumerable{T}"/>
-        /// </summary>
-        /// <param name="file">file to read</param>
-        /// <remarks>
-        /// Lines starting with "#" are ignored and can be used as comments
-        /// <para/>
-        /// Empty lines are skipped
-        /// </remarks>
-        public static IEnumerable<string> GetIgnorePatternsFromFile(string file)
-        {
-            foreach (string line in File.ReadAllLines(file))
+            if (line.StartsWith('#'))
             {
-                if (string.IsNullOrWhiteSpace(line))
-                {
-                    continue;
-                }
-
-                if (line.StartsWith('#'))
-                {
-                    continue;
-                }
-
-                yield return line;
+                continue;
             }
+
+            yield return line;
         }
     }
 }

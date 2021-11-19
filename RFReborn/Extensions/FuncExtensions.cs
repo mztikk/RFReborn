@@ -2,71 +2,70 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace RFReborn.Extensions
+namespace RFReborn.Extensions;
+
+/// <summary>
+/// Extends <see cref="Func{T}"/>.
+/// </summary>
+public static class FuncExtensions
 {
     /// <summary>
-    /// Extends <see cref="Func{T}"/>.
+    /// Executes a <see cref="Func{T, TResult}"/> until it returns true or exceeds the retry count
     /// </summary>
-    public static class FuncExtensions
+    /// <param name="func"><see cref="Func{T, TResult}"/> to execute</param>
+    /// <param name="retries">Maximum number of retries</param>
+    /// <param name="delayBetweenRetries">Delay between retries</param>
+    public static async Task TryTilTrueAsync(this Func<Task<bool>> func, int retries, int delayBetweenRetries)
     {
-        /// <summary>
-        /// Executes a <see cref="Func{T, TResult}"/> until it returns true or exceeds the retry count
-        /// </summary>
-        /// <param name="func"><see cref="Func{T, TResult}"/> to execute</param>
-        /// <param name="retries">Maximum number of retries</param>
-        /// <param name="delayBetweenRetries">Delay between retries</param>
-        public static async Task TryTilTrueAsync(this Func<Task<bool>> func, int retries, int delayBetweenRetries)
+        while (retries > 0)
         {
-            while (retries > 0)
+            if (await func())
             {
-                if (await func())
-                {
-                    break;
-                }
-
-                retries--;
-                await Task.Delay(delayBetweenRetries);
+                break;
             }
+
+            retries--;
+            await Task.Delay(delayBetweenRetries);
         }
+    }
 
-        /// <summary>
-        /// Executes a <see cref="Func{T, TResult}"/> until it returns true or exceeds the retry count
-        /// </summary>
-        /// <param name="func"><see cref="Func{T, TResult}"/> to execute</param>
-        /// <param name="retries">Maximum number of retries</param>
-        /// <param name="delayBetweenRetries">Delay between retries</param>
-        public static void TryTilTrue(this Func<bool> func, int retries, int delayBetweenRetries)
+    /// <summary>
+    /// Executes a <see cref="Func{T, TResult}"/> until it returns true or exceeds the retry count
+    /// </summary>
+    /// <param name="func"><see cref="Func{T, TResult}"/> to execute</param>
+    /// <param name="retries">Maximum number of retries</param>
+    /// <param name="delayBetweenRetries">Delay between retries</param>
+    public static void TryTilTrue(this Func<bool> func, int retries, int delayBetweenRetries)
+    {
+        while (retries > 0)
         {
-            while (retries > 0)
+            if (func())
             {
-                if (func())
-                {
-                    break;
-                }
-
-                retries--;
-                Thread.Sleep(delayBetweenRetries);
+                break;
             }
+
+            retries--;
+            Thread.Sleep(delayBetweenRetries);
         }
+    }
 
-        /// <summary>
-        /// Executes a <see cref="Func{T, TResult}"/> until it returns true or exceeds the retry count
-        /// </summary>
-        /// <param name="func"><see cref="Func{T, TResult}"/> to execute</param>
-        /// <param name="retries">Maximum number of retries</param>
-        /// <param name="delayBetweenRetries">Delay between retries</param>
-        public static async Task TryTilTrueAsync(this Func<bool> func, int retries, int delayBetweenRetries)
+    /// <summary>
+    /// Executes a <see cref="Func{T, TResult}"/> until it returns true or exceeds the retry count
+    /// </summary>
+    /// <param name="func"><see cref="Func{T, TResult}"/> to execute</param>
+    /// <param name="retries">Maximum number of retries</param>
+    /// <param name="delayBetweenRetries">Delay between retries</param>
+    public static async Task TryTilTrueAsync(this Func<bool> func, int retries, int delayBetweenRetries)
+    {
+        while (retries > 0)
         {
-            while (retries > 0)
+            if (func())
             {
-                if (func())
-                {
-                    break;
-                }
-
-                retries--;
-                await Task.Delay(delayBetweenRetries);
+                break;
             }
+
+            retries--;
+            await Task.Delay(delayBetweenRetries);
         }
     }
 }

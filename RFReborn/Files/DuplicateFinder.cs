@@ -4,87 +4,86 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using RFReborn.Hashing;
 
-namespace RFReborn.Files
+namespace RFReborn.Files;
+
+/// <summary>
+/// Provides methods to find duplicate files by storing their hashes
+/// </summary>
+public class DuplicateFinder
 {
     /// <summary>
-    /// Provides methods to find duplicate files by storing their hashes
+    /// Constructs a new <see cref="DuplicateFinder"/> with a specified hash function
     /// </summary>
-    public class DuplicateFinder
+    /// <param name="hashFunc">Hash to use</param>
+    public DuplicateFinder(Func<FileInfo, string> hashFunc) => HashFunc = hashFunc;
+
+    /// <summary>
+    /// Constructs a new <see cref="DuplicateFinder"/> with a default hash function of xxHash
+    /// </summary>
+    public DuplicateFinder() : this(XXHASH) { }
+
+    /// <summary>
+    /// Hash function to use
+    /// </summary>
+    public Func<FileInfo, string> HashFunc { get; set; }
+
+    /// <summary>
+    /// Finds all duplicates in given root path
+    /// </summary>
+    /// <param name="root">root path to walk</param>
+    public Dictionary<string, List<FileInfo>> Find(string root) => Find(new string[] { root });
+
+    /// <summary>
+    /// Finds all duplicates in all given root paths
+    /// </summary>
+    /// <param name="rootPaths">root paths to walk</param>
+    public Dictionary<string, List<FileInfo>> Find(string[] rootPaths)
     {
-        /// <summary>
-        /// Constructs a new <see cref="DuplicateFinder"/> with a specified hash function
-        /// </summary>
-        /// <param name="hashFunc">Hash to use</param>
-        public DuplicateFinder(Func<FileInfo, string> hashFunc) => HashFunc = hashFunc;
+        Dictionary<string, FileInfo> cache = new();
+        Dictionary<string, List<FileInfo>> dupes = new();
 
-        /// <summary>
-        /// Constructs a new <see cref="DuplicateFinder"/> with a default hash function of xxHash
-        /// </summary>
-        public DuplicateFinder() : this(XXHASH) { }
-
-        /// <summary>
-        /// Hash function to use
-        /// </summary>
-        public Func<FileInfo, string> HashFunc { get; set; }
-
-        /// <summary>
-        /// Finds all duplicates in given root path
-        /// </summary>
-        /// <param name="root">root path to walk</param>
-        public Dictionary<string, List<FileInfo>> Find(string root) => Find(new string[] { root });
-
-        /// <summary>
-        /// Finds all duplicates in all given root paths
-        /// </summary>
-        /// <param name="rootPaths">root paths to walk</param>
-        public Dictionary<string, List<FileInfo>> Find(string[] rootPaths)
+        foreach (string root in rootPaths)
         {
-            Dictionary<string, FileInfo> cache = new();
-            Dictionary<string, List<FileInfo>> dupes = new();
-
-            foreach (string root in rootPaths)
+            FileUtils.Walk(root, fi =>
             {
-                FileUtils.Walk(root, fi =>
+                try
                 {
-                    try
+                    string hash = HashFunc(fi);
+                    if (cache.ContainsKey(hash))
                     {
-                        string hash = HashFunc(fi);
-                        if (cache.ContainsKey(hash))
+                        if (dupes.ContainsKey(hash))
                         {
-                            if (dupes.ContainsKey(hash))
-                            {
-                                dupes[hash].Add(fi);
-                            }
-                            else
-                            {
-                                dupes.TryAdd(hash, new List<FileInfo> { cache[hash], fi });
-                            }
+                            dupes[hash].Add(fi);
                         }
                         else
                         {
-                            cache.TryAdd(hash, fi);
+                            dupes.TryAdd(hash, new List<FileInfo> { cache[hash], fi });
                         }
                     }
-                    catch (IOException) { }
-                    catch (UnauthorizedAccessException) { }
-                });
-            }
-
-            return dupes;
+                    else
+                    {
+                        cache.TryAdd(hash, fi);
+                    }
+                }
+                catch (IOException) { }
+                catch (UnauthorizedAccessException) { }
+            });
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        return dupes;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #pragma warning disable IDE0051 // Remove unused private members
-        private static string SHA512HASH(FileInfo input) => HashFactory.Hash("SHA512", input);
+    private static string SHA512HASH(FileInfo input) => HashFactory.Hash("SHA512", input);
 #pragma warning restore IDE0051 // Remove unused private members
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static string XXHASH(FileInfo input)
-        {
-            using FileStream fRead = input.OpenRead();
-            byte[] buffer = new byte[fRead.Length];
-            fRead.Read(buffer);
-            return xxHash.Hash(buffer).ToString();
-        }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static string XXHASH(FileInfo input)
+    {
+        using FileStream fRead = input.OpenRead();
+        byte[] buffer = new byte[fRead.Length];
+        fRead.Read(buffer);
+        return xxHash.Hash(buffer).ToString();
     }
 }

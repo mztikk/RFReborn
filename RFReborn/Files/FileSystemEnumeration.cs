@@ -1,23 +1,22 @@
-﻿namespace RFReborn.Files
+﻿namespace RFReborn.Files;
+
+/// <summary>
+/// Options to enumerate the FileSystem
+/// </summary>
+public enum FileSystemEnumeration : byte
 {
     /// <summary>
-    /// Options to enumerate the FileSystem
+    /// Enumerate only Files
     /// </summary>
-    public enum FileSystemEnumeration : byte
-    {
-        /// <summary>
-        /// Enumerate only Files
-        /// </summary>
-        FilesOnly = 0,
+    FilesOnly = 0,
 
-        /// <summary>
-        /// Enumerate only Directories
-        /// </summary>
-        DirectoriesOnly = 1,
+    /// <summary>
+    /// Enumerate only Directories
+    /// </summary>
+    DirectoriesOnly = 1,
 
-        /// <summary>
-        /// Enumerate Files and Directories
-        /// </summary>
-        FilesAndDirectories = 2
-    }
+    /// <summary>
+    /// Enumerate Files and Directories
+    /// </summary>
+    FilesAndDirectories = 2
 }

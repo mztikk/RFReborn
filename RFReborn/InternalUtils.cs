@@ -1,10 +1,9 @@
 ﻿using RFReborn.RandomR;
 
-namespace RFReborn
+namespace RFReborn;
+
+internal static class InternalUtils
 {
-    internal static class InternalUtils
-    {
-        internal static readonly CryptoRandom s_rng = new();
-        internal const int StreamBufferSize = 8192;
-    }
+    internal static readonly CryptoRandom s_rng = new();
+    internal const int StreamBufferSize = 8192;
 }

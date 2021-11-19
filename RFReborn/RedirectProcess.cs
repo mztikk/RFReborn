@@ -2,83 +2,82 @@
 using System.Diagnostics;
 using System.IO;
 
-namespace RFReborn
+namespace RFReborn;
+
+/// <summary>
+/// Process that redirect std and err output to a TextWriter and enables writing to its input.
+/// </summary>
+public class RedirectProcess : Process
 {
+    private bool _started;
+    private readonly TextWriter _writer;
+
     /// <summary>
-    /// Process that redirect std and err output to a TextWriter and enables writing to its input.
+    /// Create a <see cref="RedirectProcess"/> with a <see cref="TextWriter"/> which gets the std and err output.
     /// </summary>
-    public class RedirectProcess : Process
+    /// <param name="redirectTo"><see cref="TextWriter"/> to which we redirect.</param>
+    public RedirectProcess(TextWriter redirectTo)
     {
-        private bool _started;
-        private readonly TextWriter _writer;
+        _writer = redirectTo;
+        SetupProcess();
+    }
 
-        /// <summary>
-        /// Create a <see cref="RedirectProcess"/> with a <see cref="TextWriter"/> which gets the std and err output.
-        /// </summary>
-        /// <param name="redirectTo"><see cref="TextWriter"/> to which we redirect.</param>
-        public RedirectProcess(TextWriter redirectTo)
+    /// <summary>
+    /// Creates a <see cref="RedirectProcess"/> with the <see cref="Console.Out"/> as its <see cref="TextWriter"/>.
+    /// </summary>
+    public RedirectProcess() : this(Console.Out) { }
+
+    /// <summary>
+    /// Overwrites the <see cref="Process.StartInfo"/> to redirect streams and not create a new cmd window, then starts the process.
+    /// Starts the process resource that is specified by the StartInfo property of this Process component and associates it with the component.
+    /// Does nothing if it already started.
+    /// </summary>
+    public new void Start()
+    {
+        // if its already started return early
+        if (_started)
         {
-            _writer = redirectTo;
-            SetupProcess();
+            return;
         }
 
-        /// <summary>
-        /// Creates a <see cref="RedirectProcess"/> with the <see cref="Console.Out"/> as its <see cref="TextWriter"/>.
-        /// </summary>
-        public RedirectProcess() : this(Console.Out) { }
+        // set started to false if the process exits
+        Exited += (_, _1) => _started = false;
 
-        /// <summary>
-        /// Overwrites the <see cref="Process.StartInfo"/> to redirect streams and not create a new cmd window, then starts the process.
-        /// Starts the process resource that is specified by the StartInfo property of this Process component and associates it with the component.
-        /// Does nothing if it already started.
-        /// </summary>
-        public new void Start()
-        {
-            // if its already started return early
-            if (_started)
-            {
-                return;
-            }
+        OverwriteStartInfo();
 
-            // set started to false if the process exits
-            Exited += (_, _1) => _started = false;
+        // start the process and begin reading the std and err output
+        base.Start();
+        BeginOutputReadLine();
+        BeginErrorReadLine();
+        _started = true;
+    }
 
-            OverwriteStartInfo();
+    private void OverwriteStartInfo()
+    {
+        // overwrite startinfo to redirect streams and start inside our process
+        StartInfo.RedirectStandardError = true;
+        StartInfo.RedirectStandardOutput = true;
+        StartInfo.RedirectStandardInput = true;
+        StartInfo.UseShellExecute = false;
+        StartInfo.CreateNoWindow = true;
+        StartInfo.WorkingDirectory = Environment.CurrentDirectory;
+    }
 
-            // start the process and begin reading the std and err output
-            base.Start();
-            BeginOutputReadLine();
-            BeginErrorReadLine();
-            _started = true;
-        }
+    private void SetupProcess()
+    {
+        // write the std and err output to our console
+        OutputDataReceived += (sender, args) => _writer.WriteLine(args.Data);
+        ErrorDataReceived += (sender, args) => _writer.WriteLine(args.Data);
+    }
 
-        private void OverwriteStartInfo()
-        {
-            // overwrite startinfo to redirect streams and start inside our process
-            StartInfo.RedirectStandardError = true;
-            StartInfo.RedirectStandardOutput = true;
-            StartInfo.RedirectStandardInput = true;
-            StartInfo.UseShellExecute = false;
-            StartInfo.CreateNoWindow = true;
-            StartInfo.WorkingDirectory = Environment.CurrentDirectory;
-        }
+    /// <summary>
+    /// Disposes of the writer and underlying process
+    /// </summary>
+    /// <param name="disposing"></param>
+    protected override void Dispose(bool disposing)
+    {
+        _writer.Dispose();
 
-        private void SetupProcess()
-        {
-            // write the std and err output to our console
-            OutputDataReceived += (sender, args) => _writer.WriteLine(args.Data);
-            ErrorDataReceived += (sender, args) => _writer.WriteLine(args.Data);
-        }
-
-        /// <summary>
-        /// Disposes of the writer and underlying process
-        /// </summary>
-        /// <param name="disposing"></param>
-        protected override void Dispose(bool disposing)
-        {
-            _writer.Dispose();
-
-            base.Dispose(disposing);
-        }
+        base.Dispose(disposing);
     }
 }
