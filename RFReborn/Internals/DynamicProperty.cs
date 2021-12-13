@@ -147,7 +147,7 @@ public static class DynamicProperty
             }
         }
 
-        throw new ArgumentException();
+        throw new ArgumentException($"Property does not exist. '{name}'", nameof(name));
     }
 
     /// <summary>

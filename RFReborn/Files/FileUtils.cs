@@ -28,7 +28,7 @@ public static class FileUtils
         Stack<string> dirs = new(InitialCapacity);
         if (!Directory.Exists(root))
         {
-            throw new ArgumentException();
+            throw new ArgumentException($"Directory does not exist. '{root}'", nameof(root));
         }
 
         dirs.Push(root);
@@ -90,7 +90,7 @@ public static class FileUtils
         Stack<string> dirs = new(InitialCapacity);
         if (!Directory.Exists(root))
         {
-            throw new ArgumentException();
+            throw new ArgumentException($"Directory does not exist. '{root}'", nameof(root));
         }
 
         dirs.Push(NormalizePath(root));
@@ -244,7 +244,7 @@ public static class FileUtils
         {
             if (!file.Exists)
             {
-                throw new ArgumentException();
+                throw new ArgumentException($"File does not exist. '{file}'", nameof(files));
             }
 
             string relPath = Path.GetRelativePath(baseOrigin.FullName, file.FullName);
@@ -323,7 +323,7 @@ public static class FileUtils
 
         if (!file.Exists)
         {
-            throw new ArgumentException();
+            throw new ArgumentException($"File does not exist. '{file}'", nameof(file));
         }
 
         string relPath = Path.GetRelativePath(baseOrigin.FullName, file.FullName);
@@ -833,7 +833,7 @@ public static class FileUtils
         Stack<string> dirs = new(InitialCapacity);
         if (!Directory.Exists(root))
         {
-            throw new ArgumentException();
+            throw new ArgumentException($"Directory does not exist. '{root}'", nameof(root));
         }
 
         bool checkFiles = onFile is { };
@@ -938,7 +938,7 @@ public static class FileUtils
         Stack<string> dirs = new(InitialCapacity);
         if (!Directory.Exists(root))
         {
-            throw new ArgumentException();
+            throw new ArgumentException($"Directory does not exist. '{root}'", nameof(root));
         }
 
         bool checkFiles = onFile is { };
@@ -1043,7 +1043,7 @@ public static class FileUtils
         Stack<string> dirs = new(InitialCapacity);
         if (!Directory.Exists(root))
         {
-            throw new ArgumentException();
+            throw new ArgumentException($"Directory does not exist. '{root}'", nameof(root));
         }
 
         bool enumFiles =
