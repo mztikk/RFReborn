@@ -7,13 +7,12 @@
     <PackageProjectUrl>https://github.com/mztikk/RFReborn</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mztikk/RFReborn</RepositoryUrl>
     <Authors>mztikk</Authors>
-    <Version>1.5.5</Version>
+    <Version>1.6</Version>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>default</LangVersion>
     <Nullable>enable</Nullable>
-    <AssemblyVersion>1.5.5</AssemblyVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
     <ILLinkWarningLevel>9999</ILLinkWarningLevel>
