@@ -15,7 +15,7 @@ namespace RFReborn.Extensions
         /// <param name="dict">Dictionary to operate on.</param>
         /// <param name="key">Key to be added or incremented.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddOrIncrement<T>(this Dictionary<T, sbyte> dict, T key)
+        public static void AddOrIncrement<T>(this Dictionary<T, sbyte> dict, T key) where T: notnull
         {
             if (dict.ContainsKey(key))
             {
@@ -35,7 +35,7 @@ namespace RFReborn.Extensions
         /// <param name="key">Key to be added or incremented.</param>
         /// <param name="incrementValue">Value to be set and incremented by.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddOrIncrement<T>(this Dictionary<T, sbyte> dict, T key, sbyte incrementValue)
+        public static void AddOrIncrement<T>(this Dictionary<T, sbyte> dict, T key, sbyte incrementValue) where T: notnull
         {
             if (dict.ContainsKey(key))
             {
@@ -54,7 +54,7 @@ namespace RFReborn.Extensions
         /// <param name="dict">Dictionary to operate on.</param>
         /// <param name="key">Key to be added or incremented.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddOrIncrement<T>(this Dictionary<T, byte> dict, T key)
+        public static void AddOrIncrement<T>(this Dictionary<T, byte> dict, T key) where T: notnull
         {
             if (dict.ContainsKey(key))
             {
@@ -74,7 +74,7 @@ namespace RFReborn.Extensions
         /// <param name="key">Key to be added or incremented.</param>
         /// <param name="incrementValue">Value to be set and incremented by.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddOrIncrement<T>(this Dictionary<T, byte> dict, T key, byte incrementValue)
+        public static void AddOrIncrement<T>(this Dictionary<T, byte> dict, T key, byte incrementValue) where T: notnull
         {
             if (dict.ContainsKey(key))
             {
@@ -93,7 +93,7 @@ namespace RFReborn.Extensions
         /// <param name="dict">Dictionary to operate on.</param>
         /// <param name="key">Key to be added or incremented.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddOrIncrement<T>(this Dictionary<T, short> dict, T key)
+        public static void AddOrIncrement<T>(this Dictionary<T, short> dict, T key) where T: notnull
         {
             if (dict.ContainsKey(key))
             {
@@ -113,7 +113,7 @@ namespace RFReborn.Extensions
         /// <param name="key">Key to be added or incremented.</param>
         /// <param name="incrementValue">Value to be set and incremented by.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddOrIncrement<T>(this Dictionary<T, short> dict, T key, short incrementValue)
+        public static void AddOrIncrement<T>(this Dictionary<T, short> dict, T key, short incrementValue) where T: notnull
         {
             if (dict.ContainsKey(key))
             {
@@ -132,7 +132,7 @@ namespace RFReborn.Extensions
         /// <param name="dict">Dictionary to operate on.</param>
         /// <param name="key">Key to be added or incremented.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddOrIncrement<T>(this Dictionary<T, ushort> dict, T key)
+        public static void AddOrIncrement<T>(this Dictionary<T, ushort> dict, T key) where T: notnull
         {
             if (dict.ContainsKey(key))
             {
@@ -152,7 +152,7 @@ namespace RFReborn.Extensions
         /// <param name="key">Key to be added or incremented.</param>
         /// <param name="incrementValue">Value to be set and incremented by.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddOrIncrement<T>(this Dictionary<T, ushort> dict, T key, ushort incrementValue)
+        public static void AddOrIncrement<T>(this Dictionary<T, ushort> dict, T key, ushort incrementValue) where T: notnull
         {
             if (dict.ContainsKey(key))
             {
@@ -171,7 +171,7 @@ namespace RFReborn.Extensions
         /// <param name="dict">Dictionary to operate on.</param>
         /// <param name="key">Key to be added or incremented.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddOrIncrement<T>(this Dictionary<T, int> dict, T key)
+        public static void AddOrIncrement<T>(this Dictionary<T, int> dict, T key) where T: notnull
         {
             if (dict.ContainsKey(key))
             {
@@ -191,7 +191,7 @@ namespace RFReborn.Extensions
         /// <param name="key">Key to be added or incremented.</param>
         /// <param name="incrementValue">Value to be set and incremented by.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddOrIncrement<T>(this Dictionary<T, int> dict, T key, int incrementValue)
+        public static void AddOrIncrement<T>(this Dictionary<T, int> dict, T key, int incrementValue) where T: notnull
         {
             if (dict.ContainsKey(key))
             {
@@ -210,7 +210,7 @@ namespace RFReborn.Extensions
         /// <param name="dict">Dictionary to operate on.</param>
         /// <param name="key">Key to be added or incremented.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddOrIncrement<T>(this Dictionary<T, uint> dict, T key)
+        public static void AddOrIncrement<T>(this Dictionary<T, uint> dict, T key) where T: notnull
         {
             if (dict.ContainsKey(key))
             {
@@ -230,7 +230,7 @@ namespace RFReborn.Extensions
         /// <param name="key">Key to be added or incremented.</param>
         /// <param name="incrementValue">Value to be set and incremented by.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddOrIncrement<T>(this Dictionary<T, uint> dict, T key, uint incrementValue)
+        public static void AddOrIncrement<T>(this Dictionary<T, uint> dict, T key, uint incrementValue) where T: notnull
         {
             if (dict.ContainsKey(key))
             {
@@ -249,7 +249,7 @@ namespace RFReborn.Extensions
         /// <param name="dict">Dictionary to operate on.</param>
         /// <param name="key">Key to be added or incremented.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddOrIncrement<T>(this Dictionary<T, long> dict, T key)
+        public static void AddOrIncrement<T>(this Dictionary<T, long> dict, T key) where T: notnull
         {
             if (dict.ContainsKey(key))
             {
@@ -269,7 +269,7 @@ namespace RFReborn.Extensions
         /// <param name="key">Key to be added or incremented.</param>
         /// <param name="incrementValue">Value to be set and incremented by.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddOrIncrement<T>(this Dictionary<T, long> dict, T key, long incrementValue)
+        public static void AddOrIncrement<T>(this Dictionary<T, long> dict, T key, long incrementValue) where T: notnull
         {
             if (dict.ContainsKey(key))
             {
@@ -288,7 +288,7 @@ namespace RFReborn.Extensions
         /// <param name="dict">Dictionary to operate on.</param>
         /// <param name="key">Key to be added or incremented.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddOrIncrement<T>(this Dictionary<T, ulong> dict, T key)
+        public static void AddOrIncrement<T>(this Dictionary<T, ulong> dict, T key) where T: notnull
         {
             if (dict.ContainsKey(key))
             {
@@ -308,7 +308,7 @@ namespace RFReborn.Extensions
         /// <param name="key">Key to be added or incremented.</param>
         /// <param name="incrementValue">Value to be set and incremented by.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddOrIncrement<T>(this Dictionary<T, ulong> dict, T key, ulong incrementValue)
+        public static void AddOrIncrement<T>(this Dictionary<T, ulong> dict, T key, ulong incrementValue) where T: notnull
         {
             if (dict.ContainsKey(key))
             {

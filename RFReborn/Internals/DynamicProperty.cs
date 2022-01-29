@@ -15,7 +15,7 @@ public static class DynamicProperty
     /// </summary>
     /// <param name="type"><see cref="Type"/> to convert to</param>
     /// <param name="obj">String representation to convert</param>
-    public static object ConvertValue(Type type, string obj)
+    public static object? ConvertValue(Type type, string obj)
     {
         // check enum first
         // otherwise underlying type of enum will be checked in typecode
@@ -93,7 +93,7 @@ public static class DynamicProperty
 
                 if (name == last)
                 {
-                    object tValue = ConvertValue(prop.PropertyType, value);
+                    object? tValue = ConvertValue(prop.PropertyType, value);
                     prop.SetValue(obj, tValue);
                 }
                 else
@@ -134,7 +134,7 @@ public static class DynamicProperty
     /// <typeparam name="T">Type of object</typeparam>
     /// <param name="obj">Object that has the property</param>
     /// <param name="name">Name of property</param>
-    public static object Get<T>(T obj, string name)
+    public static object? Get<T>(T obj, string name)
     {
         Type t = typeof(T);
         const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance;
@@ -193,7 +193,7 @@ public static class DynamicProperty
     /// <param name="obj">Object that has property</param>
     /// <param name="nameChain">Names of properties to walk</param>
     /// <param name="index">index to start in <paramref name="nameChain"/>, default 0</param>
-    public static object Get(Type t, object obj, string[] nameChain, int index = 0)
+    public static object? Get(Type t, object obj, string[] nameChain, int index = 0)
     {
         const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance;
 

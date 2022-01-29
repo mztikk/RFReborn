@@ -167,6 +167,7 @@ dotnet_code_quality.CA2208.api_surface = public
 dotnet_diagnostic.RCS1090.severity = none
 # RCS1032: Remove redundant parentheses.
 dotnet_diagnostic.RCS1032.severity = none
+csharp_style_namespace_declarations=file_scoped
 
 # C++ Files
 [*.{cpp,h,in}]
@@ -177,7 +178,6 @@ indent_brace_style = Allman
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,nativeproj,locproj}]
 indent_size = 2
 
-[*.{csproj,vbproj,proj,nativeproj,locproj}]
 charset = utf-8
 
 # Xml build files

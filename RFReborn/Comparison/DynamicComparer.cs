@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 
 namespace RFReborn.Comparison;
 
@@ -51,7 +50,7 @@ public class DynamicComparer<T>
         foreach (PropertyInfo prop in GetType().GetProperties(bindingFlags))
         {
             // check if FileInfo has this property aswell
-            PropertyInfo tProp = tType.GetProperty(prop.Name, bindingFlags);
+            PropertyInfo? tProp = tType.GetProperty(prop.Name, bindingFlags);
             if (tProp is null)
             {
                 continue;
@@ -66,7 +65,7 @@ public class DynamicComparer<T>
             // check if our type is nullable and the underlying types match
             else if (prop.PropertyType.IsGenericType)
             {
-                Type innerType = Nullable.GetUnderlyingType(prop.PropertyType);
+                Type? innerType = Nullable.GetUnderlyingType(prop.PropertyType);
                 if (innerType is { } && innerType == tProp.PropertyType)
                 {
                     match = true;
@@ -78,12 +77,12 @@ public class DynamicComparer<T>
                 continue;
             }
 
-            object val = prop.GetValue(this, null);
+            object? val = prop.GetValue(this, null);
             if (val is null)
             {
                 continue;
             }
-            object fiPropVal = tProp.GetValue(t, null);
+            object? fiPropVal = tProp.GetValue(t, null);
             if (val is IComparable compare && compare.CompareTo(fiPropVal) == 0)
             {
                 return true;
@@ -106,7 +105,7 @@ public class DynamicComparer<T>
         foreach (PropertyInfo prop in GetType().GetProperties(bindingFlags))
         {
             // check if FileInfo has this property aswell
-            PropertyInfo tProp = tType.GetProperty(prop.Name, bindingFlags);
+            PropertyInfo? tProp = tType.GetProperty(prop.Name, bindingFlags);
             if (tProp is null)
             {
                 continue;
@@ -121,7 +120,7 @@ public class DynamicComparer<T>
             // check if our type is nullable and the underlying types match
             else if (prop.PropertyType.IsGenericType)
             {
-                Type innerType = Nullable.GetUnderlyingType(prop.PropertyType);
+                Type? innerType = Nullable.GetUnderlyingType(prop.PropertyType);
                 if (innerType is { } && innerType == tProp.PropertyType)
                 {
                     match = true;
@@ -133,12 +132,12 @@ public class DynamicComparer<T>
                 continue;
             }
 
-            object val = prop.GetValue(this, null);
+            object? val = prop.GetValue(this, null);
             if (val is null)
             {
                 continue;
             }
-            object fiPropVal = tProp.GetValue(t, null);
+            object? fiPropVal = tProp.GetValue(t, null);
             bool valueEquals = val is IComparable compare && compare.CompareTo(fiPropVal) == 0;
             if (!valueEquals)
             {
@@ -162,7 +161,7 @@ public class DynamicComparer<T>
         foreach (PropertyInfo prop in GetType().GetProperties(bindingFlags))
         {
             // check if FileInfo has this property aswell
-            PropertyInfo tProp = tType.GetProperty(prop.Name, bindingFlags);
+            PropertyInfo? tProp = tType.GetProperty(prop.Name, bindingFlags);
             if (tProp is null)
             {
                 continue;
@@ -177,7 +176,7 @@ public class DynamicComparer<T>
             // check if our type is nullable and the underlying types match
             else if (prop.PropertyType.IsGenericType)
             {
-                Type innerType = Nullable.GetUnderlyingType(prop.PropertyType);
+                Type? innerType = Nullable.GetUnderlyingType(prop.PropertyType);
                 if (innerType is { } && innerType == tProp.PropertyType)
                 {
                     match = true;
@@ -189,9 +188,9 @@ public class DynamicComparer<T>
                 return false;
             }
 
-            object val = prop.GetValue(this, null);
+            object? val = prop.GetValue(this, null);
             bool valNull = val is null;
-            object fiPropVal = tProp.GetValue(t, null);
+            object? fiPropVal = tProp.GetValue(t, null);
             bool fiValNull = fiPropVal is null;
             if (valNull && !fiValNull)
             {

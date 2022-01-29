@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Buffers;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using RFReborn.AoB;
-using RFReborn.Comparison;
-using RFReborn.Extensions;
 
 namespace RFReborn.Files;
 
@@ -616,24 +609,17 @@ public static class FileUtils
     {
         int wantedBuffersize = GetBufferSize(length);
 
-        ArrayPool<byte> pool = ArrayPool<byte>.Shared;
-        byte[] buffer = pool.Rent(wantedBuffersize);
+        MemoryPool<byte> pool = MemoryPool<byte>.Shared;
+        using IMemoryOwner<byte> owner = pool.Rent(wantedBuffersize);
+        Memory<byte> buffer = owner.Memory;
 
-        try
+        int read;
+        long totalRead = 0;
+        while ((read = await source.ReadAsync(buffer)) > 0 && totalRead < length)
         {
-            int read;
-            long totalRead = 0;
-            while ((read = await source.ReadAsync(buffer, 0, (int)Math.Min(wantedBuffersize, length - totalRead))) >
-                0 && totalRead < length)
-            {
-                await destination.WriteAsync(buffer, 0, read);
-                totalRead += read;
-                onWrite?.Invoke(read);
-            }
-        }
-        finally
-        {
-            pool.Return(buffer);
+            await destination.WriteAsync(buffer.Slice(0, read));
+            totalRead += read;
+            onWrite?.Invoke(read);
         }
     }
 
@@ -642,27 +628,20 @@ public static class FileUtils
     {
         int wantedBuffersize = GetBufferSize(length);
 
-        ArrayPool<byte> pool = ArrayPool<byte>.Shared;
-        byte[] buffer = pool.Rent(wantedBuffersize);
+        MemoryPool<byte> pool = MemoryPool<byte>.Shared;
+        using IMemoryOwner<byte> owner = pool.Rent(wantedBuffersize);
+        Memory<byte> buffer = owner.Memory;
 
-        try
+        int read;
+        long totalRead = 0;
+        while ((read = await source.ReadAsync(buffer)) > 0 && totalRead < length)
         {
-            int read;
-            long totalRead = 0;
-            while ((read = await source.ReadAsync(buffer, 0, (int)Math.Min(wantedBuffersize, length - totalRead))) >
-                0 && totalRead < length)
+            await destination.WriteAsync(buffer.Slice(0, read));
+            totalRead += read;
+            if (onWrite is not null)
             {
-                await destination.WriteAsync(buffer, 0, read);
-                totalRead += read;
-                if (onWrite is not null)
-                {
-                    await onWrite(read);
-                }
+                await onWrite(read);
             }
-        }
-        finally
-        {
-            pool.Return(buffer);
         }
     }
 

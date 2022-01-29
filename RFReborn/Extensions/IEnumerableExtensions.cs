@@ -90,7 +90,7 @@ public static class IEnumerableExtensions
     /// <typeparam name="T"></typeparam>
     /// <param name="ienum"></param>
     /// <returns></returns>
-    public static T Mode<T>(this IEnumerable<T> ienum)
+    public static T Mode<T>(this IEnumerable<T> ienum) where T : notnull
     {
         if (!ienum.Any())
         {

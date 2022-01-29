@@ -25,7 +25,7 @@ namespace RFReborn.Extensions
         /// <param name="dict">Dictionary to operate on.</param>
         /// <param name="key">Key to be added or incremented.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddOrIncrement<T>(this Dictionary<T, <#= t #>> dict, T key)
+        public static void AddOrIncrement<T>(this Dictionary<T, <#= t #>> dict, T key) where T: notnull
         {
             if (dict.ContainsKey(key))
             {
@@ -45,7 +45,7 @@ namespace RFReborn.Extensions
         /// <param name="key">Key to be added or incremented.</param>
         /// <param name="incrementValue">Value to be set and incremented by.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddOrIncrement<T>(this Dictionary<T, <#= t #>> dict, T key, <#= t #> incrementValue)
+        public static void AddOrIncrement<T>(this Dictionary<T, <#= t #>> dict, T key, <#= t #> incrementValue) where T: notnull
         {
             if (dict.ContainsKey(key))
             {
