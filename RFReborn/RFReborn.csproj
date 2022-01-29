@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Platforms>AnyCPU;x64;x86</Platforms>
-    <PackageLicenseUrl>https://github.com/mztikk/RFReborn/blob/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/mztikk/RFReborn</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mztikk/RFReborn</RepositoryUrl>
     <Authors>mztikk</Authors>
@@ -13,12 +12,12 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>default</LangVersion>
     <Nullable>enable</Nullable>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
     <ILLinkWarningLevel>9999</ILLinkWarningLevel>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <EnableNETAnalyzers>True</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
