@@ -38,7 +38,6 @@
  */
 
 using System;
-using System.Security.Cryptography;
 
 namespace RFReborn.RandomR;
 
@@ -51,8 +50,6 @@ namespace RFReborn.RandomR;
 /// </summary>
 public class CryptoRandom : Random
 {
-    private readonly RNGCryptoServiceProvider _rng = new();
-
     private byte[] _buffer;
 
     private int _bufferPosition;
@@ -107,7 +104,7 @@ public class CryptoRandom : Random
             _buffer = new byte[4];
         }
 
-        _rng.GetBytes(_buffer);
+        RandomNumberGenerator.Fill(_buffer);
         _bufferPosition = 0;
     }
 
@@ -226,7 +223,7 @@ public class CryptoRandom : Random
             else
             {
                 // Draw bytes directly from the RNGCryptoProvider
-                _rng.GetBytes(buffer);
+                RandomNumberGenerator.Fill(buffer);
             }
         }
     }
