@@ -11,9 +11,7 @@ internal static class PointerOperations
         T* end = start + len - 1;
         while (start < end)
         {
-            T tmp = *end;
-            *end = *start;
-            *start = tmp;
+            (*start, *end) = (*end, *start);
             start++;
             end--;
         }
