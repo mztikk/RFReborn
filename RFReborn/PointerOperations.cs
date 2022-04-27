@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace RFReborn;
+﻿namespace RFReborn;
 
 internal static class PointerOperations
 {
