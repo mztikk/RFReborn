@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace RFReborn.Hashing;
 
@@ -95,13 +90,14 @@ public static class HashFactory
         return Hash(hashName, stream);
     }
 
-    private static HashAlgorithm GetHashAlgorithm(string hashName)
-    {
-        if (!s_validHashes.Contains(hashName))
+    private static HashAlgorithm GetHashAlgorithm(string hashName) =>
+        hashName switch
         {
-            throw new ArgumentException("Hash does not exist", nameof(hashName));
-        }
-
-        return (HashAlgorithm)CryptoConfig.CreateFromName(hashName);
-    }
+            "MD5" => MD5.Create(),
+            "SHA1" => SHA1.Create(),
+            "SHA256" => SHA256.Create(),
+            "SHA384" => SHA384.Create(),
+            "SHA512" => SHA512.Create(),
+            _ => throw new ArgumentException($"Hash algorithm \"{hashName}\" is not supported", nameof(hashName))
+        };
 }
