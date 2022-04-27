@@ -40,9 +40,7 @@ public static class IListExtensions
             return;
         }
 
-        T tmp = list[index1];
-        list[index1] = list[index2];
-        list[index2] = tmp;
+        (list[index2], list[index1]) = (list[index1], list[index2]);
     }
 
     /// <summary>

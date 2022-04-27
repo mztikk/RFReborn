@@ -12,12 +12,7 @@ public static class Ops
     /// <param name="m1">First value.</param>
     /// <param name="m2">Second value.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void Swap<T>(ref T m1, ref T m2)
-    {
-        T tmp = m1;
-        m1 = m2;
-        m2 = tmp;
-    }
+    public static void Swap<T>(ref T m1, ref T m2) => (m2, m1) = (m1, m2);
 
     /// <summary>
     /// Swaps <paramref name="len"/> number of bytes at the specified pointers.
@@ -33,30 +28,21 @@ public static class Ops
 
         while (pl <= bEnd - 8)
         {
-            ulong temp = *(ulong*)pl;
-            *(ulong*)pl = *(ulong*)pr;
-            *(ulong*)pr = temp;
-
+            (*(ulong*)pr, *(ulong*)pl) = (*(ulong*)pl, *(ulong*)pr);
             pl += 8;
             pr += 8;
         }
 
         while (pl <= bEnd - 4)
         {
-            uint temp = *(uint*)pl;
-            *(uint*)pl = *(uint*)pr;
-            *(uint*)pr = temp;
-
+            (*(uint*)pr, *(uint*)pl) = (*(uint*)pl, *(uint*)pr);
             pl += 4;
             pr += 4;
         }
 
         while (pl < bEnd)
         {
-            byte temp = *pl;
-            *pl = *pr;
-            *pr = temp;
-
+            (*pr, *pl) = (*pl, *pr);
             pl++;
             pr++;
         }
