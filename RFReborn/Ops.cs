@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-
-namespace RFReborn;
+﻿namespace RFReborn;
 
 /// <summary>
 /// Provides general operations.
@@ -98,86 +93,5 @@ public static class Ops
         }
 
         return rtn;
-    }
-
-    /// <summary>
-    /// Generates strings based on the specified charset and tests them against the <paramref name="checkFunc"/> until it returns true and returns the matching string.
-    /// </summary>
-    /// <param name="charset">Characterset to be used when generating strings.</param>
-    /// <param name="checkFunc">Function to for the generated string to be checked against.</param>
-    /// <param name="startLength">Minimum/Starting length of the generated strings.</param>
-    /// <param name="maxLength">Maximum length of the generated strings.</param>
-    /// <returns>The string that matched the <paramref name="checkFunc"/> or <see cref="string.Empty"/> otherwise.</returns>
-    [Obsolete]
-    public static string BruteForce(string charset, Func<string, bool> checkFunc, int startLength = 1, int maxLength = 6) => BruteForce(charset.ToCharArray(), checkFunc, startLength, maxLength);
-
-    /// <summary>
-    /// Generates strings based on the specified charset and tests them against the <paramref name="checkFunc"/> until it returns true and returns the matching string.
-    /// </summary>
-    /// <param name="charset">Characterset to be used when generating strings.</param>
-    /// <param name="checkFunc">Function to for the generated string to be checked against.</param>
-    /// <param name="startLength">Minimum/Starting length of the generated strings.</param>
-    /// <param name="maxLength">Maximum length of the generated strings.</param>
-    /// <returns>The string that matched the <paramref name="checkFunc"/> or <see cref="string.Empty"/> otherwise.</returns>
-    [Obsolete]
-    public static unsafe string BruteForce(IList<char> charset, Func<string, bool> checkFunc, int startLength = 1, int maxLength = 6)
-    {
-        string found = string.Empty;
-        int charsetLength = charset.Count;
-        const long startw = 0;
-        long[] d = new long[maxLength + 1];
-        Dictionary<int, string> set = new(Environment.ProcessorCount);
-        for (int length = startLength; length < maxLength; length++)
-        {
-            long endw = (long)Math.Pow(charset.Count, length);
-
-            for (int i = length; i >= 0; i--)
-            {
-                d[i] = (long)Math.Pow(charsetLength, i);
-            }
-
-            Parallel.For(startw, endw, (ind, loopState) =>
-            {
-                int id = Environment.CurrentManagedThreadId;
-                if (!set.ContainsKey(id) || !set.TryGetValue(id, out string str))
-                {
-                    str = new string(' ', length);
-                    set.Add(id, str);
-                }
-
-                long mw = ind;
-                fixed (char* strp = str)
-                {
-                    for (int i = length; i >= 0; i--)
-                    {
-                        int w = (int)(mw / d[i]);
-
-                        if (i == length)
-                        {
-                            if (w != 0)
-                            {
-                                strp[i] = charset[w];
-                            }
-                        }
-                        else
-                        {
-                            strp[i] = charset[w];
-                        }
-
-                        mw -= w * d[i];
-                    }
-
-                    if (checkFunc(str))
-                    {
-                        found = str;
-                        loopState.Break();
-                    }
-                }
-            });
-
-            set.Clear();
-        }
-
-        return found;
     }
 }
