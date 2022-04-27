@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace RFReborn.Extensions;
 
@@ -121,7 +119,7 @@ public static class IEnumerableExtensions
     /// </summary>
     /// <typeparam name="T">Type of <see cref="IEnumerable{T}" /></typeparam>
     /// <param name="ienum"><see cref="IEnumerable{T}" /> to convert</param>
-    public static IDictionary<T, bool> ToLookup<T>(this IEnumerable<T> ienum)
+    public static IDictionary<T, bool> ToLookup<T>(this IEnumerable<T> ienum) where T : notnull
     {
         Dictionary<T, bool> rtn = new();
         foreach (T item in ienum)
