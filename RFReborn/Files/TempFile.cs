@@ -1,6 +1,5 @@
 ﻿using System;
-using System.IO;
-using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RFReborn.Files;
 
@@ -9,6 +8,8 @@ namespace RFReborn.Files;
 /// </summary>
 public class TempFile : IDisposable
 {
+    private bool _disposedValue;
+
     /// <summary>
     /// Temporary file
     /// </summary>
@@ -46,46 +47,8 @@ public class TempFile : IDisposable
     private TempFile() { }
 #pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
 
+    [MemberNotNull(nameof(File))]
     private void CreateFile() => File = new FileInfo(Path.GetRandomFileName());
-
-    #region IDisposable Support
-    private bool _disposedValue; // To detect redundant calls
-
-    /// <summary>
-    /// Disposes temporary file
-    /// </summary>
-    /// <param name="disposing"></param>
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!_disposedValue)
-        {
-            if (disposing)
-            {
-                File.Delete();
-            }
-
-            // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-            // TODO: set large fields to null.
-
-            _disposedValue = true;
-        }
-    }
-
-    // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-    // ~TempFile()
-    // {
-    //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-    //   Dispose(false);
-    // }
-
-    // This code added to correctly implement the disposable pattern.
-    /// <summary>
-    /// Disposes temporary file
-    /// </summary>
-    public void Dispose() =>
-        // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-        Dispose(true);// TODO: uncomment the following line if the finalizer is overridden above.// GC.SuppressFinalize(this);
-    #endregion
 
     /// <summary>
     /// Asynchronously creates the temp file
@@ -119,5 +82,42 @@ public class TempFile : IDisposable
         await writer.WriteLineAsync(content);
 
         return tempFile;
+    }
+
+    /// <summary>
+    /// Disposes temporary file
+    /// </summary>
+    /// <param name="disposing"></param>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposedValue)
+        {
+            if (disposing)
+            {
+                // TODO: dispose managed state (managed objects)
+                File.Delete();
+            }
+
+            // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+            // TODO: set large fields to null
+            _disposedValue = true;
+        }
+    }
+
+    // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+    // ~TempFile()
+    // {
+    //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+    //     Dispose(disposing: false);
+    // }
+
+    /// <summary>
+    /// Disposes temporary file
+    /// </summary>
+    public void Dispose()
+    {
+        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }
