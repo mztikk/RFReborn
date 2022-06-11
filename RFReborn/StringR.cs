@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
-using RFReborn.Extensions;
-
-namespace RFReborn;
+﻿namespace RFReborn;
 
 /// <summary>
 /// Provides functionality to manipulate and operate on <see cref="string"/>.
@@ -399,7 +393,7 @@ public static class StringR
     /// <param name="input">Input to convert</param>
     /// <param name="result"></param>
     /// <returns><see langword="true"/> if <paramref name="input"/> was converted successfully; <see langword="false"/> otherwise.</returns>
-    public static bool StringToByteSize(string? input, out long result)
+    public static bool TryStringToByteSize(string? input, out long result)
     {
         if (input is null)
         {
@@ -419,4 +413,13 @@ public static class StringR
         result = num * conversion;
         return true;
     }
+
+    /// <summary>
+    /// Turns a string containing a byte size description (e.g. 50kb, 100mb) into its byte value
+    /// </summary>
+    /// <param name="input">Input to convert</param>
+    /// <param name="result"></param>
+    /// <returns><see langword="true"/> if <paramref name="input"/> was converted successfully; <see langword="false"/> otherwise.</returns>
+    [Obsolete("Use TryStringToByteSize(string, out long) instead")]
+    public static bool StringToByteSize(string? input, out long result) => TryStringToByteSize(input, out result);
 }

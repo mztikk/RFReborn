@@ -19,7 +19,7 @@ namespace RFReborn.Tests.StringRTests
         {
             Assert.AreEqual(output, StringR.StringToByteSize(input));
 
-            Assert.IsTrue(StringR.StringToByteSize(input, out long result));
+            Assert.IsTrue(StringR.TryStringToByteSize(input, out long result));
             Assert.AreEqual(output, result);
         }
 
@@ -30,7 +30,7 @@ namespace RFReborn.Tests.StringRTests
         {
             Assert.ThrowsException<FormatException>(() => StringR.StringToByteSize(input));
 
-            Assert.IsFalse(StringR.StringToByteSize(input, out long _));
+            Assert.IsFalse(StringR.TryStringToByteSize(input, out long _));
         }
 
         [DataTestMethod]
@@ -40,14 +40,14 @@ namespace RFReborn.Tests.StringRTests
         {
             Assert.ThrowsException<OverflowException>(() => StringR.StringToByteSize(input));
 
-            Assert.IsFalse(StringR.StringToByteSize(input, out long _));
+            Assert.IsFalse(StringR.TryStringToByteSize(input, out long _));
         }
 
         [TestMethod]
         public void NullInput()
         {
             Assert.ThrowsException<ArgumentNullException>(() => StringR.StringToByteSize(null));
-            Assert.IsFalse(StringR.StringToByteSize(null, out long _));
+            Assert.IsFalse(StringR.TryStringToByteSize(null, out long _));
         }
     }
 }
