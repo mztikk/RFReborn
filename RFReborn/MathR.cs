@@ -1,8 +1,4 @@
-﻿using System;
-using System.Numerics;
-using System.Runtime.CompilerServices;
-
-namespace RFReborn;
+﻿namespace RFReborn;
 
 /// <summary>
 /// Contains various functions to perform math operations.

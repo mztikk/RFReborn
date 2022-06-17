@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace RFReborn.Routines;
+﻿namespace RFReborn.Routines;
 
 /// <summary>
 /// Represents an object that can execute a Tick method with cooldown inbetween

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.InteropServices;
-using RFReborn.Extensions;
-using RFReborn.Files;
-
-namespace RFReborn;
+﻿namespace RFReborn;
 
 /// <summary>
 /// Contains various functions about the current environment and platform.

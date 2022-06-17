@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RFReborn.Hashing;
+﻿namespace RFReborn.Hashing;
 
 /// <summary>
 /// Provides various hashing functionalities.

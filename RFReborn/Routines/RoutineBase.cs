@@ -1,8 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-
-namespace RFReborn.Routines;
+﻿namespace RFReborn.Routines;
 
 /// <summary>
 /// Provides methods and base for a routinely called <see cref="Tick"/> method
@@ -44,14 +40,9 @@ public abstract class RoutineBase : IRoutine
             return;
         }
 
-        try
-        {
-            await OnTick();
-        }
-        finally
-        {
-            _lastRun = DateTime.UtcNow;
-        }
+        _lastRun = DateTime.UtcNow;
+
+        await OnTick();
     }
 
     /// <summary>

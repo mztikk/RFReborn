@@ -16,31 +16,26 @@ public class DisposableAction : IDisposable
     /// <param name="action">Action to call on being disposed</param>
     public DisposableAction(Action action) => _action = action;
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Calls the <see cref="Action"/>
+    /// </summary>
+    /// <param name="disposing"></param>
     protected virtual void Dispose(bool disposing)
     {
         if (!_disposedValue)
         {
             if (disposing)
             {
-                // TODO: dispose managed state (managed objects)
                 _action();
             }
 
-            // TODO: free unmanaged resources (unmanaged objects) and override finalizer
-            // TODO: set large fields to null
             _disposedValue = true;
         }
     }
 
-    // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
-    // ~DisposableAction()
-    // {
-    //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-    //     Dispose(disposing: false);
-    // }
-
-    /// <inheritdoc />
+    /// <summary>
+    /// Calls the <see cref="Action"/>
+    /// </summary>
     public void Dispose()
     {
         // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using RFReborn.Helpers;
-
-namespace RFReborn;
+﻿namespace RFReborn;
 
 /// <summary>
 /// Dynamically replaces parameters / keys in a string with a value based on a <see cref="Func{TResult}"/>

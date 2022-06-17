@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
-
-namespace RFReborn.Helpers;
+﻿namespace RFReborn.Helpers;
 
 /// <summary>
 /// Helper methods for <see cref="Regex"/>

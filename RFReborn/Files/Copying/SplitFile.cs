@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 
 namespace RFReborn.Files.Copying;
 
@@ -21,17 +20,17 @@ internal class SplitFile
 
     private static SplitInfo[] GetSplitInfos(FileInfo file, long splitSize)
     {
-        long l = file.Length;
-        double t = l / (double)splitSize;
-        int n = (int)Math.Ceiling((double)t);
+        long len = file.Length;
+        double t = len / (double)splitSize;
+        int n = (int)Math.Ceiling(t);
 
         var rtn = new SplitInfo[n];
         int i = 0;
-        while (l > 0)
+        while (len > 0)
         {
-            rtn[i++] = new SplitInfo(file.Length - l, (int)Math.Min(l, splitSize));
+            rtn[i++] = new SplitInfo(file.Length - len, (int)Math.Min(len, splitSize));
 
-            l -= splitSize;
+            len -= splitSize;
         }
 
         return rtn;

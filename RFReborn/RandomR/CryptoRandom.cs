@@ -37,8 +37,6 @@
  *  
  */
 
-using System;
-
 namespace RFReborn.RandomR;
 
 /// <summary>

@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace RFReborn.Hashing;
+﻿namespace RFReborn.Hashing;
 
 // http://cyan4973.github.io/xxHash/
 /// <summary>
@@ -79,31 +77,6 @@ public static unsafe class xxHash
 
             do
             {
-                // inlined Round and Get32Bits per hand since it didn't seem to do that even with AggressiveInlining and it has to be inlined for better performance
-                //v1 += *((uint*)p) * PRIME32_2;
-                ////v1 = MathR.RotateLeft(v1, 13);
-                //v1 = rotl13(v1);
-                //v1 *= PRIME32_1;
-                //p += 4;
-
-                //v2 += *((uint*)p) * PRIME32_2;
-                ////v2 = MathR.RotateLeft(v2, 13);
-                //v2 = rotl13(v2);
-                //v2 *= PRIME32_1;
-                //p += 4;
-
-                //v3 += *((uint*)p) * PRIME32_2;
-                ////v3 = MathR.RotateLeft(v3, 13);
-                //v3 = rotl13(v3);
-                //v3 *= PRIME32_1;
-                //p += 4;
-
-                //v4 += *((uint*)p) * PRIME32_2;
-                ////v4 = MathR.RotateLeft(v4, 13);
-                //v4 = rotl13(v4);
-                //v4 *= PRIME32_1;
-                //p += 4;
-
                 v1 = rotl13(v1 + ((*(uint*)p) * PRIME32_2)) * PRIME32_1;
                 v2 = rotl13(v2 + ((*(uint*)(p + 4)) * PRIME32_2)) * PRIME32_1;
                 v3 = rotl13(v3 + ((*(uint*)(p + 8)) * PRIME32_2)) * PRIME32_1;
@@ -112,7 +85,6 @@ public static unsafe class xxHash
 
             } while (p <= limit);
 
-            //h32 = MathR.RotateLeft(v1, 1) + MathR.RotateLeft(v2, 7) + MathR.RotateLeft(v3, 12) + MathR.RotateLeft(v4, 18);
             h32 = rotl1(v1) + rotl7(v2) + rotl12(v3) + rotl18(v4);
         }
         else
@@ -124,19 +96,11 @@ public static unsafe class xxHash
 
         while (p + 4 <= bEnd)
         {
-            //h32 += *((uint*)p) * PRIME32_3;
-            ////h32 = MathR.RotateLeft(h32, 17) * PRIME32_4;
-            //h32 = rotl17(h32) * PRIME32_4;
-
             h32 = rotl17(h32 + ((*(uint*)p) * PRIME32_3)) * PRIME32_4;
             p += 4;
         }
         while (p < bEnd)
         {
-            //h32 += *p * PRIME32_5;
-            ////h32 = MathR.RotateLeft(h32, 11) * PRIME32_1;
-            //h32 = rotl11(h32) * PRIME32_1;
-
             h32 = rotl11(h32 + ((*p) * PRIME32_5)) * PRIME32_1;
             p++;
         }

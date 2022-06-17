@@ -19,7 +19,6 @@ internal class DisposableArray<T> : IDisposable
         _disposableAction = new DisposableAction(ReturnArray);
     }
 
-    public void Dispose() => _disposableAction.Dispose();
-
     private void ReturnArray() => s_arrayPool.Return(Array);
+    public void Dispose() => ((IDisposable)_disposableAction).Dispose();
 }
